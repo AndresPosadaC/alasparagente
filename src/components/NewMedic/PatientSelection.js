@@ -25,6 +25,7 @@ const PatientSelection = ({
         </select>
         <label htmlFor="id_num_doc">Confirmar Numero ID</label>
         <input
+          autoComplete="off"
           id="id_num_doc"
           type="text"
           value={enteredIdNumDoc}

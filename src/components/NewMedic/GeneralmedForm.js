@@ -747,12 +747,12 @@ const GeneralmedForm = (props) => {
 
   return (
     <form onSubmit={submitGeneralmedHandler}>
-      <div className="new-medic__controls">
-        <div className="new-medic__controls">
+      <div id="new-medic-container" className="new-medic__controls">
+        <div id="new-medic-container2" className="new-medic__controls">
           <h1>Datos Medicina General del Paciente</h1>
-          <div className="medic-item-container">
+          <div id="medic-item-container" className="medic-item-container">
             <PatientSelection
-              identifier= "gm"
+              identifier="gm"
               selectedBrigada={selectedBrigada}
               brigadaNames={brigadaNames}
               enteredIdNumDoc={enteredIdNumDoc}
@@ -764,16 +764,17 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div className="new-medic__controls">
+      <div id="signos-vitales-container" className="new-medic__controls">
         <h1> Signos Vitales </h1>
-        <div className="medic-item-container-wrapper">
+        <div id="signos-vitales-container-wrapper" className="medic-item-container-wrapper">
           {signosVitales.map((item, index) => (
             <div
-              key={`signos-${index}`}
+              id="signos-vitales-items"
+              key={`signosMG-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputMG1-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -787,17 +788,18 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div className="new-medic__controls">
+      <div id="antecedentes-container" className="new-medic__controls">
         <h1> Antecedentes Personales y/o Familiares </h1>
         <p> ✅ para si</p>
-        <div className="medic-item-container-wrapper">
+        <div id="antecedentes-wrapper" className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
-              key={`antecedentes-${index}`}
+              id="antecedentes-items"
+              key={`antecedentesMG-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputMG2-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -810,9 +812,9 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div className="new-medic__controls">
+      <div id="gineco-container" className="new-medic__controls">
         <h1> Antecedentes Ginecoopstéricos </h1>
-        <div className="medic-item-container-wrapper">
+        <div id="gineco-wrapper"  className="medic-item-container-wrapper">
           <label htmlFor="Aplica">
             <input
               id="Aplica"
@@ -823,14 +825,15 @@ const GeneralmedForm = (props) => {
             Aplica
           </label>
         </div>
-        <div className="medic-item-container-wrapper">
+        <div id="gineco-items-wrapper" className="medic-item-container-wrapper">
           {ginecoItems.map((item, index) => (
             <div
+              id="gineco-items"
               key={`ginecoantecedentes-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputMG3-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -844,11 +847,11 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div className="medic-item-container-wrapper">
+      <div id="motivo-consulta-wrapper" className="medic-item-container-wrapper">
         <div className="new-medic__control">
           <div>
             <h1> Motivo Consulta * </h1>
-            <div className="new-medic__control">
+            <div id="motivo-consulta-container" className="new-medic__control">
               <label htmlFor="motivo-consulta">
                 <textarea
                   id="motivo-consulta"
@@ -862,18 +865,19 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div className="medic-item-container-wrapper">
-        <div className="new-medic__controls">
+      <div id="origen_enfermedad-wrapper" className="medic-item-container-wrapper">
+        <div id="origen_enfermedad-control" className="new-medic__controls">
           <h1> Origen de la Enfermedad</h1>
           <p> ✅ para si</p>
           <div className="medic-item-container-wrapper">
             {origenEnfermedadItems.map((item, index) => (
               <div
+                id="origen_enfermedad-items"
                 key={`origen_enfermedad-${index}`}
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputMG4-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -949,7 +953,7 @@ const GeneralmedForm = (props) => {
                     className="medic-item-container .new-medic__controls"
                   >
                     <CheckboxOrTextInput
-                      id={`input-${index}`}
+                      id={`inputMG5-${index}`}
                       label={item.label}
                       isCheckbox={item.checked !== undefined}
                       checked={item.checked}
@@ -971,9 +975,9 @@ const GeneralmedForm = (props) => {
           <div className="medic-item-container">
             <div className="medic-item-container-wrapper">
               <div className="new-medic__control">
-                <label htmlFor="medicine">Principio Activo</label>
+                <label htmlFor="medicineGM">Principio Activo</label>
                 <input
-                  id="medicine"
+                  id="medicineGM"
                   type="text"
                   value={enteredTitle}
                   onChange={titleChangeHandler}
@@ -981,8 +985,8 @@ const GeneralmedForm = (props) => {
                   placeholder="Seleccionar"
                 />
                 <datalist id="medicineOptions">
-                  {medicineOptions.map((option) => (
-                    <option key={option} value={option.medicine} />
+                  {medicineOptions.map((option, index) => (
+                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
                   ))}
                 </datalist>
               </div>

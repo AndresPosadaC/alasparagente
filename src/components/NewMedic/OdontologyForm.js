@@ -3,7 +3,7 @@ import useApiData from "../../hooks/useApiData";
 import useApiPost from "../../hooks/useApiPost";
 import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
-import PatientSelection from './PatientSelection';
+import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
 
 import "./NewMedicForm.css";
@@ -80,7 +80,7 @@ const OdontologyForm = (props) => {
     "location_b"
   );
 
-  const { data: medicineOptions } = useFetchData(
+  const { data: medicineOptionsOD } = useFetchData(
     "http://localhost:3001/api/med_brigada_json"
   );
 
@@ -109,7 +109,7 @@ const OdontologyForm = (props) => {
     }
 
     // Find the maximum quantity for the entered medicine
-    const maxQuantityForMedicine = medicineOptions.find(
+    const maxQuantityForMedicine = medicineOptionsOD.find(
       (item) => item.medicine === enteredTitle
     );
 
@@ -805,7 +805,7 @@ const OdontologyForm = (props) => {
           <h1>Datos de Odontología del Paciente</h1>
           <div className="medic-item-container">
             <PatientSelection
-              identifier= "od"
+              identifier="od"
               selectedBrigada={selectedBrigada}
               brigadaNames={brigadaNames}
               enteredIdNumDoc={enteredIdNumDoc}
@@ -861,11 +861,11 @@ const OdontologyForm = (props) => {
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
-              key={`antecedentesM-${index}`}
+              key={`antecedentesOD_M-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputOD1-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -904,7 +904,7 @@ const OdontologyForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOD2-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -926,7 +926,7 @@ const OdontologyForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOD3-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -950,7 +950,7 @@ const OdontologyForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOD4-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -987,7 +987,7 @@ const OdontologyForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOD5-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1019,18 +1019,18 @@ const OdontologyForm = (props) => {
           <div className="medic-item-container">
             <div className="medic-item-container-wrapper">
               <div className="new-medic__control">
-                <label htmlFor="medicine">Principio Activo</label>
+                <label htmlFor="medicineOD">Principio Activo</label>
                 <input
-                  id="medicine"
+                  id="medicineOD"
                   type="text"
                   value={enteredTitle}
                   onChange={titleChangeHandler}
-                  list="medicineOptions"
+                  list="medicineOptionsOD"
                   placeholder="Seleccionar"
                 />
-                <datalist id="medicineOptions">
-                  {medicineOptions.map((option) => (
-                    <option key={option} value={option.medicine} />
+                <datalist id="medicineOptionsOD">
+                {medicineOptionsOD.map((option, index) => (
+                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
                   ))}
                 </datalist>
               </div>
@@ -1093,7 +1093,7 @@ const OdontologyForm = (props) => {
         </div>
       </div>
       <div className="new-medic__actions">
-      <button type="button" onClick={handleCancel}>
+        <button type="button" onClick={handleCancel}>
           Cancelar
         </button>
         <button type="button" onClick={submitOdontologyHandler}>

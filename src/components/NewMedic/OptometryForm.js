@@ -106,7 +106,7 @@ const OptometryForm = (props) => {
     "location_b"
   );
 
-  const { data: medicineOptions } = useFetchData(
+  const { data: medicineOptionsOP } = useFetchData(
     "http://localhost:3001/api/med_brigada_json"
   );
 
@@ -135,7 +135,7 @@ const OptometryForm = (props) => {
     }
 
     // Find the maximum quantity for the entered medicine
-    const maxQuantityForMedicine = medicineOptions.find(
+    const maxQuantityForMedicine = medicineOptionsOP.find(
       (item) => item.medicine === enteredTitle
     );
 
@@ -1192,11 +1192,11 @@ const OptometryForm = (props) => {
         <div className="medic-item-container-wrapper">
           {signosYSintomasItems.map((item, index) => (
             <div
-              key={`signos-${index}`}
+              key={`signosOP-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputOP1-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -1213,7 +1213,7 @@ const OptometryForm = (props) => {
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputOP2-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -1230,11 +1230,11 @@ const OptometryForm = (props) => {
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
-              key={`antecedentes-${index}`}
+              key={`antecedentesOP-${index}`}
               className="medic-item-container .new-medic__controls"
             >
               <CheckboxOrTextInput
-                id={`input-${index}`}
+                id={`inputOP3-${index}`}
                 label={item.label}
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
@@ -1274,7 +1274,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP4-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1294,7 +1294,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP5-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1314,7 +1314,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP6-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1337,7 +1337,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP7-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1357,7 +1357,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP8-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1378,7 +1378,7 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
-                    id={`input-${index}`}
+                    id={`inputOP9-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
@@ -1399,7 +1399,7 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
-                    id={`input-${index}`}
+                    id={`inputOP10-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
@@ -1420,7 +1420,7 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
-                    id={`input-${index}`}
+                    id={`inputOP11-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
@@ -1441,7 +1441,7 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
-                    id={`input-${index}`}
+                    id={`inputOP12-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
@@ -1462,7 +1462,7 @@ const OptometryForm = (props) => {
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
-                  id={`input-${index}`}
+                  id={`inputOP13-${index}`}
                   label={item.label}
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
@@ -1478,18 +1478,18 @@ const OptometryForm = (props) => {
           <div className="medic-item-container">
             <div className="medic-item-container-wrapper">
               <div className="new-medic__control">
-                <label htmlFor="medicine">Principio Activo</label>
+                <label htmlFor="medicineOP">Principio Activo</label>
                 <input
-                  id="medicine"
+                  id="medicineOP"
                   type="text"
                   value={enteredTitle}
                   onChange={titleChangeHandler}
-                  list="medicineOptions"
+                  list="medicineOptionsOP"
                   placeholder="Seleccionar"
                 />
-                <datalist id="medicineOptions">
-                  {medicineOptions.map((option) => (
-                    <option key={option} value={option.medicine} />
+                <datalist id="medicineOptionsOP">
+                  {medicineOptionsOP.map((option, index) => (
+                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
                   ))}
                 </datalist>
               </div>
