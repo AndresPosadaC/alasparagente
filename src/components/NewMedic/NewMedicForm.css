@@ -1,0 +1,99 @@
+.new-medic__controls {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+   
+  .new-medic__control {
+    flex: 1; /* Adjust the flex value as needed for equal or proportional widths */
+  }
+  
+  .new-medic__control label {
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+    display: block;
+    flex-direction: column-reverse;
+    text-align: left;
+  }
+  
+  .new-medic__control input {
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 30rem;
+    max-width: 100%;
+  }
+  
+  .larger-input {
+    font: inherit;
+    width: 100%; /* Takes up the full width of the container */
+    max-width: 100%; /* Limits the width to the container's width */
+    height: 120px;
+  }
+  
+  .large-input {
+    font: inherit;
+    width: 100%; /* Takes up the full width of the container */
+    max-width: 100%; /* Limits the width to the container's width */
+  }
+  
+  .small-input {
+    font: inherit;
+    width: 20%; /* Takes up half of the container's width */
+    max-width: 100%; /* Limits the width to the container's width */
+  }
+  
+  .medic-item-container-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the gap as needed */
+    justify-content: space-between; /* or space-around, space-evenly, or flex-start/flex-end depending on your spacing preference */
+  }
+  
+  .medic-item-container {
+    flex: 1; /* To make each container take equal space horizontally */
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 10px;
+  }
+  
+  /* CSS for styling the form controls within the container */
+  .medic-item-container .new-medic__controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+  }
+  
+  /* CSS for styling the dropdown select */
+  .dropdown-select {
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 20rem;
+    max-width: 100%;
+  }
+  
+  /* Style for dropdown options */
+  .dropdown-select option {
+    background-color: #fff; /* Background color of options */
+    color: #333; /* Text color of options */
+    padding: 8px; /* Padding for each option */
+  }
+  
+  /* Style for the dropdown when it's focused (optional) */
+  .dropdown-select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #00ff7b; /* Highlight border when focused */
+    box-shadow: 0 0 5px rgba(0, 255, 128, 0.5); /* Add a subtle box shadow */
+  }
+  

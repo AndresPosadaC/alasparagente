@@ -1,0 +1,9 @@
+.movements-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .movements-list__fallback {
+    color: white;
+    text-align: center;
+  }

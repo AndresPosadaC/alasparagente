@@ -1,0 +1,9 @@
+.history-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .history-list__fallback {
+    color: white;
+    text-align: center;
+  }

@@ -1,0 +1,51 @@
+.new-patient__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  
+  .new-patient__control label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  .new-patient__control input {
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 20rem;
+    max-width: 100%;
+  }
+  
+  .new-patient__actions {
+    text-align: right;
+  }
+
+
+/* CSS for styling the dropdown select */
+.dropdown-select {
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 20rem;
+  max-width: 100%;
+}
+
+/* Style for dropdown options */
+.dropdown-select option {
+  background-color: #fff; /* Background color of options */
+  color: #333; /* Text color of options */
+  padding: 8px; /* Padding for each option */
+}
+
+/* Style for the dropdown when it's focused (optional) */
+.dropdown-select:focus {
+  outline: none; /* Remove the default focus outline */
+  border-color: #007bff; /* Highlight border when focused */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a subtle box shadow */
+}

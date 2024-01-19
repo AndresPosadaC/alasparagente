@@ -1,0 +1,38 @@
+.new-medic {
+    background-color: #92eece;
+    padding: 1rem;
+    margin: 2rem auto;
+    width: 50rem;
+    max-width: 95%;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+  
+  .new-medic button {
+    font: inherit;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border: 1px solid #005d08;
+    background-color: #005d16;
+    color: white;
+    border-radius: 12px;
+    margin-right: 1rem;
+  }
+  
+  .new-medic button:hover,
+  .new-medic button:active {
+    background-color: #005d08;
+    border-color: #005d16;
+  }
+  
+  .new-medic button.alternative {
+    color: #220131;
+    border-color: transparent;
+    background-color: transparent;
+  }
+  
+  .new-medic button.alternative:hover,
+  .new-medic button.alternative:active {
+    background-color: #d6f8b3;
+  }

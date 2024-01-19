@@ -1,0 +1,38 @@
+.new-movement {
+    background-color: #92a6ee;
+    padding: 1rem;
+    margin: 2rem auto;
+    width: 50rem;
+    max-width: 95%;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  }
+  
+  .new-movement button {
+    font: inherit;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border: 1px solid #02005d;
+    background-color: #00055d;
+    color: white;
+    border-radius: 12px;
+    margin-right: 1rem;
+  }
+  
+  .new-movement button:hover,
+  .new-movement button:active {
+    background-color: #0c0674;
+    border-color: #1c0674;
+  }
+  
+  .new-movement button.alternative {
+    color: #220131;
+    border-color: transparent;
+    background-color: transparent;
+  }
+  
+  .new-movement button.alternative:hover,
+  .new-movement button.alternative:active {
+    background-color: #b3d2f8;
+  }

@@ -1,0 +1,47 @@
+.patients-filter {
+    color: white;
+    padding: 0 1rem;
+  }
+  
+  .patients-filter__control {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+  }
+  
+  .patients-filter label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .patients-filter select {
+    font: inherit;
+    padding: 0.5rem 3rem;
+    font-weight: bold;
+    border-radius: 6px;
+  }
+
+  /* Add these styles to your CSS file */
+
+.patients-filter__control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px; /* Adjust as needed */
+}
+
+.patients-filter__control label {
+  margin-right: 8px; /* Adjust as needed to control spacing */
+  font-weight: bold;
+}
+
+.patients-filter__control input[type="text"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px; /* Adjust as needed */
+  /* Add any other styles you'd like here */
+}
+
+  

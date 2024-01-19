@@ -1,0 +1,72 @@
+import React from "react";
+import Card from "../UI/Card";
+import "./PatientItem.css";
+
+const PatientItem = (props) => {
+  // console.log('PatientsItem:', props);
+  // Create an array of JSX elements
+  const personalItems = [
+    { label: "Ocupacion", value: props.ocupacion },
+    { label: "Direccion", value: props.direccion_domicilio },
+    { label: "Localidad", value: props.localidad },
+    { label: "Celular", value: props.celular },
+  ];
+
+  const secunderyItems = [
+    { label: "Acompañante", value: props.acompanante },
+    { label: "Celular", value: props.celular_acompanante },
+    { label: "Responsable", value: props.responsable },
+    { label: "Celular", value: props.celular_responsable },
+    { label: "Parentesco", value: props.parentesco_responsable },
+    { label: "Aseguradora", value: props.aseguradora },
+    { label: "Vinculación", value: props.tipo_vinculacion },
+  ];
+
+  return (
+    <Card className="patient-item">
+      <div>
+        <div className="patient-item">
+          <h1>
+            {props.nombres} {props.apellidos}
+          </h1>
+          <div className="patient-item__quantity">Edad {props.edad} años</div>
+          <h2>
+            {props.tipo_doc}: {props.id_num_doc}
+          </h2>
+          <h2>Sexo: {props.sexo}</h2>
+          <h2>Estado Civil: {props.estado_civil}</h2>
+        </div>
+        <div className="patient-item">
+          <div className="patient-item__details">
+            <div className="patient-item-container">
+              <h2>Principales</h2>
+              {personalItems.map((item, index) => (
+                <div
+                  key={`personal-${props.id_cnt}-${index}`}
+                  className="patient-item"
+                >
+                  <p className="patient-item-label">{item.label}:</p>
+                  <p className="patient-item-value">{item.value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="patient-item-container">
+              <h2>Secundarios</h2>
+              {secunderyItems.map((item, index) => (
+                <div
+                  key={`secundary-${props.id_cnt}-${index}`}
+                  className="patient-item"
+                >
+                  <p className="patient-item-label">{item.label}:</p>
+                  <p className="patient-item-value">{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+export default PatientItem;
