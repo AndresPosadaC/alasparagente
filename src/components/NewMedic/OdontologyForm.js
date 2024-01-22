@@ -71,27 +71,17 @@ const OdontologyForm = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   // Add a new instance of useApiPost for posting optometry data
-  const { postData: postOdontologyData, error: odontologyError } = useApiPost(
-    "http://localhost:3001/api/odontology_json"
-  );
+  const { postData: postOdontologyData, error: odontologyError } =
+    useApiPost("odontology_json");
 
-  const { data: brigadaNames } = useApiData(
-    "http://localhost:3001/api/brigadas_json",
-    "location_b"
-  );
+  const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
-  const { data: medicineOptionsOD } = useFetchData(
-    "http://localhost:3001/api/med_brigada_json"
-  );
+  const { data: medicineOptionsOD } = useFetchData("med_brigada_json");
 
-  const { postData: postFarmaData, error: farmaError } = useApiPost(
-    "http://localhost:3001/api/farma_json"
-  );
+  const { postData: postFarmaData, error: farmaError } =
+    useApiPost("farma_json");
 
-  const { data: patientOptions } = useApiData(
-    "http://localhost:3001/api/pacientes_json",
-    "id_num_doc"
-  );
+  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const handleFarmaSubmit = async (event) => {
     event.preventDefault();
@@ -1029,8 +1019,11 @@ const OdontologyForm = (props) => {
                   placeholder="Seleccionar"
                 />
                 <datalist id="medicineOptionsOD">
-                {medicineOptionsOD.map((option, index) => (
-                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
+                  {medicineOptionsOD.map((option, index) => (
+                    <option
+                      key={`${option.medicine}-${index}`}
+                      value={option.medicine}
+                    />
                   ))}
                 </datalist>
               </div>

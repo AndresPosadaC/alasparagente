@@ -10,13 +10,9 @@ const GeneralmedPage = () => {
   const [generalmeds, setGeneralmed] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Define the API URLs for patients
-  const patientApiUrl = "http://localhost:3001/api/pacientes_json";
-  const generalmedApiUrl = "http://localhost:3001/api/generalmed_json";
-
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData(patientApiUrl);
-  const { data: generalmedData, loading_g, refreshData: refreshGmed } = useFetchData(generalmedApiUrl);
+  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData("pacientes_json");
+  const { data: generalmedData, loading_g, refreshData: refreshGmed } = useFetchData("generalmed_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {

@@ -11,9 +11,7 @@ const Login = ({ onLoginSuccess }) => {
   const [error, setError] = useState("");
   const [showError, setShowError] = useState(false);
 
-  const { data: userData, loading } = useFetchData(
-    "http://localhost:3001/api/users_json"
-  );
+  const { data: userData, loading } = useFetchData("users_json");
 
   const history = useNavigate();
 
@@ -88,6 +86,7 @@ const Login = ({ onLoginSuccess }) => {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          autoComplete="user-name"
         />
         <br />
         <label htmlFor="password">Password:</label>
@@ -96,6 +95,7 @@ const Login = ({ onLoginSuccess }) => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="off"
         />
         <br />
         <button type="submit" disabled={loading}>

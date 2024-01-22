@@ -10,13 +10,9 @@ const OdontologyPage = () => {
   const [odontologies, setOdontology] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Define the API URLs for patients
-  const patientApiUrl = "http://localhost:3001/api/pacientes_json";
-  const odontologyApiUrl = "http://localhost:3001/api/odontology_json";
-
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData(patientApiUrl);
-  const { data: odontologyData, loading_o, refreshData: refreshOdonto } = useFetchData(odontologyApiUrl);
+  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData("pacientes_json");
+  const { data: odontologyData, loading_o, refreshData: refreshOdonto } = useFetchData("odontology_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {

@@ -1,11 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const useApiData = (url, dataField) => {
+const baseUrl = 'http://localhost:3001/api/';
+
+const useApiData = (endpoint, dataField) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
+  const fullUrl = `${baseUrl}${endpoint}`;
+
   const fetchData = useCallback(() => {
-    fetch(url, {
+    fetch(fullUrl, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -24,7 +28,7 @@ const useApiData = (url, dataField) => {
       .catch((fetchError) => {
         setError(fetchError);
       });
-  }, [url, dataField]);
+  }, [fullUrl, dataField]);
 
   useEffect(() => {
     fetchData();

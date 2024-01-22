@@ -1,8 +1,12 @@
 import { useState} from 'react';
 
-const useApiPost = (url) => {
+const baseUrl = 'http://localhost:3001/api/';
+
+const useApiPost = (endpoint) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const fullUrl = `${baseUrl}${endpoint}`;
 
   const postData = async (data) => {
     setIsLoading(true);
@@ -11,7 +15,7 @@ const useApiPost = (url) => {
     console.log("Data trying to be post with API:", data);
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch(fullUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import MedicFilterGen from './MedicFilterGen';
 import GeneralmedList from './GeneralmedList';
-//import OptometryList from './OptometryList';
 import './Medic.css';
  
 const Medicgen = (props) => {

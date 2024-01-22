@@ -9,12 +9,9 @@ const Movements = (props) => {
   // console.log('Movements:', props);
   const [filteredStore, setFilteredStore] = useState("Todos");
   const [filteredMedicine, setFilteredMedicine] = useState("Todos");
-  const { data: storeOptions } = useApiData(
-    "http://localhost:3001/api/med_store_json",
-    "store"
-  );
+  const { data: storeOptions } = useApiData("med_store_json", "store");
   const { data: medicineOptions } = useApiData(
-    "http://localhost:3001/api/medlist_json",
+    "medlist_json",
     "principio_activo_f"
   );
 

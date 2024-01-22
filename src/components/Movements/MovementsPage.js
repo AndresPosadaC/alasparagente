@@ -8,7 +8,7 @@ const MovementsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const movementApiUrl = 'http://localhost:3001/api/med_movimientos_json';
+  const movementApiUrl = 'med_movimientos_json';
 
   const { data: movementData, error: fetchError, loading, refreshData: refreshMove } = useFetchData(
     movementApiUrl

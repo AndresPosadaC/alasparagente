@@ -7,12 +7,9 @@ import useFetchData from '../../hooks/useFetchData';
 const ExpensesPage = () => {
   const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // Define the API URLs for expenses and movements
-  const expenseApiUrl = 'http://localhost:3001/api/medinvima_json';
  
   // Use the useFetchData hook to fetch data for expenses and movements
-  const { data: expenseData, loading, refreshData: refreshExpense } = useFetchData(expenseApiUrl);
+  const { data: expenseData, loading, refreshData: refreshExpense } = useFetchData("medinvima_json");
 
   // Define callback functions to set data
   const setExpensesData = useCallback(() => {

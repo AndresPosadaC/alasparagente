@@ -3,9 +3,10 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cors = require("cors"); // Import the cors middleware
 const { validationResult, check } = require("express-validator");
+const path = require("path"); // Import the path module
 
 const app = express();
-
+ 
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -47,6 +48,7 @@ const useApiGet = (app, url, tableName) => {
         return;
       }
       res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+      res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
       res.json(results);
     });
   });
@@ -66,6 +68,12 @@ useApiGet(app, "/api/farma_json", "farma");
 useApiGet(app, "/api/generalmed_json", "generalmed");
 useApiGet(app, "/api/odontology_json", "odontology");
 useApiGet(app, "/api/pruebas_json", "pruebas");
+
+app.use(express.static(path.join(__dirname, "build"))); // Serve static files from the build directory
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html")); // Serve index.html for any route
+});
 
 // Middleware to validate the POST data
 const validatePostData = (req, res, next) => {
@@ -1125,6 +1133,6 @@ app.post(
 // ipconfig getifaddr en0 = 192.168.10.15 mac AP
 // ipconfig = 192.168.x.x pc NP
 const port = process.env.PORT || 3001;
-app.listen(port, () => {
+app.listen(port,"0.0.0.0", () => {
   console.log(`Server is running on port ${port}`);
 });

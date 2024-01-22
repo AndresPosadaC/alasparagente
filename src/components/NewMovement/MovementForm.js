@@ -23,42 +23,42 @@ const MovementForm = (props) => {
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
   const { data: brigadaNames, refreshData: refreshBrigadaNames } = useApiData(
-    "http://localhost:3001/api/brigadas_json",
+    "brigadas_json",
     "location_b"
   );
 
   const { data: medicineOptions } = useApiData(
-    "http://localhost:3001/api/medlist_json",
+    "medlist_json",
     "principio_activo_f"
   );
 
   const { data: storeOptions } = useApiData(
-    "http://localhost:3001/api/med_store_json",
+    "med_store_json",
     "store"
   );
 
   const { data: destinationOptions, refreshData: refreshMove } = useFetchData(
-    "http://localhost:3001/api/med_movimientos_json"
+    "med_movimientos_json"
   );
 
   const { data: medicineMovements, refreshData: refreshMedBrigada } =
-    useFetchData("http://localhost:3001/api/med_brigada_json");
+    useFetchData("med_brigada_json");
 
   const { data: farmaOptions, refreshData: refreshFarma } = useFetchData(
-    "http://localhost:3001/api/farma_json"
+    "farma_json"
   );
 
   // Fetch the data:
   const { data: farmaData } = useFetchData(
-    "http://localhost:3001/api/farma_json"
+    "farma_json"
   );
 
   const { postData: postBrigadaData, error: brigadaError } = useApiPost(
-    "http://localhost:3001/api/brigadas_json"
+    "brigadas_json"
   );
 
   const { postData: postMovementData, error: movementError } = useApiPost(
-    "http://localhost:3001/api/med_movimientos_json"
+    "med_movimientos_json"
   );
 
   const getDestinationOptions = (destinationOptions) => {

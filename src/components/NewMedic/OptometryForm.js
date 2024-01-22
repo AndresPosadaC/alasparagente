@@ -3,9 +3,9 @@ import useApiData from "../../hooks/useApiData";
 import useApiPost from "../../hooks/useApiPost";
 import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
-import PatientSelection from './PatientSelection';
+import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
- 
+
 import "./NewMedicForm.css";
 
 const OptometryForm = (props) => {
@@ -97,27 +97,17 @@ const OptometryForm = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   // Add a new instance of useApiPost for posting optometry data
-  const { postData: postOptometryData, error: optometryError } = useApiPost(
-    "http://localhost:3001/api/optometry_json"
-  );
+  const { postData: postOptometryData, error: optometryError } =
+    useApiPost("optometry_json");
 
-  const { data: brigadaNames } = useApiData(
-    "http://localhost:3001/api/brigadas_json",
-    "location_b"
-  );
+  const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
-  const { data: medicineOptionsOP } = useFetchData(
-    "http://localhost:3001/api/med_brigada_json"
-  );
+  const { data: medicineOptionsOP } = useFetchData("med_brigada_json");
 
-  const { postData: postFarmaData, error: farmaError } = useApiPost(
-    "http://localhost:3001/api/farma_json"
-  );
+  const { postData: postFarmaData, error: farmaError } =
+    useApiPost("farma_json");
 
-  const { data: patientOptions } = useApiData(
-    "http://localhost:3001/api/pacientes_json",
-    "id_num_doc"
-  );
+  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const handleFarmaSubmit = async (event) => {
     event.preventDefault();
@@ -1059,7 +1049,7 @@ const OptometryForm = (props) => {
       onChange: handleChangeRetinoscopiaOiAvvp,
     },
   ];
- 
+
   const examenEBt3 = [
     {
       label: "Subjetivo OD *",
@@ -1174,7 +1164,7 @@ const OptometryForm = (props) => {
           <h1>Datos de Optometría del Paciente</h1>
           <div className="medic-item-container">
             <PatientSelection
-              identifier= "op"
+              identifier="op"
               selectedBrigada={selectedBrigada}
               brigadaNames={brigadaNames}
               enteredIdNumDoc={enteredIdNumDoc}
@@ -1489,7 +1479,10 @@ const OptometryForm = (props) => {
                 />
                 <datalist id="medicineOptionsOP">
                   {medicineOptionsOP.map((option, index) => (
-                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
+                    <option
+                      key={`${option.medicine}-${index}`}
+                      value={option.medicine}
+                    />
                   ))}
                 </datalist>
               </div>
@@ -1558,7 +1551,7 @@ const OptometryForm = (props) => {
       </div>
 
       <div className="new-medic__actions">
-      <button type="button" onClick={handleCancel}>
+        <button type="button" onClick={handleCancel}>
           Cancelar
         </button>
         <button type="button" onClick={submitOptometryHandler}>

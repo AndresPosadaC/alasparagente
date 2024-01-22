@@ -7,12 +7,9 @@ import useFetchData from '../../hooks/useFetchData';
 const PatientsPage = () => {
   const [patients, setPatients] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  // Define the API URLs for patients
-  const patientApiUrl = 'http://localhost:3001/api/pacientes_json';
  
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading, refreshData } = useFetchData(patientApiUrl);
+  const { data: patientsData, loading, refreshData } = useFetchData("pacientes_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {

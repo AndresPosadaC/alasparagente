@@ -69,24 +69,24 @@ const GeneralmedForm = (props) => {
 
   // Add a new instance of useApiPost for posting generalmed data
   const { postData: postGeneralmedData, error: generalmedError } = useApiPost(
-    "http://localhost:3001/api/generalmed_json"
+    "generalmed_json"
   );
 
   const { data: brigadaNames } = useApiData(
-    "http://localhost:3001/api/brigadas_json",
+    "brigadas_json",
     "location_b"
   );
 
   const { data: medicineOptions } = useFetchData(
-    "http://localhost:3001/api/med_brigada_json"
+    "med_brigada_json"
   );
 
   const { postData: postFarmaData, error: farmaError } = useApiPost(
-    "http://localhost:3001/api/farma_json"
+    "farma_json"
   );
 
   const { data: patientOptions } = useApiData(
-    "http://localhost:3001/api/pacientes_json",
+    "pacientes_json",
     "id_num_doc"
   );
 

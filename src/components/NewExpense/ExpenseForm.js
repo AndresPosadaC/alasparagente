@@ -23,7 +23,7 @@ const ExpenseForm = (props) => {
 
   // Make the POST request using the useApiPost hook
   const { postData: postExpensetData, error: expenseError } = useApiPost(
-    "http://localhost:3001/api/medinvima_json"
+    "medinvima_json"
   );
 
   const dateReceivedChangeHandler = (event) => {

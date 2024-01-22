@@ -34,14 +34,11 @@ const PatientForm = (props) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { data: idNumOptions } = useFetchData(
-    "http://localhost:3001/api/pacientes_json"
-  );
+  const { data: idNumOptions } = useFetchData("pacientes_json");
 
   // Make the POST request using the useApiPost hook
-  const { postData: postPatientData, error: patientError } = useApiPost(
-    "http://localhost:3001/api/pacientes_json"
-  );
+  const { postData: postPatientData, error: patientError } =
+    useApiPost("pacientes_json");
 
   const idNumDocChangeHandler = (event) => {
     setEnteredIdNumDoc(event.target.value);
@@ -299,9 +296,7 @@ const PatientForm = (props) => {
             />
           </div>
           <div className="new-patient__control">
-            <label htmlFor="nacimiento">
-              Fecha de Nacimiento *
-            </label>
+            <label htmlFor="nacimiento">Fecha de Nacimiento *</label>
             <input
               type="date"
               min="1911-01-01"
@@ -482,7 +477,6 @@ const PatientForm = (props) => {
             <option value="No Cotiza">No Cotiza</option>
           </select>
         </div>
-        
       </div>
       <div className="new-patient__actions">
         <button type="button" onClick={handleCancel}>
@@ -500,9 +494,9 @@ const PatientForm = (props) => {
         {errorMessage && (
           <div className="error-message">
             <PopupMessage
-            message={errorMessage}
-            onClose={() => setErrorMessage(null)}
-          />
+              message={errorMessage}
+              onClose={() => setErrorMessage(null)}
+            />
           </div>
         )}
         {/*<button onClick={refreshPage}>Refrescar</button>*/}
