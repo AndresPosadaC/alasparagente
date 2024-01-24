@@ -86,7 +86,7 @@ const Login = ({ onLoginSuccess }) => {
           id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          autoComplete="user-name"
+          autoComplete="username"
         />
         <br />
         <label htmlFor="password">Password:</label>

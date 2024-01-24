@@ -6,15 +6,16 @@ const { validationResult, check } = require("express-validator");
 const path = require("path"); // Import the path module
 
 const app = express();
- 
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://192.168.10.15:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true, // enable passing cookies, if needed
-    optionsSuccessStatus: 204, // some legacy browsers (IE11, various SmartTVs) choke on 204
+    credentials: true,
+    optionsSuccessStatus: 204,
   })
 );
+
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -47,7 +48,7 @@ const useApiGet = (app, url, tableName) => {
         res.status(500).json({ error: "Error fetching data from database", details: error });
         return;
       }
-      res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+      res.header("Access-Control-Allow-Origin", "http://192.168.10.15:3000");
       res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
       res.json(results);
     });

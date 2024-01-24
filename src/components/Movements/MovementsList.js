@@ -4,7 +4,7 @@ import MovementItem from './MovementItem';
 import './MovementsList.css';
 
 const MovementsList = (props) => {
-  console.log('MovementsList props.items:', props.items);
+  //console.log('MovementsList props.items:', props.items);
   if (props.items.length === 0) {
     return <h2 className='movements-list__fallback'>No encontró resultados.</h2>;
   } 

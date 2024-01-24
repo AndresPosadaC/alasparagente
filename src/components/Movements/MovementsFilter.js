@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './MovementsFilter.css';
  
 const MovementsFilter = (props) => {
-  console.log('MovementsFilter:', props);
+  //console.log('MovementsFilter:', props);
   const [storeFilter, setStoreFilter] = useState(props.selectedStore);
   const [medicineFilter, setMedicineFilter] = useState(props.selectedMedicine);
 

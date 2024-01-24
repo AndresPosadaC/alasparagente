@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const baseUrl = 'http://localhost:3001/api/';
+const baseUrl = 'http://192.168.10.15:3001/api/';
 
 const useApiData = (endpoint, dataField) => {
   const [data, setData] = useState([]);

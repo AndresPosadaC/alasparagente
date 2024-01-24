@@ -1,6 +1,6 @@
 import { useState} from 'react';
 
-const baseUrl = 'http://localhost:3001/api/';
+const baseUrl = 'http://192.168.10.15:3001/api/';
 
 const useApiPost = (endpoint) => {
   const [isLoading, setIsLoading] = useState(false);

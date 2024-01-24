@@ -32,10 +32,7 @@ const MovementForm = (props) => {
     "principio_activo_f"
   );
 
-  const { data: storeOptions } = useApiData(
-    "med_store_json",
-    "store"
-  );
+  const { data: storeOptions } = useApiData("med_store_json", "store");
 
   const { data: destinationOptions, refreshData: refreshMove } = useFetchData(
     "med_movimientos_json"
@@ -44,18 +41,14 @@ const MovementForm = (props) => {
   const { data: medicineMovements, refreshData: refreshMedBrigada } =
     useFetchData("med_brigada_json");
 
-  const { data: farmaOptions, refreshData: refreshFarma } = useFetchData(
-    "farma_json"
-  );
+  const { data: farmaOptions, refreshData: refreshFarma } =
+    useFetchData("farma_json");
 
   // Fetch the data:
-  const { data: farmaData } = useFetchData(
-    "farma_json"
-  );
+  const { data: farmaData } = useFetchData("farma_json");
 
-  const { postData: postBrigadaData, error: brigadaError } = useApiPost(
-    "brigadas_json"
-  );
+  const { postData: postBrigadaData, error: brigadaError } =
+    useApiPost("brigadas_json");
 
   const { postData: postMovementData, error: movementError } = useApiPost(
     "med_movimientos_json"
@@ -128,7 +121,10 @@ const MovementForm = (props) => {
       setSelectedPatientID(selectedID);
     } else {
       setSelectedPatientID("");
-      console.log("No se encontraron coincidencias o se encontraron varias coincidencias para ID:", selectedID);
+      console.log(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID:",
+        selectedID
+      );
     }
   };
 
@@ -294,14 +290,16 @@ const MovementForm = (props) => {
               </option>
             ))}
           </select>
+          <label htmlFor="new_brigada"></label>
+          <button type="button" onClick={submitBrigadaHandler}>
+            +Brigada: 
+          </button>
           <input
+            id="new_brigada"
             type="text"
             value={newBrigada}
             onChange={(event) => setNewBrigada(event.target.value)}
           />
-          <button type="button" onClick={submitBrigadaHandler}>
-            +Brigada
-          </button>
         </div>
         <div className="new-movement__control">
           <label htmlFor="id_num">ID Paciente</label>
