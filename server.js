@@ -139,7 +139,7 @@ app.post(
     } = req.body;
 
     const query =
-      "INSERT INTO alasparagente.med_movimientos (voided, date_received, principio_activo, forma, concentracion, presentacion, unidad_medida, vigencia_invima, new_registro_invima , registro_invima, lote, vencimiento, observaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.medinvima (voided, fecha_R, principio_activo, forma, concentracion, presentacion, unidad_medida , registro_invima, lote, vencimiento, observaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -151,8 +151,6 @@ app.post(
         concentracion,
         presentacion,
         unidad_medida,
-        vigencia_invima,
-        new_registro_invima,
         registro_invima,
         lote,
         vencimiento,
@@ -176,8 +174,6 @@ app.post(
           concentracion,
           presentacion,
           unidad_medida,
-          vigencia_invima,
-          new_registro_invima,
           registro_invima,
           lote,
           vencimiento,

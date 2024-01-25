@@ -251,7 +251,7 @@ const PatientForm = (props) => {
   // const refreshPage = () => {
   //  window.location.reload(); // Reload the page
   // };
-
+ 
   return (
     <form onSubmit={submitPatientHandler}>
       <div className="new-patient__controls">

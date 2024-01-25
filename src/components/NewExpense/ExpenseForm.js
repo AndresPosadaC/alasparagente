@@ -12,8 +12,6 @@ const ExpenseForm = (props) => {
   const [enteredConcentracion, setEnteredConcentracion] = useState("");
   const [enteredPresentacion, setEnteredPresentacion] = useState("");
   const [enteredUnidadMedida, setEnteredUnidadMedida] = useState("");
-  const [enteredVigenciaInvima, setEnteredVigenciaInvima] = useState("");
-  const [enteredNewRegistroInvima, setEnteredNewRegistroInvima] = useState("");
   const [enteredRegistroInvima, setEnteredRegistroInvima] = useState("");
   const [enteredLote, setEnteredLote] = useState("");
   const [enteredVencimiento, setEnteredVencimiento] = useState("");
@@ -51,14 +49,6 @@ const ExpenseForm = (props) => {
     setEnteredUnidadMedida(event.target.value);
   };
 
-  const vigenciaInvimaChangeHandler = (event) => {
-    setEnteredVigenciaInvima(event.target.value);
-  };
-
-  const newRegistroInvimaChangeHandler = (event) => {
-    setEnteredNewRegistroInvima(event.target.value);
-  };
-
   const registroInvimaChangeHandler = (event) => {
     setEnteredRegistroInvima(event.target.value);
   };
@@ -90,19 +80,25 @@ const ExpenseForm = (props) => {
       return; // Exit the function early, no need to continue checking other conditions
     }
 
+    const formattedDate1 = new Date(enteredDateReceived)
+    .toISOString()
+    .split("T")[0];
+
+    const formattedDate2 = new Date(enteredVencimiento)
+    .toISOString()
+    .split("T")[0];
+
     const expenseData = {
       voided: selectedVoided,
-      date_received: enteredDateReceived,
+      fecha_R: formattedDate1,
       principio_activo: enteredPrincipioActivo,
       forma: enteredForma,
       concentracion: enteredConcentracion,
       presentacion: enteredPresentacion,
       unidad_medida: enteredUnidadMedida,
-      vigencia_invima: enteredVigenciaInvima,
-      new_registro_invima: enteredNewRegistroInvima,
       registro_invima: enteredRegistroInvima,
       lote: enteredLote,
-      vencimiento: enteredVencimiento,
+      vencimiento: formattedDate2,
       observaciones: enteredObservaciones,
     };
 
@@ -118,8 +114,6 @@ const ExpenseForm = (props) => {
       setEnteredConcentracion("");
       setEnteredPresentacion("");
       setEnteredUnidadMedida("");
-      setEnteredVigenciaInvima("");
-      setEnteredNewRegistroInvima("");
       setEnteredRegistroInvima("");
       setEnteredLote("");
       setEnteredVencimiento("");
@@ -152,8 +146,6 @@ const ExpenseForm = (props) => {
       setEnteredConcentracion("");
       setEnteredPresentacion("");
       setEnteredUnidadMedida("");
-      setEnteredVigenciaInvima("");
-      setEnteredNewRegistroInvima("");
       setEnteredRegistroInvima("");
       setEnteredLote("");
       setEnteredVencimiento("");
@@ -250,27 +242,6 @@ const ExpenseForm = (props) => {
             <option defaultValue="µg">µg</option>
             <option defaultValue="und">und</option>
           </select>
-        </div>
-        <div className="new-expense__control">
-          <label htmlFor="vigencia_invima">
-            Vigencia Invima o Permiso formato
-          </label>
-          <input
-            type="date"
-            min="1931-01-01"
-            id="vigencia_invima"
-            value={enteredVigenciaInvima}
-            onChange={vigenciaInvimaChangeHandler}
-          />
-        </div>
-        <div className="new-expense__control">
-          <label htmlFor="new_registro_invima">Invima Renovado</label>
-          <input
-            type="text"
-            id="new_registro_invima"
-            value={enteredNewRegistroInvima}
-            onChange={newRegistroInvimaChangeHandler}
-          />
         </div>
         <div className="new-expense__control">
           <label htmlFor="registro_invima">Registro Invima *</label>
