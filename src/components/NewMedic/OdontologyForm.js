@@ -10,6 +10,7 @@ import "./NewMedicForm.css";
 
 const OdontologyForm = (props) => {
   // Define the state variables for the new fields
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredFechaUltimaVisita, setEnteredFechaUltimaVisita] = useState("");
@@ -116,6 +117,7 @@ const OdontologyForm = (props) => {
     } else {
       // All conditions passed, proceed with the POST request
       const farmaData = {
+        voided: selectedVoided,
         id_num_doc: enteredIdNumDoc,
         location_b: selectedBrigada,
         medicine: enteredTitle,
@@ -128,6 +130,7 @@ const OdontologyForm = (props) => {
       if (success) {
         // The POST request was successful, handle accordingly
         // For example, you can reset the form here
+        setSelectedVoided("0");
         setEnteredTitle("");
         setEnteredQuantity("");
 
@@ -419,6 +422,7 @@ const OdontologyForm = (props) => {
 
     // Create an object for the optometry data
     const odontologyData = {
+      voided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
       motivo_consulta: enteredMotivoConsulta,
       fecha_ultima_visita: enteredFechaUltimaVisita,
@@ -494,6 +498,7 @@ const OdontologyForm = (props) => {
   useEffect(() => {
     if (formSuccess) {
       // Reset the form or perform any other necessary actions
+      setSelectedVoided("0");
       setEnteredIdNumDoc("");
       setEnteredMotivoConsulta("");
       setEnteredFechaUltimaVisita("");
@@ -542,6 +547,7 @@ const OdontologyForm = (props) => {
   }, [formSuccess]);
 
   const handleCancel = () => {
+    setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredMotivoConsulta("");
     setEnteredFechaUltimaVisita("");

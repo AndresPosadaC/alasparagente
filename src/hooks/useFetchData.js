@@ -24,6 +24,7 @@ const useFetchData = (endpoint) => {
 
       const responseData = await response.json();
       setData(responseData);
+      //console.log('Fetched Data:', responseData);
       setLoading(false);
     } catch (fetchError) {
       setError(fetchError);

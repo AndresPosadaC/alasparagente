@@ -5,6 +5,7 @@ import PopupMessage from "../PopupMessage";
 import "./ExpenseForm.css";
 
 const ExpenseForm = (props) => {
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredDateReceived, setEnteredDateReceived] = useState("");
   const [enteredPrincipioActivo, setEenteredPrincipioActivo] = useState("");
   const [enteredForma, setEnteredForma] = useState("");
@@ -90,6 +91,7 @@ const ExpenseForm = (props) => {
     }
 
     const expenseData = {
+      voided: selectedVoided,
       date_received: enteredDateReceived,
       principio_activo: enteredPrincipioActivo,
       forma: enteredForma,
@@ -109,6 +111,7 @@ const ExpenseForm = (props) => {
 
     if (success) {
       // The POST request was successful, handle accordingly
+      setSelectedVoided("0");
       setEnteredDateReceived("");
       setEenteredPrincipioActivo("");
       setEnteredForma("");
@@ -142,6 +145,7 @@ const ExpenseForm = (props) => {
   useEffect(() => {
     if (showSuccessMessage) {
       // Clear input fields
+      setSelectedVoided("0");
       setEnteredDateReceived("");
       setEenteredPrincipioActivo("");
       setEnteredForma("");

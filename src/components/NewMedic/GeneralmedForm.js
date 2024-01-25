@@ -10,6 +10,7 @@ import "./NewMedicForm.css";
 
 const GeneralmedForm = (props) => {
   // Define the state variables for the new fields
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredFrecCardiaca, setEnteredFrecCardiaca] = useState("");
@@ -123,6 +124,7 @@ const GeneralmedForm = (props) => {
     } else {
       // All conditions passed, proceed with the POST request
       const farmaData = {
+        voided: selectedVoided,
         id_num_doc: enteredIdNumDoc,
         location_b: selectedBrigada,
         medicine: enteredTitle,
@@ -135,6 +137,7 @@ const GeneralmedForm = (props) => {
       if (success) {
         // The POST request was successful, handle accordingly
         // For example, you can reset the form here
+        setSelectedVoided("0");
         setEnteredTitle("");
         setEnteredQuantity("");
 
@@ -389,6 +392,7 @@ const GeneralmedForm = (props) => {
 
     // Create an object for the generalmed data
     const generalmedData = {
+      voided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
       motivo_consulta: enteredMotivoConsulta,
       frec_cardiaca: parseFloat(enteredFrecCardiaca),
@@ -459,6 +463,7 @@ const GeneralmedForm = (props) => {
   useEffect(() => {
     if (formSuccess) {
       // Reset the form or perform any other necessary actions
+      setSelectedVoided("0");
       setEnteredIdNumDoc("");
       setEnteredMotivoConsulta("");
       setEnteredFrecCardiaca("");
@@ -506,6 +511,7 @@ const GeneralmedForm = (props) => {
   }, [formSuccess]);
 
   const handleCancel = () => {
+    setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredMotivoConsulta("");
     setEnteredFrecCardiaca("");

@@ -10,6 +10,7 @@ import "./NewMedicForm.css";
 
 const OptometryForm = (props) => {
   // Define the state variables for the new fields
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [enteredMalaVisionLejos, setEnteredMalaVisionLejos] = useState(false);
   const [enteredMalaVisionCerca, setEnteredMalaVisionCerca] = useState(false);
@@ -142,6 +143,7 @@ const OptometryForm = (props) => {
     } else {
       // All conditions passed, proceed with the POST request
       const farmaData = {
+        voided: selectedVoided,
         id_num_doc: enteredIdNumDoc,
         location_b: selectedBrigada,
         medicine: enteredTitle,
@@ -154,6 +156,7 @@ const OptometryForm = (props) => {
       if (success) {
         // The POST request was successful, handle accordingly
         // For example, you can reset the form here
+        setSelectedVoided("0");
         setEnteredTitle("");
         setEnteredQuantity("");
 
@@ -533,6 +536,7 @@ const OptometryForm = (props) => {
 
     // Create an object for the optometry data
     const optometryData = {
+      voiided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
       mala_vision_lejos: enteredMalaVisionLejos,
       mala_vision_cerca: enteredMalaVisionCerca,
@@ -636,6 +640,7 @@ const OptometryForm = (props) => {
   useEffect(() => {
     if (formSuccess) {
       // Reset the form or perform any other necessary actions
+      setSelectedVoided("0");
       setEnteredIdNumDoc("");
       setEnteredMalaVisionLejos(false);
       setEnteredMalaVisionCerca(false);
@@ -712,6 +717,7 @@ const OptometryForm = (props) => {
   }, [formSuccess]);
 
   const handleCancel = () => {
+    setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredMalaVisionLejos(false);
     setEnteredMalaVisionCerca(false);

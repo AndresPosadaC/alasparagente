@@ -5,10 +5,15 @@ import useFetchData from "../../hooks/useFetchData";
 import FarmaDataDisplay from "../FarmaDataDisplay";
 import PopupMessage from "../PopupMessage";
 
-// import FetchedDataDisplay from "../FetchedDataDisplay";
+
 import "./MovementForm.css";
+//import FetchedDataDisplay from "../FetchedDataDisplay";
+//{props.length > 0 && <FetchedDataDisplay data={props} />}
 
 const MovementForm = (props) => {
+  //console.log('MovementsForm:', props);
+  const [selectedVoidedB, setSelectedVoidedB] = useState("0");
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [selectedPatientID, setSelectedPatientID] = useState("");
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredQuantity, setEnteredQuantity] = useState("");
@@ -26,6 +31,8 @@ const MovementForm = (props) => {
     "brigadas_json",
     "location_b"
   );
+
+  const sortedBrigadaNames = brigadaNames.slice().sort();
 
   const { data: medicineOptions } = useApiData(
     "medlist_json",
@@ -68,6 +75,7 @@ const MovementForm = (props) => {
 
     // Create brigadaData object
     const brigadaData = {
+      voided: selectedVoidedB,
       location_b: newBrigada,
     };
 
@@ -77,12 +85,14 @@ const MovementForm = (props) => {
     if (success) {
       // The POST request was successful, handle accordingly
       // Clear input field after successful insertion
+      setSelectedVoidedB("0");
       setNewBrigada("");
       // Fetch the updated Brigada names after the POST request
       refreshBrigadaNames();
     } else {
       // Handle the error, e.g., show an error message to the user
       console.error("Error adding Brigada:", brigadaError);
+      setErrorMessage("Error añadiendo Brigada:", brigadaError);
       // console.log("brigada", brigadaData)
     }
   };
@@ -108,6 +118,8 @@ const MovementForm = (props) => {
     ),
   ];
 
+  const sortedPatientIDs = uniquePatientIDs.slice().sort();
+
   // Handle ID search and filter data
   const findIDHandler = (event) => {
     const selectedID = event.target.value;
@@ -125,6 +137,7 @@ const MovementForm = (props) => {
         "No se encontraron coincidencias o se encontraron varias coincidencias para ID:",
         selectedID
       );
+      setErrorMessage("No se encontraron coincidencias o se encontraron varias coincidencias para ID: ", selectedID); 
     }
   };
 
@@ -149,6 +162,7 @@ const MovementForm = (props) => {
   };
 
   const handleCancel = () => {
+    setSelectedVoided("0");
     setSelectedPatientID("");
     setEnteredTitle("");
     setEnteredQuantity("");
@@ -179,6 +193,7 @@ const MovementForm = (props) => {
       // If 'Compras', allow the user to submit without checking medicineMovements
       // Proceed with the POST request
       const movementData = {
+        voided: selectedVoided,
         brigada: selectedBrigada,
         medicine: enteredTitle,
         quantity: parseInt(enteredQuantity, 10),
@@ -231,6 +246,7 @@ const MovementForm = (props) => {
         } else {
           // All conditions passed, proceed with the POST request
           const movementData = {
+            voided: selectedVoided,
             brigada: selectedBrigada,
             medicine: enteredTitle,
             quantity: enteredQuantityAsInt,
@@ -248,7 +264,7 @@ const MovementForm = (props) => {
               setShowSuccessMessage(false);
             }, 3000);
           } else {
-            setErrorMessage("Error añadiendo el movimiento");
+            setErrorMessage("Error añadiendo el movimiento ", movementError);
             console.error("Error añadiendo el movimiento:", movementError);
           }
         }
@@ -264,12 +280,14 @@ const MovementForm = (props) => {
   useEffect(() => {
     if (showSuccessMessage) {
       // Reset the form or perform any other necessary actions
+      setSelectedVoided("");
       setSelectedPatientID("");
       setEnteredTitle("");
       setEnteredQuantity("");
       setEnteredOrigen("");
       setEnteredDestination("");
       setNewBrigada("");
+      refreshMove();
     }
   }, [showSuccessMessage, refreshMedBrigada, refreshMove, refreshFarma]);
 
@@ -284,7 +302,7 @@ const MovementForm = (props) => {
             onChange={brigadaChangeHandler}
           >
             <option value="">Selecciona Brigada</option>
-            {brigadaNames.map((name) => (
+            {sortedBrigadaNames.map((name) => (
               <option key={name} value={name}>
                 {name}
               </option>
@@ -292,7 +310,7 @@ const MovementForm = (props) => {
           </select>
           <label htmlFor="new_brigada"></label>
           <button type="button" onClick={submitBrigadaHandler}>
-            +Brigada: 
+            +Brigada:
           </button>
           <input
             id="new_brigada"
@@ -312,7 +330,7 @@ const MovementForm = (props) => {
             placeholder="Seleccionar"
           />
           <datalist id="farmaOptions">
-            {uniquePatientIDs.map((patientID) => (
+            {sortedPatientIDs.map((patientID) => (
               <option key={patientID} value={patientID} />
             ))}
           </datalist>

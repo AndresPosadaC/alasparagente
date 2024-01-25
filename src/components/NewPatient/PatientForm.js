@@ -6,6 +6,7 @@ import PopupMessage from "../PopupMessage";
 import "./PatientForm.css";
 
 const PatientForm = (props) => {
+  const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [enteredTipoDoc, setEnteredTipoDoc] = useState("");
   const [enteredNombres, setEnteredNombres] = useState("");
@@ -121,6 +122,7 @@ const PatientForm = (props) => {
   };
 
   const handleCancel = () => {
+    setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredTipoDoc("");
     setEnteredNombres("");
@@ -176,6 +178,7 @@ const PatientForm = (props) => {
 
       // Create patientData object
       const patientsData = {
+        voided: selectedVoided,
         id_num_doc: enteredIdNumDoc,
         tipo_doc: enteredTipoDoc,
         nombres: enteredNombres,
@@ -221,6 +224,7 @@ const PatientForm = (props) => {
   useEffect(() => {
     if (showSuccessMessage) {
       // Clear input fields
+      setSelectedVoided("0");
       setEnteredIdNumDoc("");
       setEnteredTipoDoc("");
       setEnteredNombres("");
