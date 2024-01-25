@@ -820,6 +820,7 @@ app.post(
 
     const {
       voided,
+      especialidad,
       id_num_doc,
       motivo_consulta,
       frec_cardiaca,
@@ -868,12 +869,13 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.generalmed (voided, id_num_doc, fecha_registro, motivo_consulta, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.generalmed (voided, especialidad, id_num_doc, fecha_registro, motivo_consulta, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
       [
         voided,
+        especialidad,
         id_num_doc,
         fecha_registro,
         motivo_consulta,
@@ -931,6 +933,7 @@ app.post(
         res.status(201).json({
           id_cnt: results.insertId,
           voided,
+          especialidad,
           id_num_doc,
           fecha_registro,
           motivo_consulta,

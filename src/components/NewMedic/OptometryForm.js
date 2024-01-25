@@ -5,6 +5,7 @@ import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
 import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
+import FarmaDataDisplay from "../FarmaDataDisplay";
 
 import "./NewMedicForm.css";
 
@@ -97,16 +98,23 @@ const OptometryForm = (props) => {
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const [filteredData, setFilteredData] = useState([]); // State for filtered data
+
   // Add a new instance of useApiPost for posting optometry data
   const { postData: postOptometryData, error: optometryError } =
     useApiPost("optometry_json");
 
   const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
+  const sortedBrigadaNames = brigadaNames.slice().sort();
+
   const { data: medicineOptionsOP } = useFetchData("med_brigada_json");
 
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
+
+  // Fetch the data:
+  const { data: farmaDataIn } = useFetchData("farma_json");
 
   const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
@@ -632,10 +640,6 @@ const OptometryForm = (props) => {
     }
   };
 
-  // const refreshPage = () => {
-  //  window.location.reload(); // Reload the page
-  // };
-
   // Replace the refreshPage function with useEffect
   useEffect(() => {
     if (formSuccess) {
@@ -791,6 +795,23 @@ const OptometryForm = (props) => {
     setEnteredUso("");
     setEnteredControl("");
   };
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredData = farmaDataIn.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc
+      );
+      // Set the filtered data in state
+      setFilteredData(filteredData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, farmaDataIn]);
+
+  // const refreshPage = () => {
+  //  window.location.reload(); // Reload the page
+  // };
 
   const signosYSintomasItems = [
     {
@@ -1172,7 +1193,7 @@ const OptometryForm = (props) => {
             <PatientSelection
               identifier="op"
               selectedBrigada={selectedBrigada}
-              brigadaNames={brigadaNames}
+              brigadaNames={sortedBrigadaNames}
               enteredIdNumDoc={enteredIdNumDoc}
               brigadaChangeHandler={brigadaChangeHandler}
               handleChangeIdNumDoc={handleChangeIdNumDoc}
@@ -1513,6 +1534,9 @@ const OptometryForm = (props) => {
                 />
               )}
             </div>
+            {filteredData.length > 0 && (
+              <FarmaDataDisplay data={filteredData} />
+            )}
           </div>
         </div>
         <div className="medic-item-container-wrapper">

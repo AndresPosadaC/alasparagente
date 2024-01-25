@@ -5,6 +5,7 @@ import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
 import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
+import FarmaDataDisplay from "../FarmaDataDisplay";
 
 import "./NewMedicForm.css";
 
@@ -12,10 +13,10 @@ const GeneralmedForm = (props) => {
   // Define the state variables for the new fields
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
+  const [selectedEspecialidad, setSelectedEspacialidad] = useState("General");
   const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredFrecCardiaca, setEnteredFrecCardiaca] = useState("");
-  const [enteredTensionArterial, setEnteredTensionArterial] =
-    useState("");
+  const [enteredTensionArterial, setEnteredTensionArterial] = useState("");
   const [enteredFrecRespiratoria, setEnteredFrecRespiratoria] = useState("");
   const [enteredSatO2, setEnteredSatO2] = useState("");
   const [enteredTemperatura, setEnteredTemperatura] = useState("");
@@ -68,28 +69,25 @@ const GeneralmedForm = (props) => {
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const [filteredData, setFilteredData] = useState([]); // State for filtered data
+
   // Add a new instance of useApiPost for posting generalmed data
-  const { postData: postGeneralmedData, error: generalmedError } = useApiPost(
-    "generalmed_json"
-  );
+  const { postData: postGeneralmedData, error: generalmedError } =
+    useApiPost("generalmed_json");
 
-  const { data: brigadaNames } = useApiData(
-    "brigadas_json",
-    "location_b"
-  );
+  const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
-  const { data: medicineOptions } = useFetchData(
-    "med_brigada_json"
-  );
+  const sortedBrigadaNames = brigadaNames.slice().sort();
 
-  const { postData: postFarmaData, error: farmaError } = useApiPost(
-    "farma_json"
-  );
+  const { data: medicineOptions } = useFetchData("med_brigada_json");
 
-  const { data: patientOptions } = useApiData(
-    "pacientes_json",
-    "id_num_doc"
-  );
+  // Fetch the data:
+  const { data: farmaDataIn } = useFetchData("farma_json");
+
+  const { postData: postFarmaData, error: farmaError } =
+    useApiPost("farma_json");
+
+  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const handleFarmaSubmit = async (event) => {
     event.preventDefault();
@@ -182,6 +180,9 @@ const GeneralmedForm = (props) => {
   };
 
   // Usage of the common handlers
+  const especialidadChangeHandler = (event) => {
+    setSelectedEspacialidad(event.target.value);
+  };
   const handleChangeIdNumDoc = handleTextChange(
     "enteredIdNumDoc",
     setEnteredIdNumDoc
@@ -393,6 +394,7 @@ const GeneralmedForm = (props) => {
     // Create an object for the generalmed data
     const generalmedData = {
       voided: selectedVoided,
+      especialidad: selectedEspecialidad,
       id_num_doc: enteredIdNumDoc,
       motivo_consulta: enteredMotivoConsulta,
       frec_cardiaca: parseFloat(enteredFrecCardiaca),
@@ -556,6 +558,19 @@ const GeneralmedForm = (props) => {
     setEnteredRemision("");
     setEnteredMedicamentos("");
   };
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredData = farmaDataIn.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc
+      );
+      // Set the filtered data in state
+      setFilteredData(filteredData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, farmaDataIn]);
 
   // const refreshPage = () => {
   //  window.location.reload(); // Reload the page
@@ -755,12 +770,28 @@ const GeneralmedForm = (props) => {
     <form onSubmit={submitGeneralmedHandler}>
       <div id="new-medic-container" className="new-medic__controls">
         <div id="new-medic-container2" className="new-medic__controls">
+          <h1 htmlFor="especialidad">Especialidad</h1>
+          <select
+            id="especialidad"
+            value={selectedEspecialidad}
+            onChange={especialidadChangeHandler}
+            className="dropdown-select" // Apply a CSS class for styling
+          >
+            <option value="">Seleccionar especialidad</option>
+            <option defaultValue="General">General</option>
+            <option defaultValue="Citologia">Citologia</option>
+            <option defaultValue="Dermatologia">Dermatologia</option>
+            <option defaultValue="Fisioterapia">Fisioterapia</option>
+            <option defaultValue="Ginecologia">Ginecologia</option>
+            <option defaultValue="Otorrino">Otorrino</option>
+            <option defaultValue="Pediatria">Pediatria</option>
+          </select>
           <h1>Datos Medicina General del Paciente</h1>
           <div id="medic-item-container" className="medic-item-container">
             <PatientSelection
               identifier="gm"
               selectedBrigada={selectedBrigada}
-              brigadaNames={brigadaNames}
+              brigadaNames={sortedBrigadaNames}
               enteredIdNumDoc={enteredIdNumDoc}
               brigadaChangeHandler={brigadaChangeHandler}
               handleChangeIdNumDoc={handleChangeIdNumDoc}
@@ -772,7 +803,10 @@ const GeneralmedForm = (props) => {
 
       <div id="signos-vitales-container" className="new-medic__controls">
         <h1> Signos Vitales </h1>
-        <div id="signos-vitales-container-wrapper" className="medic-item-container-wrapper">
+        <div
+          id="signos-vitales-container-wrapper"
+          className="medic-item-container-wrapper"
+        >
           {signosVitales.map((item, index) => (
             <div
               id="signos-vitales-items"
@@ -820,7 +854,7 @@ const GeneralmedForm = (props) => {
 
       <div id="gineco-container" className="new-medic__controls">
         <h1> Antecedentes Ginecoopstéricos </h1>
-        <div id="gineco-wrapper"  className="medic-item-container-wrapper">
+        <div id="gineco-wrapper" className="medic-item-container-wrapper">
           <label htmlFor="Aplica">
             <input
               id="Aplica"
@@ -853,7 +887,10 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div id="motivo-consulta-wrapper" className="medic-item-container-wrapper">
+      <div
+        id="motivo-consulta-wrapper"
+        className="medic-item-container-wrapper"
+      >
         <div className="new-medic__control">
           <div>
             <h1> Motivo Consulta * </h1>
@@ -871,7 +908,10 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div id="origen_enfermedad-wrapper" className="medic-item-container-wrapper">
+      <div
+        id="origen_enfermedad-wrapper"
+        className="medic-item-container-wrapper"
+      >
         <div id="origen_enfermedad-control" className="new-medic__controls">
           <h1> Origen de la Enfermedad</h1>
           <p> ✅ para si</p>
@@ -992,7 +1032,10 @@ const GeneralmedForm = (props) => {
                 />
                 <datalist id="medicineOptions">
                   {medicineOptions.map((option, index) => (
-                    <option key={`${option.medicine}-${index}`} value={option.medicine} />
+                    <option
+                      key={`${option.medicine}-${index}`}
+                      value={option.medicine}
+                    />
                   ))}
                 </datalist>
               </div>
@@ -1017,6 +1060,9 @@ const GeneralmedForm = (props) => {
                 />
               )}
             </div>
+            {filteredData.length > 0 && (
+              <FarmaDataDisplay data={filteredData} />
+            )}
           </div>
         </div>
         <div className="medic-item-container-wrapper">
