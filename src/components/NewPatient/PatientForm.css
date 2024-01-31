@@ -20,6 +20,13 @@
     width: 20rem;
     max-width: 100%;
   }
+
+  .larger-input {
+    font: inherit;
+    width: 100%; /* Takes up the full width of the container */
+    max-width: 100%; /* Limits the width to the container's width */
+    height: 120px;
+  }
   
   .new-patient__actions {
     text-align: right;

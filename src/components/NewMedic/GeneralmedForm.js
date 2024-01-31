@@ -14,7 +14,6 @@ const GeneralmedForm = (props) => {
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [selectedEspecialidad, setSelectedEspacialidad] = useState("General");
-  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredFrecCardiaca, setEnteredFrecCardiaca] = useState("");
   const [enteredTensionArterial, setEnteredTensionArterial] = useState("");
   const [enteredFrecRespiratoria, setEnteredFrecRespiratoria] = useState("");
@@ -83,6 +82,8 @@ const GeneralmedForm = (props) => {
 
   // Fetch the data:
   const { data: farmaDataIn } = useFetchData("farma_json");
+
+  // const { data: pasignadosData } = useFetchData("pasignados_json");
 
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
@@ -186,10 +187,6 @@ const GeneralmedForm = (props) => {
   const handleChangeIdNumDoc = handleTextChange(
     "enteredIdNumDoc",
     setEnteredIdNumDoc
-  );
-  const handleChangeMotivoConsulta = handleTextChange(
-    "enteredMotivoConsulta",
-    setEnteredMotivoConsulta
   );
   const handleChangeFrecCardiaca = handleTextChange(
     "enteredFrecCardiaca",
@@ -357,7 +354,6 @@ const GeneralmedForm = (props) => {
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
-      !enteredMotivoConsulta ||
       !enteredFrecCardiaca ||
       !enteredTensionArterial ||
       !enteredFrecRespiratoria ||
@@ -396,7 +392,6 @@ const GeneralmedForm = (props) => {
       voided: selectedVoided,
       especialidad: selectedEspecialidad,
       id_num_doc: enteredIdNumDoc,
-      motivo_consulta: enteredMotivoConsulta,
       frec_cardiaca: parseFloat(enteredFrecCardiaca),
       tension_arterial: enteredTensionArterial,
       frec_respiratoria: parseFloat(enteredFrecRespiratoria),
@@ -467,7 +462,6 @@ const GeneralmedForm = (props) => {
       // Reset the form or perform any other necessary actions
       setSelectedVoided("0");
       setEnteredIdNumDoc("");
-      setEnteredMotivoConsulta("");
       setEnteredFrecCardiaca("");
       setEnteredTensionArterial("");
       setEnteredFrecRespiratoria("");
@@ -515,7 +509,6 @@ const GeneralmedForm = (props) => {
   const handleCancel = () => {
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
-    setEnteredMotivoConsulta("");
     setEnteredFrecCardiaca("");
     setEnteredTensionArterial("");
     setEnteredFrecRespiratoria("");
@@ -797,7 +790,7 @@ const GeneralmedForm = (props) => {
               handleChangeIdNumDoc={handleChangeIdNumDoc}
               patientOptions={patientOptions}
             />
-          </div>
+          </div> 
         </div>
       </div>
 
@@ -884,27 +877,6 @@ const GeneralmedForm = (props) => {
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </div>
           ))}
-        </div>
-      </div>
-
-      <div
-        id="motivo-consulta-wrapper"
-        className="medic-item-container-wrapper"
-      >
-        <div className="new-medic__control">
-          <div>
-            <h1> Motivo Consulta * </h1>
-            <div id="motivo-consulta-container" className="new-medic__control">
-              <label htmlFor="motivo-consulta">
-                <textarea
-                  id="motivo-consulta"
-                  className="larger-input"
-                  value={enteredMotivoConsulta}
-                  onChange={handleChangeMotivoConsulta}
-                />
-              </label>
-            </div>
-          </div>
         </div>
       </div>
 

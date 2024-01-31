@@ -38,7 +38,6 @@ const OptometryForm = (props) => {
   const [enteredFarmacos, setEnteredFarmacos] = useState("");
   const [enteredOtros, setEnteredOtros] = useState(false);
   const [enteredCuales, setEnteredCuales] = useState("");
-  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredScvlod, setEnteredScvlod] = useState("");
   const [enteredScvloi, setEnteredScvloi] = useState("");
   const [enteredScvlao, setEnteredScvlao] = useState("");
@@ -305,10 +304,6 @@ const OptometryForm = (props) => {
     "enteredCuales",
     setEnteredCuales
   );
-  const handleChangeMotivoConsulta = handleTextChange(
-    "enteredMotivoConsulta",
-    setEnteredMotivoConsulta
-  );
   const handleChangeScvlod = handleTextChange(
     "enteredScvlod",
     setEnteredScvlod
@@ -496,7 +491,6 @@ const OptometryForm = (props) => {
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
-      !enteredMotivoConsulta ||
       !enteredLensometriaOd ||
       !enteredLensometriaOi ||
       !enteredTonometriaOd ||
@@ -571,7 +565,6 @@ const OptometryForm = (props) => {
       farmacos: enteredFarmacos,
       otros: enteredOtros,
       cuales: enteredCuales,
-      motivo_consulta: enteredMotivoConsulta,
       scvlod: enteredScvlod,
       scvloi: enteredScvloi,
       scvlao: enteredScvlao,
@@ -671,7 +664,6 @@ const OptometryForm = (props) => {
       setEnteredFarmacos("");
       setEnteredOtros(false);
       setEnteredCuales("");
-      setEnteredMotivoConsulta("");
       setEnteredScvlod("");
       setEnteredScvloi("");
       setEnteredScvlao("");
@@ -748,7 +740,6 @@ const OptometryForm = (props) => {
     setEnteredFarmacos("");
     setEnteredOtros(false);
     setEnteredCuales("");
-    setEnteredMotivoConsulta("");
     setEnteredScvlod("");
     setEnteredScvloi("");
     setEnteredScvlao("");
@@ -1260,24 +1251,6 @@ const OptometryForm = (props) => {
               />
             </div>
           ))}
-        </div>
-      </div>
-
-      <div className="medic-item-container-wrapper">
-        <div className="new-medic__control">
-          <div>
-            <h1> Motivo Consulta * </h1>
-            <div className="new-medic__control">
-              <label htmlFor="motivo-consulta">
-                <textarea
-                  id="motivo-consulta"
-                  className="larger-input"
-                  value={enteredMotivoConsulta}
-                  onChange={handleChangeMotivoConsulta}
-                />
-              </label>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useFetchData from "../../hooks/useFetchData";
+import useApiData from "../../hooks/useApiData";
 import useApiPost from "../../hooks/useApiPost";
 import PopupMessage from "../PopupMessage";
 
@@ -12,7 +13,6 @@ const PatientForm = (props) => {
   const [enteredNombres, setEnteredNombres] = useState("");
   const [enteredApellidos, setEnteredApellidos] = useState("");
   const [enteredNacimiento, setEnteredNacimiento] = useState("");
-  const [enteredEdad, setEnteredEdad] = useState("");
   const [enteredEstadoCivil, setEnteredEstadoCivil] = useState("");
   const [enteredSexo, setEnteredSexo] = useState("");
   const [enteredOcupacion, setEnteredOcupacion] = useState("");
@@ -31,15 +31,25 @@ const PatientForm = (props) => {
     useState("");
   const [enteredAseguradora, setEnteredAseguradora] = useState("");
   const [enteredTipoVinculacion, setEnteredTipoVinculacion] = useState("");
+  const [selectedBrigada, setSelectedBrigada] = useState("");
+  const [selectedEspecialidad, setSelectedEspacialidad] = useState("");
+  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { data: idNumOptions } = useFetchData("pacientes_json");
 
+  const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
+
+  const sortedBrigadaNames = brigadaNames.slice().sort();
+
   // Make the POST request using the useApiPost hook
   const { postData: postPatientData, error: patientError } =
     useApiPost("pacientes_json");
+
+  const { postData: postPatientAsignData, error: patientAsignError } =
+    useApiPost("asigna_json");
 
   const idNumDocChangeHandler = (event) => {
     setEnteredIdNumDoc(event.target.value);
@@ -59,10 +69,6 @@ const PatientForm = (props) => {
 
   const nacimientoChangeHandler = (event) => {
     setEnteredNacimiento(event.target.value);
-  };
-
-  const edadChangeHandler = (event) => {
-    setEnteredEdad(event.target.value);
   };
 
   const estadoCivilChangeHandler = (event) => {
@@ -121,6 +127,18 @@ const PatientForm = (props) => {
     setEnteredTipoVinculacion(event.target.value);
   };
 
+  const brigadaChangeHandler = (event) => {
+    setSelectedBrigada(event.target.value);
+  };
+
+  const especialidadChangeHandler = (event) => {
+    setSelectedEspacialidad(event.target.value);
+  };
+
+  const motivoConsultaChangeHandler = (event) => {
+    setEnteredMotivoConsulta(event.target.value);
+  };
+
   const handleCancel = () => {
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
@@ -128,7 +146,6 @@ const PatientForm = (props) => {
     setEnteredNombres("");
     setEnteredApellidos("");
     setEnteredNacimiento("");
-    setEnteredEdad("");
     setEnteredEstadoCivil("");
     setEnteredSexo("");
     setEnteredOcupacion("");
@@ -143,6 +160,9 @@ const PatientForm = (props) => {
     setEnteredParentescoResponsable("");
     setEnteredAseguradora("");
     setEnteredTipoVinculacion("");
+    setSelectedBrigada("");
+    setSelectedEspacialidad("");
+    setEnteredMotivoConsulta("");
   };
 
   const submitPatientHandler = async (event) => {
@@ -154,7 +174,6 @@ const PatientForm = (props) => {
       !enteredNombres ||
       !enteredApellidos ||
       !enteredNacimiento ||
-      !enteredEdad ||
       !enteredSexo
     ) {
       setErrorMessage("Por favor, completa todos los campos requeridos con * ");
@@ -184,7 +203,6 @@ const PatientForm = (props) => {
         nombres: enteredNombres,
         apellidos: enteredApellidos,
         nacimiento: formattedDate,
-        edad: parseInt(enteredEdad, 11),
         estado_civil: enteredEstadoCivil,
         sexo: enteredSexo,
         ocupacion: enteredOcupacion,
@@ -200,22 +218,35 @@ const PatientForm = (props) => {
         aseguradora: enteredAseguradora,
         tipo_vinculacion: enteredTipoVinculacion,
       };
-      // Send the data to the API
-      const success = await postPatientData(patientsData);
 
-      if (success) {
+      const asignData = {
+        voided: selectedVoided,
+        id_num_doc: enteredIdNumDoc,
+        location_b: selectedBrigada,
+        especialidad: selectedEspecialidad,
+        motivo_consulta: enteredMotivoConsulta,
+      };
+      const successPatientData = await postPatientData(patientsData).catch(
+        (error) => {
+          setErrorMessage("Error añadiendo el paciente ");
+          console.error("Error adding data to pacientes:", patientError);
+        }
+      );
+
+      const successPatientAsignData = await postPatientAsignData(
+        asignData
+      ).catch((error) => {
+        setErrorMessage("Error asignando el paciente ");
+        console.error("Error asignando data del pacientes:", patientAsignError);
+      });
+
+      if (successPatientData && successPatientAsignData) {
         setShowSuccessMessage(true);
-
-        // Hide the success message after a certain duration (e.g., 3000 milliseconds)
         setTimeout(() => {
           setShowSuccessMessage(false);
         }, 3000);
       } else {
-        setErrorMessage("Error añadiendo el paciente ");
-        // Handle the error, e.g., show an error message to the user
-        console.error("Error adding data to pacientes:", patientError);
-        // Log the data before sending it
-        console.log("Data being sent to API:", patientsData);
+        setErrorMessage("Error en el proceso de paciente.");
       }
     }
   };
@@ -230,7 +261,6 @@ const PatientForm = (props) => {
       setEnteredNombres("");
       setEnteredApellidos("");
       setEnteredNacimiento("");
-      setEnteredEdad("");
       setEnteredEstadoCivil("");
       setEnteredSexo("");
       setEnteredOcupacion("");
@@ -245,13 +275,16 @@ const PatientForm = (props) => {
       setEnteredParentescoResponsable("");
       setEnteredAseguradora("");
       setEnteredTipoVinculacion("");
+      setSelectedBrigada("");
+      setSelectedEspacialidad("");
+      setEnteredMotivoConsulta("");
     }
   }, [showSuccessMessage]);
 
   // const refreshPage = () => {
   //  window.location.reload(); // Reload the page
   // };
- 
+
   return (
     <form onSubmit={submitPatientHandler}>
       <div className="new-patient__controls">
@@ -307,17 +340,6 @@ const PatientForm = (props) => {
               id="nacimiento"
               value={enteredNacimiento}
               onChange={nacimientoChangeHandler}
-            />
-          </div>
-          <div className="new-patient__control">
-            <label htmlFor="edad">Edad *</label>
-            <input
-              id="edad"
-              type="number"
-              min="1"
-              step="1"
-              value={enteredEdad}
-              onChange={edadChangeHandler}
             />
           </div>
           <div className="new-patient__control">
@@ -480,6 +502,57 @@ const PatientForm = (props) => {
             <option value="Excepcion">Excepcion</option>
             <option value="No Cotiza">No Cotiza</option>
           </select>
+        </div>
+        <div className="new-patient__controls">
+          <h1>Asignación</h1>
+          <div className="new-patient__controls">
+            <div className="new-patient__controls">
+              <label htmlFor="brigada"></label>
+              <select
+                id="brigada"
+                value={selectedBrigada}
+                onChange={brigadaChangeHandler}
+                className="dropdown-select"
+              >
+                <option value="">Seleccionar Brigada</option>
+                {sortedBrigadaNames.map((name) => (
+                  <option key={name} value={name}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+
+              <label htmlFor="especialidad"></label>
+              <select
+                id="especialidad"
+                value={selectedEspecialidad}
+                onChange={especialidadChangeHandler}
+                className="dropdown-select" // Apply a CSS class for styling
+              >
+                <option value="">Seleccionar Especialidad</option>
+                <option defaultValue="Citologia">Citologia</option>
+                <option defaultValue="Dermatologia">Dermatologia</option>
+                <option defaultValue="Fisioterapia">Fisioterapia</option>
+                <option defaultValue="General">General</option>
+                <option defaultValue="Ginecologia">Ginecologia</option>
+                <option defaultValue="Odontología">Odontología</option>
+                <option defaultValue="Optometría">Optometría</option>
+                <option defaultValue="Otorrino">Otorrino</option>
+                <option defaultValue="Pediatria">Pediatria</option>
+              </select>
+            </div>
+            <h2> Motivo Consulta</h2>
+            <div id="motivo-consulta-container" className="new-medic__control">
+              <label htmlFor="motivo-consulta">
+                <textarea
+                  id="motivo-consulta"
+                  className="larger-input"
+                  value={enteredMotivoConsulta}
+                  onChange={motivoConsultaChangeHandler}
+                />
+              </label>
+            </div>
+          </div>
         </div>
       </div>
       <div className="new-patient__actions">

@@ -76,6 +76,8 @@ useApiGet(app, "/api/optometry_json", "optometry");
 useApiGet(app, "/api/farma_json", "farma");
 useApiGet(app, "/api/generalmed_json", "generalmed");
 useApiGet(app, "/api/odontology_json", "odontology");
+useApiGet(app, "/api/asigna_json", "asigna");
+useApiGet(app, "/api/pasignados_json", "pasignados");
 //useApiGet(app, "/api/pruebas_json", "pruebas");
 
 app.use(express.static(path.join(__dirname, "build"))); // Serve static files from the build directory
@@ -332,7 +334,6 @@ app.post(
       nombres,
       apellidos,
       nacimiento,
-      edad,
       estado_civil,
       sexo,
       ocupacion,
@@ -352,7 +353,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.pacientes (voided, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, edad, estado_civil, sexo, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.pacientes (voided, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -363,7 +364,6 @@ app.post(
         nombres.trim(),
         apellidos.trim(),
         nacimiento,
-        edad,
         estado_civil.trim(),
         sexo.trim(),
         ocupacion ? ocupacion.trim() : null,
@@ -397,7 +397,6 @@ app.post(
           nombres,
           apellidos,
           nacimiento,
-          edad,
           estado_civil,
           sexo,
           ocupacion,
@@ -419,11 +418,79 @@ app.post(
   }
 );
 
+// Create a new asigna
+app.post(
+  "/api/asigna_json",
+  [
+    check("id_num_doc")
+      .notEmpty()
+      .withMessage("El número de documento de identiidad es requerido"),
+    check("location_b")
+      .notEmpty()
+      .withMessage("La brigada donde será atendido es requerida"),
+    check("especialidad").notEmpty().withMessage("La especialidad para atender es requerida"),
+    check("motivo_consulta")
+      .notEmpty()
+      .withMessage("El motivo de consulta del paciente es requerido"),
+  ],
+  validatePostData,
+  (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      voided,
+      id_num_doc,
+      location_b,
+      especialidad,
+      motivo_consulta,
+    } = req.body;
+
+    const fecha_asigna = new Date(); // Get the current date and time
+
+    const query =
+      "INSERT INTO alasparagente.asigna (voided, id_num_doc, location_b, especialidad, motivo_consulta, fecha_asigna) VALUES (?, ?, ?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [
+        voided,
+        id_num_doc.trim(),
+        location_b.trim(),
+        especialidad.trim(),
+        motivo_consulta.trim(),
+        fecha_asigna,
+      ],
+      (error, results) => {
+        if (error) {
+          console.error("Error ejecutando la query: ", error);
+          return res
+            .status(500)
+            .json({ error: "Error cargando nuevo paciente." });
+        }
+
+        // Respond with the newly created Pacientes data
+        res.status(201).json({
+          id_cnt: results.insertId,
+          voided,
+          id_num_doc,
+          location_b,
+          especialidad,
+          motivo_consulta,
+          fecha_asigna,
+        });
+      }
+    );
+  }
+);
+
 // Create a new optometry
 app.post(
   "/api/optometry_json",
   [
-    check("motivo_consulta").notEmpty().withMessage("Espacio requerido"),
     check("lensometria_od").notEmpty().withMessage("Espacio requerido"),
     check("lensometria_oi").notEmpty().withMessage("Espacio requerido"),
     check("tonometria_od").notEmpty().withMessage("Espacio requerido"),
@@ -499,7 +566,6 @@ app.post(
       farmacos,
       otros,
       cuales,
-      motivo_consulta,
       scvlod,
       scvloi,
       scvlao,
@@ -550,7 +616,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.optometry (voided, id_num_doc, fecha_registro, mala_vision_lejos, mala_vision_cerca, ojo_rojo, prurito_ocular, dolor, hiperemia, lagrimeo, ardor_ocular, salto_renglon, cansancio_visual, caspa_parpados, otro, cual, diabetes, trauma_ocular, usa_correccion, hta, cirugia_ocular, cardiovasculares, vicios_reflaccion, artritis, ceguera, farmacos, otros, cuales, motivo_consulta, scvlod, scvloi, scvlao, ccvlod, ccvloi, ccvlao, lensometria_od, lensometria_oi, tonometria_od, tonometria_oi, cover_test, cover_test_6m, cover_test_30cm, oftalmoscopia_od, oftalmoscopia_oi, queratometria_od, queratometria_oi, test_color, estereopsis, retinoscopia_od, retinoscopia_od_avvl, retinoscopia_od_avvp, retinoscopia_oi, retinoscopia_oi_avvl, retinoscopia_oi_avvp, subjetivo_od, subjetivo_od_av, subjetivo_od_add, subjetivo_oi, subjetivo_oi_av, subjetivo_oi_add, impresion_diagnostica, cie10, conducta, formula_final_od, formula_final_od_add, formula_final_od_dp, formula_final_oi, formula_final_oi_add, formula_final_oi_dp, tipo, medicamentos, rx, uso, control) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.optometry (voided, id_num_doc, fecha_registro, mala_vision_lejos, mala_vision_cerca, ojo_rojo, prurito_ocular, dolor, hiperemia, lagrimeo, ardor_ocular, salto_renglon, cansancio_visual, caspa_parpados, otro, cual, diabetes, trauma_ocular, usa_correccion, hta, cirugia_ocular, cardiovasculares, vicios_reflaccion, artritis, ceguera, farmacos, otros, cuales, scvlod, scvloi, scvlao, ccvlod, ccvloi, ccvlao, lensometria_od, lensometria_oi, tonometria_od, tonometria_oi, cover_test, cover_test_6m, cover_test_30cm, oftalmoscopia_od, oftalmoscopia_oi, queratometria_od, queratometria_oi, test_color, estereopsis, retinoscopia_od, retinoscopia_od_avvl, retinoscopia_od_avvp, retinoscopia_oi, retinoscopia_oi_avvl, retinoscopia_oi_avvp, subjetivo_od, subjetivo_od_av, subjetivo_od_add, subjetivo_oi, subjetivo_oi_av, subjetivo_oi_add, impresion_diagnostica, cie10, conducta, formula_final_od, formula_final_od_add, formula_final_od_dp, formula_final_oi, formula_final_oi_add, formula_final_oi_dp, tipo, medicamentos, rx, uso, control) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -583,7 +649,6 @@ app.post(
         farmacos,
         otros,
         cuales,
-        motivo_consulta,
         scvlod,
         scvloi,
         scvlao,
@@ -669,7 +734,6 @@ app.post(
           farmacos,
           otros,
           cuales,
-          motivo_consulta,
           scvlod,
           scvloi,
           scvlao,
@@ -786,9 +850,6 @@ app.post(
     check("id_num_doc")
       .notEmpty()
       .withMessage("El ID del Paciente es requerido"),
-    check("motivo_consulta")
-      .notEmpty()
-      .withMessage("El motivo de la consulta es requerido"),
     check("frec_cardiaca")
       .isInt({ min: 20 })
       .withMessage("La frecuencia cardiaca es requerida"),
@@ -818,7 +879,6 @@ app.post(
       voided,
       especialidad,
       id_num_doc,
-      motivo_consulta,
       frec_cardiaca,
       tension_arterial,
       frec_respiratoria,
@@ -865,7 +925,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.generalmed (voided, especialidad, id_num_doc, fecha_registro, motivo_consulta, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.generalmed (voided, especialidad, id_num_doc, fecha_registro, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -874,7 +934,6 @@ app.post(
         especialidad,
         id_num_doc,
         fecha_registro,
-        motivo_consulta,
         frec_cardiaca,
         tension_arterial,
         frec_respiratoria,
@@ -932,7 +991,6 @@ app.post(
           especialidad,
           id_num_doc,
           fecha_registro,
-          motivo_consulta,
           frec_cardiaca,
           tension_arterial,
           frec_respiratoria,

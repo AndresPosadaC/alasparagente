@@ -13,7 +13,6 @@ const OdontologyForm = (props) => {
   // Define the state variables for the new fields
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
-  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredFechaUltimaVisita, setEnteredFechaUltimaVisita] = useState("");
   const [enteredIntoleranciaAnestesia, setEnteredIntoleranciaAnestesia] =
     useState(false);
@@ -186,11 +185,6 @@ const OdontologyForm = (props) => {
   const handleChangeIdNumDoc = handleTextChange(
     "enteredIdNumDoc",
     setEnteredIdNumDoc
-  );
-
-  const handleChangeMotivoConsulta = handleTextChange(
-    "enteredMotivoConsulta",
-    setEnteredMotivoConsulta
   );
 
   const handleChangeFechaUltimaVisita = handleTextChange(
@@ -412,7 +406,6 @@ const OdontologyForm = (props) => {
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
-      !enteredMotivoConsulta ||
       !enteredFechaUltimaVisita ||
       !enteredObservaciones ||
       !enteredFrecuenciaCepillado ||
@@ -432,7 +425,6 @@ const OdontologyForm = (props) => {
     const odontologyData = {
       voided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
-      motivo_consulta: enteredMotivoConsulta,
       fecha_ultima_visita: enteredFechaUltimaVisita,
       intolerancia_anestesia: enteredIntoleranciaAnestesia,
       medicacion_actual: enteredMedicacionActual,
@@ -508,7 +500,6 @@ const OdontologyForm = (props) => {
       // Reset the form or perform any other necessary actions
       setSelectedVoided("0");
       setEnteredIdNumDoc("");
-      setEnteredMotivoConsulta("");
       setEnteredFechaUltimaVisita("");
       setEnteredIntoleranciaAnestesia(false);
       setEnteredMedicacionActual("");
@@ -557,7 +548,6 @@ const OdontologyForm = (props) => {
   const handleCancel = () => {
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
-    setEnteredMotivoConsulta("");
     setEnteredFechaUltimaVisita("");
     setEnteredIntoleranciaAnestesia(false);
     setEnteredMedicacionActual("");
@@ -836,24 +826,7 @@ const OdontologyForm = (props) => {
 
       <div className="new-medic__controls">
         <h1> ANAMNESIS </h1>
-        <div className="medic-item-container-wrapper">
-          <div className="new-medic__control">
-            <div>
-              <h1> Motivo Consulta * </h1>
-              <p> ✅ para si</p>
-              <div className="new-medic__control">
-                <label htmlFor="motivo-consulta">
-                  <textarea
-                    id="motivo-consulta"
-                    className="larger-input"
-                    value={enteredMotivoConsulta}
-                    onChange={handleChangeMotivoConsulta}
-                  />
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+        <p> ✅ para si</p>
         <div className="medic-item-container-wrapper">
           {anamnesis.map((item, index) => (
             <div
