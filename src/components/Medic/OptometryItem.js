@@ -1,5 +1,5 @@
 import React from "react";
-import Card from '../UI/Card';
+import Card from "../UI/Card";
 import "./MedicItem.css";
 
 const OptometryItem = (props) => {
@@ -17,14 +17,8 @@ const OptometryItem = (props) => {
   return (
     <Card className="history-item">
       <div>
-      <h2 className="history-item">OPTOMETRIA</h2>
+        <h2 className="history-item">OPTOMETRIA ID: {props.id_num_doc}</h2>
         <div className="history-item">
-          <h2>
-            {props.id_cnt}: {props.id_num_doc}
-          </h2>
-          <h2 className="history-item">
-            MOTIVO DE CONSULTA {props.motivo_consulta}
-          </h2>
           <div className="history-item-container">
             <h2>Formula Final</h2>
             {formulaFinalItems} {/* Render the array of elements */}

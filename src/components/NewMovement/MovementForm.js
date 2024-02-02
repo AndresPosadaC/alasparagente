@@ -334,7 +334,7 @@ const MovementForm = (props) => {
               <option key={patientID} value={patientID} />
             ))}
           </datalist>
-          {filteredData.length > 0 && <FarmaDataDisplay data={filteredData} />}
+          {filteredData.length > 0 && <FarmaDataDisplay data={filteredData} />} 
         </div>
       </div>
 

@@ -11,8 +11,16 @@ const OdontologyPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData("pacientes_json");
-  const { data: odontologyData, loading_o, refreshData: refreshOdonto } = useFetchData("odontology_json");
+  const {
+    data: patientsData,
+    loading_p,
+    refreshData: refreshPatient,
+  } = useFetchData("pacientes_json");
+  const {
+    data: odontologyData,
+    loading_o,
+    refreshData: refreshOdonto,
+  } = useFetchData("odontology_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {
@@ -54,13 +62,13 @@ const OdontologyPage = () => {
 
   return (
     <div>
-      <Patients items={patients} />
-      <NewOdontology onAddPatient={addOdontologyHandler}/>
+      <NewOdontology onAddPatient={addOdontologyHandler} />
       <Medicodonto items={odontologies} />
+      <Patients items={patients} />
     </div>
   );
 };
 
 export default OdontologyPage;
 
-// 
+//

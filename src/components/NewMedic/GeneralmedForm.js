@@ -3,7 +3,8 @@ import useApiData from "../../hooks/useApiData";
 import useApiPost from "../../hooks/useApiPost";
 import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
-import PatientSelection from "./PatientSelection";
+import PatientsDataDisplay from "../PatientsDataDisplay";
+//import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
 import FarmaDataDisplay from "../FarmaDataDisplay";
 
@@ -67,7 +68,9 @@ const GeneralmedForm = (props) => {
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [checkErrorMessage, setCheckErrorMessage] = useState(null);
 
+  const [filteredPatientData, setFilteredPatientData] = useState([]); // State for filtered data
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
   // Add a new instance of useApiPost for posting generalmed data
@@ -83,12 +86,66 @@ const GeneralmedForm = (props) => {
   // Fetch the data:
   const { data: farmaDataIn } = useFetchData("farma_json");
 
-  // const { data: pasignadosData } = useFetchData("pasignados_json");
-
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
-  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+
+  const { data: pasignadosData, refreshData: refreshAsignados } =
+    useFetchData("pasignados_json");
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc && selectedEspecialidad) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredPatientData = pasignadosData.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc &&
+          item.especialidad === selectedEspecialidad
+      );
+      // Set the filtered data in state
+      setFilteredPatientData(filteredPatientData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, selectedEspecialidad, pasignadosData]);
+
+  const uniquePatientIDs = [
+    ...new Set(
+      pasignadosData
+        .filter((option) => option.location_b === selectedBrigada)
+        .map((option) => option.id_num_doc)
+    ),
+  ];
+
+  const sortedPatientIDs = uniquePatientIDs.slice().sort();
+
+  // Handle ID search and filter data
+  const findIDHandler = (event) => {
+    const selectedID = event.target.value;
+    const filteredPatientOptions = pasignadosData.filter(
+      (option) =>
+        option.location_b === selectedBrigada &&
+        option.id_num_doc === selectedID
+    );
+
+    if (filteredPatientOptions.length > 0) {
+      //setEnteredIdNumDoc(selectedID);
+      setEnteredIdNumDoc(event.target.value);
+    } else {
+      setEnteredIdNumDoc("");
+      console.log(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID:",
+        selectedID
+      );
+      setErrorMessage(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID: ",
+        selectedID
+      );
+    }
+  };
+
+  //const handleChangeIdNumDoc = (event) => {
+  //  setEnteredIdNumDoc(event.target.value);
+  //};
 
   const handleFarmaSubmit = async (event) => {
     event.preventDefault();
@@ -184,10 +241,7 @@ const GeneralmedForm = (props) => {
   const especialidadChangeHandler = (event) => {
     setSelectedEspacialidad(event.target.value);
   };
-  const handleChangeIdNumDoc = handleTextChange(
-    "enteredIdNumDoc",
-    setEnteredIdNumDoc
-  );
+  
   const handleChangeFrecCardiaca = handleTextChange(
     "enteredFrecCardiaca",
     setEnteredFrecCardiaca
@@ -343,8 +397,8 @@ const GeneralmedForm = (props) => {
   const submitGeneralmedHandler = async (event) => {
     event.preventDefault();
 
-    // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = patientOptions.includes(enteredIdNumDoc);
+    // Check if the entered ID number exists in pasignadosData
+    const isValidIdNum = pasignadosData.includes(enteredIdNumDoc);
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
@@ -362,7 +416,7 @@ const GeneralmedForm = (props) => {
       !enteredDiagnostico ||
       !enteredMedicamentos
     ) {
-      setErrorMessage(
+      setCheckErrorMessage(
         "Por favor, completa todos los campos requeridos con *   "
       );
       return;
@@ -381,7 +435,7 @@ const GeneralmedForm = (props) => {
       !/^\d+(\.\d+)?$/.test(enteredTalla) ||
       !/^\d+(\.\d+)?$/.test(enteredTemperatura)
     ) {
-      setErrorMessage(
+      setCheckErrorMessage(
         "Campo mal ingresado: Se espera que el campo sea numérico."
       );
       return;
@@ -503,8 +557,9 @@ const GeneralmedForm = (props) => {
       setEnteredCual("");
       setEnteredRemision("");
       setEnteredMedicamentos("");
+      refreshAsignados();
     }
-  }, [formSuccess]);
+  }, [formSuccess, refreshAsignados]);
 
   const handleCancel = () => {
     setSelectedVoided("0");
@@ -552,6 +607,7 @@ const GeneralmedForm = (props) => {
     setEnteredMedicamentos("");
   };
 
+  // para mostrar los datos de medicamentos que se le van recetando a ese paciente en esa brigada
   useEffect(() => {
     if (selectedBrigada && enteredIdNumDoc) {
       // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
@@ -781,16 +837,40 @@ const GeneralmedForm = (props) => {
           </select>
           <h1>Datos Medicina General del Paciente</h1>
           <div id="medic-item-container" className="medic-item-container">
-            <PatientSelection
-              identifier="gm"
-              selectedBrigada={selectedBrigada}
-              brigadaNames={sortedBrigadaNames}
-              enteredIdNumDoc={enteredIdNumDoc}
-              brigadaChangeHandler={brigadaChangeHandler}
-              handleChangeIdNumDoc={handleChangeIdNumDoc}
-              patientOptions={patientOptions}
+            <label htmlFor="brigada_gm"></label>
+            <select
+              id="brigada_gm"
+              value={selectedBrigada}
+              onChange={brigadaChangeHandler}
+              className="dropdown-select" 
+            >
+              <option value="">Selecciona Brigada</option>
+              {sortedBrigadaNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="id_num_gm"></label>
+            <input
+              className="dropdown-select" 
+              id="id_num_gm"
+              type="text"
+              value={enteredIdNumDoc}
+              onChange={findIDHandler}
+              list="farmaOptions"
+              placeholder="Seleccionar ID Paciente"
             />
-          </div> 
+            <datalist id="farmaOptions">
+              {sortedPatientIDs.map((patientID) => (
+                <option key={patientID} value={patientID} />
+              ))}
+            </datalist>
+            {filteredPatientData.length > 0 && (
+              <PatientsDataDisplay data={filteredPatientData} />
+            )}
+          </div>
         </div>
       </div>
 
@@ -815,7 +895,7 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+              {checkErrorMessage && <p style={{ color: "red" }}>{checkErrorMessage}</p>}
             </div>
           ))}
         </div>
@@ -874,7 +954,7 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+              {checkErrorMessage && <p style={{ color: "red" }}>{checkErrorMessage}</p>}
             </div>
           ))}
         </div>

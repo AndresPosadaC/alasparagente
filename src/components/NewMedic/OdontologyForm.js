@@ -3,7 +3,8 @@ import useApiData from "../../hooks/useApiData";
 import useApiPost from "../../hooks/useApiPost";
 import useFetchData from "../../hooks/useFetchData";
 import CheckboxOrTextInput from "./CheckboxOrTextInput";
-import PatientSelection from "./PatientSelection";
+import PatientsDataDisplay from "../PatientsDataDisplay";
+// import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
 import FarmaDataDisplay from "../FarmaDataDisplay";
 
@@ -70,7 +71,9 @@ const OdontologyForm = (props) => {
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  // const [checkErrorMessage, setCheckErrorMessage] = useState(null);
 
+  const [filteredPatientData, setFilteredPatientData] = useState([]); // State for filtered data
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
   // Add a new instance of useApiPost for posting optometry data
@@ -89,7 +92,59 @@ const OdontologyForm = (props) => {
   // Fetch the data:
   const { data: farmaDataIn } = useFetchData("farma_json");
 
-  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+
+  const { data: pasignadosData, refreshData: refreshAsignados } =
+    useFetchData("pasignados_json");
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredPatientData = pasignadosData.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc &&
+          item.especialidad === "Odontología"
+      );
+      // Set the filtered data in state
+      setFilteredPatientData(filteredPatientData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, pasignadosData]);
+
+  const uniquePatientIDs = [
+    ...new Set(
+      pasignadosData
+        .filter((option) => option.location_b === selectedBrigada)
+        .map((option) => option.id_num_doc)
+    ),
+  ];
+
+  const sortedPatientIDs = uniquePatientIDs.slice().sort();
+
+  // Handle ID search and filter data
+  const findIDHandler = (event) => {
+    const selectedID = event.target.value;
+    const filteredPatientOptions = pasignadosData.filter(
+      (option) =>
+        option.location_b === selectedBrigada &&
+        option.id_num_doc === selectedID
+    );
+
+    if (filteredPatientOptions.length > 0) {
+      //setEnteredIdNumDoc(selectedID);
+      setEnteredIdNumDoc(event.target.value);
+    } else {
+      setEnteredIdNumDoc("");
+      console.log(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID:",
+        selectedID
+      );
+      setErrorMessage(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID: ",
+        selectedID
+      );
+    }
+  };
 
   const handleFarmaSubmit = async (event) => {
     event.preventDefault();
@@ -182,10 +237,10 @@ const OdontologyForm = (props) => {
   };
 
   // Usage of the common handlers
-  const handleChangeIdNumDoc = handleTextChange(
-    "enteredIdNumDoc",
-    setEnteredIdNumDoc
-  );
+  // const handleChangeIdNumDoc = handleTextChange(
+  //   "enteredIdNumDoc",
+  //   setEnteredIdNumDoc
+  // );
 
   const handleChangeFechaUltimaVisita = handleTextChange(
     "enteredFechaUltimaVisita",
@@ -396,7 +451,7 @@ const OdontologyForm = (props) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = patientOptions.includes(enteredIdNumDoc);
+    const isValidIdNum = pasignadosData.includes(enteredIdNumDoc);
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
@@ -542,8 +597,9 @@ const OdontologyForm = (props) => {
       setEnteredObservaciones2("");
       setEnteredDiagnostico("");
       setEnteredPlanTratamiento("");
+      refreshAsignados();
     }
-  }, [formSuccess]);
+  }, [formSuccess, refreshAsignados]);
 
   const handleCancel = () => {
     setSelectedVoided("0");
@@ -810,16 +866,40 @@ const OdontologyForm = (props) => {
       <div className="new-medic__controls">
         <div className="new-medic__controls">
           <h1>Datos de Odontología del Paciente</h1>
-          <div className="medic-item-container">
-            <PatientSelection
-              identifier="od"
-              selectedBrigada={selectedBrigada}
-              brigadaNames={sortedBrigadaNames}
-              enteredIdNumDoc={enteredIdNumDoc}
-              brigadaChangeHandler={brigadaChangeHandler}
-              handleChangeIdNumDoc={handleChangeIdNumDoc}
-              patientOptions={patientOptions}
+          <div id="medic-item-container" className="medic-item-container">
+            <label htmlFor="brigada_od"></label>
+            <select
+              id="brigada_od"
+              value={selectedBrigada}
+              onChange={brigadaChangeHandler}
+              className="dropdown-select"
+            >
+              <option value="">Selecciona Brigada</option>
+              {sortedBrigadaNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="id_num_od"></label>
+            <input
+              className="dropdown-select"
+              id="id_num_od"
+              type="text"
+              value={enteredIdNumDoc}
+              onChange={findIDHandler}
+              list="farmaOptions"
+              placeholder="Seleccionar ID Paciente"
             />
+            <datalist id="farmaOptions">
+              {sortedPatientIDs.map((patientID) => (
+                <option key={patientID} value={patientID} />
+              ))}
+            </datalist>
+            {filteredPatientData.length > 0 && (
+              <PatientsDataDisplay data={filteredPatientData} />
+            )}
           </div>
         </div>
       </div>

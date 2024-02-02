@@ -29,7 +29,6 @@ const PatientItem = (props) => {
           <h1>
             {props.nombres} {props.apellidos}
           </h1>
-          <div className="patient-item__quantity">Edad {props.edad} años</div>
           <h2>
             {props.tipo_doc}: {props.id_num_doc}
           </h2>

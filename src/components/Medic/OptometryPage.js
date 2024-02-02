@@ -11,8 +11,16 @@ const OptometryPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading_p, refreshData: refreshPatient } = useFetchData("pacientes_json");
-  const { data: optometryData, loading_o, refreshData: refreshOpto } = useFetchData("optometry_json");
+  const {
+    data: patientsData,
+    loading_p,
+    refreshData: refreshPatient,
+  } = useFetchData("pacientes_json");
+  const {
+    data: optometryData,
+    loading_o,
+    refreshData: refreshOpto,
+  } = useFetchData("optometry_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {
@@ -54,13 +62,13 @@ const OptometryPage = () => {
 
   return (
     <div>
-      <Patients items={patients} />
-      <NewOptometry onAddPatient={addOptometryHandler}/>
+      <NewOptometry onAddPatient={addOptometryHandler} />
       <Medicopto items={optometries} />
+      <Patients items={patients} />
     </div>
   );
 };
 
 export default OptometryPage;
 
-// 
+//

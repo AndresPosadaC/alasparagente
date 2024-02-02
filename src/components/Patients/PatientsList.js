@@ -19,7 +19,6 @@ const PatientsList = (props) => {
         nombres={patient.nombres}
         apellidos={patient.apellidos}
         nacimiento={patient.nacimiento}
-        edad={patient.edad}
         estado_civil={patient.estado_civil}
         sexo={patient.sexo}
         ocupacion={patient.ocupacion || ''}

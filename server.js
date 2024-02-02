@@ -77,7 +77,7 @@ useApiGet(app, "/api/farma_json", "farma");
 useApiGet(app, "/api/generalmed_json", "generalmed");
 useApiGet(app, "/api/odontology_json", "odontology");
 useApiGet(app, "/api/asigna_json", "asigna");
-useApiGet(app, "/api/pasignados_json", "pasignados");
+useApiGet(app, "/api/pasignados_json", "pasignados", false);
 //useApiGet(app, "/api/pruebas_json", "pruebas");
 
 app.use(express.static(path.join(__dirname, "build"))); // Serve static files from the build directory
@@ -132,8 +132,6 @@ app.post(
       concentracion,
       presentacion,
       unidad_medida,
-      vigencia_invima,
-      new_registro_invima,
       registro_invima,
       lote,
       vencimiento,
@@ -447,12 +445,13 @@ app.post(
       location_b,
       especialidad,
       motivo_consulta,
+      edad,
     } = req.body;
 
     const fecha_asigna = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.asigna (voided, id_num_doc, location_b, especialidad, motivo_consulta, fecha_asigna) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.asigna (voided, id_num_doc, location_b, especialidad, motivo_consulta, edad, fecha_asigna) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -462,6 +461,7 @@ app.post(
         location_b.trim(),
         especialidad.trim(),
         motivo_consulta.trim(),
+        edad,
         fecha_asigna,
       ],
       (error, results) => {
@@ -480,6 +480,7 @@ app.post(
           location_b,
           especialidad,
           motivo_consulta,
+          edad,
           fecha_asigna,
         });
       }

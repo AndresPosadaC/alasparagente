@@ -16,7 +16,6 @@ const GeneralmedList = (props) => {
           key={generalmed.id_cnt} // (int)
           id_num_doc={generalmed.id_num_doc} // ( varchar(45))
           fecha_registro={generalmed.fecha_registro} // ( date)
-          motivo_consulta={generalmed.motivo_consulta} // ( varchar(500))
           frec_cardiaca={generalmed.frec_cardiaca} // ( double)
           tension_arterial={generalmed.tension_arterial} // ( varchar(45))
           frec_respiratoria={generalmed.frec_respiratoria} // ( double)

@@ -32,11 +32,8 @@ const OdontologyItem = (props) => {
   return (
     <Card className="history-item">
       <div>
-      <h2 className="history-item">ODONTOLOGIA</h2>
+      <h2 className="history-item">ODONTOLOGIA ID: {props.id_num_doc}</h2>
         <div className="history-item">
-          <h2>
-            {props.id_cnt}: {props.id_num_doc}
-          </h2>
           <h2 className="history-item">
             MOTIVO DE CONSULTA {props.motivo_consulta}
           </h2>

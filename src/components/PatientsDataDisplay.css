@@ -1,0 +1,24 @@
+/* PatientsDataDisplay.css */
+
+h2 {
+    text-align: center;
+  }
+
+/* Add space between table columns */
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td {
+    padding: 15px; /* Adjust this value to control the space between columns */
+    text-align: left;
+  }
+
+  th {
+    padding: 15px; /* Adjust this value to control the space between columns */
+    text-align: center;
+  }
+  
+  /* Add borders and other table styles if needed */
+  

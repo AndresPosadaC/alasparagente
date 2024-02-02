@@ -54,9 +54,9 @@ const GeneralmedPage = () => {
 
   return (
     <div>
-      <Patients items={patients} />
       <NewGeneralmed onAddPatient={addGeneralmedHandler}/>
       <Medicgen items={generalmeds} />
+      <Patients items={patients} />
     </div> 
   );
 };
