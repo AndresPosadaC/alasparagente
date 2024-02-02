@@ -26,13 +26,19 @@ const PatientsDataDisplay = ({ data }) => {
     </React.Fragment>
   ));
 
-  const tableRows = data.map((item, index) => (
-    <tr key={index}>
-      <td>{item.location_b}</td>
-      <td>{item.especialidad}</td>
-      <td>{item.motivo_consulta}</td>
-    </tr>
-  ));
+  const tableRows = data.map((item, index) => {
+    // Formatear la fecha como "YYYY-mm-dd"
+    const formattedDate = new Date(item.fecha_asigna)
+      .toISOString()
+      .split("T")[0];
+  
+    return (
+      <tr key={index}>
+        <td>{formattedDate}</td>
+        <td>{item.motivo_consulta}</td>
+      </tr>
+    );
+  });
 
   return (
     <div>
@@ -42,8 +48,7 @@ const PatientsDataDisplay = ({ data }) => {
       <table>
         <thead>
           <tr>
-            <th>Brigada</th>
-            <th>Especialidad</th>
+            <th>Fecha asignación</th>
             <th>Motivo Consulta</th>
           </tr>
         </thead>

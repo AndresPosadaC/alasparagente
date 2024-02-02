@@ -4,8 +4,12 @@ import "./PatientItem.css";
 
 const PatientItem = (props) => {
   // console.log('PatientsItem:', props);
+  const formattedDate = new Date(props.nacimiento)
+      .toISOString()
+      .split("T")[0];
   // Create an array of JSX elements
   const personalItems = [
+    { label: "Nacimiento", value: formattedDate },
     { label: "Ocupacion", value: props.ocupacion },
     { label: "Direccion", value: props.direccion_domicilio },
     { label: "Localidad", value: props.localidad },
