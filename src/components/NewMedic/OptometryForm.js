@@ -110,15 +110,17 @@ const OptometryForm = (props) => {
 
   const sortedBrigadaNames = brigadaNames.slice().sort();
 
-  const { data: medicineOptionsOP } = useFetchData("med_brigada_json");
+  const { data: medicineOptionsOP, refreshData: refreshMedicine } =
+    useFetchData("med_brigada_json");
 
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
   // Fetch the data:
-  const { data: farmaDataIn } = useFetchData("farma_json");
+  const { data: farmaDataIn, refreshData: refreshFarma } =
+    useFetchData("farma_json");
 
- // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const { data: pasignadosData, refreshData: refreshAsignados } =
     useFetchData("pasignados_json");
@@ -224,6 +226,8 @@ const OptometryForm = (props) => {
 
         // Assume prescription update was successful
         setPrescriptionSuccess(true);
+        refreshFarma();
+        refreshMedicine();
 
         // Reset success messages after a certain duration (optional)
         setTimeout(() => {
@@ -765,10 +769,15 @@ const OptometryForm = (props) => {
       setEnteredUso("");
       setEnteredControl("");
       refreshAsignados();
+      refreshFarma();
+      refreshMedicine();
     }
-  }, [formSuccess, refreshAsignados]);
+  }, [formSuccess, refreshAsignados, refreshFarma, refreshMedicine]);
 
   const handleCancel = () => {
+    refreshAsignados();
+    refreshFarma();
+    refreshMedicine();
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredMalaVisionLejos(false);
@@ -1234,7 +1243,7 @@ const OptometryForm = (props) => {
   return (
     <form onSubmit={submitOptometryHandler}>
       <div className="new-medic__controls">
-        <div className="new-medic__controls">
+        <div className="medic-item-container .new-medic__controls">
           <h1>Datos de Optometría del Paciente</h1>
           <div id="medic-item-container" className="medic-item-container">
             <label htmlFor="brigada_op"></label>
@@ -1259,15 +1268,15 @@ const OptometryForm = (props) => {
               type="text"
               value={enteredIdNumDoc}
               onChange={findIDHandler}
-              list="farmaOptions"
+              list="patientOptions"
               placeholder="Seleccionar ID Paciente"
             />
-            <datalist id="farmaOptions">
+            <datalist id="patientOptions">
               {sortedPatientIDs.map((patientID) => (
                 <option key={patientID} value={patientID} />
               ))}
             </datalist>
-            {filteredPatientData.length > 0 && (
+            {enteredIdNumDoc && filteredPatientData.length > 0 && (
               <PatientsDataDisplay data={filteredPatientData} />
             )}
           </div>
@@ -1587,7 +1596,7 @@ const OptometryForm = (props) => {
                 />
               )}
             </div>
-            {filteredData.length > 0 && (
+            {enteredIdNumDoc && filteredData.length > 0 && (
               <FarmaDataDisplay data={filteredData} />
             )}
           </div>

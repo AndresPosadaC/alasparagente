@@ -24,7 +24,7 @@ const PatientForm = (props) => {
   const [enteredAcompanante, setEnteredAcompanante] = useState("");
   const [enteredResponsable, setEnteredResponsable] = useState("");
   const [enteredCelularAcompanante, setEnteredCelularAcompanante] =
-    useState("");
+    useState(""); 
   const [enteredCelularResponsable, setEnteredCelularResponsable] =
     useState("");
   const [enteredParentescoResponsable, setEnteredParentescoResponsable] =

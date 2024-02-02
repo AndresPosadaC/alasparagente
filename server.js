@@ -310,9 +310,6 @@ app.post(
     check("nacimiento")
       .notEmpty()
       .withMessage("Fecha de nacimiento del paciente es requerido"),
-    check("edad")
-      .isInt({ min: 1 })
-      .withMessage("Ingrese edad válida para registrar"),
     check("celular")
       .notEmpty()
       .withMessage("Celular del paciente es requerido"),
@@ -351,7 +348,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.pacientes (voided, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.pacientes (voided, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -445,13 +442,12 @@ app.post(
       location_b,
       especialidad,
       motivo_consulta,
-      edad,
     } = req.body;
 
     const fecha_asigna = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.asigna (voided, id_num_doc, location_b, especialidad, motivo_consulta, edad, fecha_asigna) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.asigna (voided, id_num_doc, location_b, especialidad, motivo_consulta, fecha_asigna) VALUES (?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -461,7 +457,6 @@ app.post(
         location_b.trim(),
         especialidad.trim(),
         motivo_consulta.trim(),
-        edad,
         fecha_asigna,
       ],
       (error, results) => {
@@ -480,7 +475,6 @@ app.post(
           location_b,
           especialidad,
           motivo_consulta,
-          edad,
           fecha_asigna,
         });
       }
@@ -1046,9 +1040,6 @@ app.post(
     check("id_num_doc")
       .notEmpty()
       .withMessage("El ID del Paciente es requerido"),
-    check("motivo_consulta")
-      .notEmpty()
-      .withMessage("El motivo de la consulta es requerido"),
   ],
   validatePostData,
   (req, res) => {
@@ -1061,7 +1052,6 @@ app.post(
     const {
       voided,
       id_num_doc,
-      motivo_consulta,
       fecha_ultima_visita,
       intolerancia_anestesia,
       medicacion_actual,
@@ -1109,7 +1099,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.odontology (voided, id_num_doc, fecha_registro, motivo_consulta, fecha_ultima_visita, intolerancia_anestesia, medicacion_actual, alergias, convulsiones, diabetes, sinusitis, hepatitis, hipertension_arterial, hipotension_arterial, hematopoyetico, enf_infectocontagiosas, enf_cardiovasculares, enf_respiratorias, enf_endocrinas, fiebre_reumatoidea, cirugias, cual, otra_enfermedad, antecedentes, penicilina, otros_med, cuales, atm, ganglios, labios, lengua, paladar, piso_boca, glandula_salival, carrillos, fasetas_desgaste, fracturas, patologia_pulpar, patologia_tejidos, observaciones, frecuencia_cepillado, seda_dental, habitos, observaciones2, diagnostico, plan_tratamiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.odontology (voided, id_num_doc, fecha_registro, fecha_ultima_visita, intolerancia_anestesia, medicacion_actual, alergias, convulsiones, diabetes, sinusitis, hepatitis, hipertension_arterial, hipotension_arterial, hematopoyetico, enf_infectocontagiosas, enf_cardiovasculares, enf_respiratorias, enf_endocrinas, fiebre_reumatoidea, cirugias, cual, otra_enfermedad, antecedentes, penicilina, otros_med, cuales, atm, ganglios, labios, lengua, paladar, piso_boca, glandula_salival, carrillos, fasetas_desgaste, fracturas, patologia_pulpar, patologia_tejidos, observaciones, frecuencia_cepillado, seda_dental, habitos, observaciones2, diagnostico, plan_tratamiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -1117,7 +1107,6 @@ app.post(
         voided,
         id_num_doc,
         fecha_registro,
-        motivo_consulta,
         fecha_ultima_visita,
         intolerancia_anestesia,
         medicacion_actual,
@@ -1175,7 +1164,6 @@ app.post(
           voided,
           id_num_doc,
           fecha_registro,
-          motivo_consulta,
           fecha_ultima_visita,
           intolerancia_anestesia,
           medicacion_actual,

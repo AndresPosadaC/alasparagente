@@ -81,10 +81,12 @@ const GeneralmedForm = (props) => {
 
   const sortedBrigadaNames = brigadaNames.slice().sort();
 
-  const { data: medicineOptions } = useFetchData("med_brigada_json");
+  const { data: medicineOptions, refreshData: refreshMedicine } =
+    useFetchData("med_brigada_json");
 
   // Fetch the data:
-  const { data: farmaDataIn } = useFetchData("farma_json");
+  const { data: farmaDataIn, refreshData: refreshFarma } =
+    useFetchData("farma_json");
 
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
@@ -199,6 +201,8 @@ const GeneralmedForm = (props) => {
 
         // Assume prescription update was successful
         setPrescriptionSuccess(true);
+        refreshFarma();
+        refreshMedicine();
 
         // Reset success messages after a certain duration (optional)
         setTimeout(() => {
@@ -241,7 +245,7 @@ const GeneralmedForm = (props) => {
   const especialidadChangeHandler = (event) => {
     setSelectedEspacialidad(event.target.value);
   };
-  
+
   const handleChangeFrecCardiaca = handleTextChange(
     "enteredFrecCardiaca",
     setEnteredFrecCardiaca
@@ -557,11 +561,16 @@ const GeneralmedForm = (props) => {
       setEnteredCual("");
       setEnteredRemision("");
       setEnteredMedicamentos("");
+      refreshMedicine();
+      refreshFarma();
       refreshAsignados();
     }
-  }, [formSuccess, refreshAsignados]);
+  }, [formSuccess, refreshMedicine, refreshFarma, refreshAsignados]);
 
   const handleCancel = () => {
+    refreshMedicine();
+    refreshFarma();
+    refreshAsignados();
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredFrecCardiaca("");
@@ -808,17 +817,15 @@ const GeneralmedForm = (props) => {
       value: enteredCual,
       onChange: handleChangeCual,
     },
-    {
-      label: "Remite a",
-      value: enteredRemision,
-      onChange: handleChangeRemision,
-    },
   ];
 
   return (
     <form onSubmit={submitGeneralmedHandler}>
       <div id="new-medic-container" className="new-medic__controls">
-        <div id="new-medic-container2" className="new-medic__controls">
+        <div
+          id="new-medic-container2"
+          className="medic-item-container .new-medic__controls"
+        >
           <h1 htmlFor="especialidad">Especialidad</h1>
           <select
             id="especialidad"
@@ -842,7 +849,7 @@ const GeneralmedForm = (props) => {
               id="brigada_gm"
               value={selectedBrigada}
               onChange={brigadaChangeHandler}
-              className="dropdown-select" 
+              className="dropdown-select"
             >
               <option value="">Selecciona Brigada</option>
               {sortedBrigadaNames.map((name) => (
@@ -854,20 +861,20 @@ const GeneralmedForm = (props) => {
 
             <label htmlFor="id_num_gm"></label>
             <input
-              className="dropdown-select" 
+              className="dropdown-select"
               id="id_num_gm"
               type="text"
               value={enteredIdNumDoc}
               onChange={findIDHandler}
-              list="farmaOptions"
+              list="patientOptions"
               placeholder="Seleccionar ID Paciente"
             />
-            <datalist id="farmaOptions">
+            <datalist id="patientOptions">
               {sortedPatientIDs.map((patientID) => (
                 <option key={patientID} value={patientID} />
               ))}
             </datalist>
-            {filteredPatientData.length > 0 && (
+            {enteredIdNumDoc && filteredPatientData.length > 0 && (
               <PatientsDataDisplay data={filteredPatientData} />
             )}
           </div>
@@ -895,7 +902,9 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {checkErrorMessage && <p style={{ color: "red" }}>{checkErrorMessage}</p>}
+              {checkErrorMessage && (
+                <p style={{ color: "red" }}>{checkErrorMessage}</p>
+              )}
             </div>
           ))}
         </div>
@@ -954,7 +963,9 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {checkErrorMessage && <p style={{ color: "red" }}>{checkErrorMessage}</p>}
+              {checkErrorMessage && (
+                <p style={{ color: "red" }}>{checkErrorMessage}</p>
+              )}
             </div>
           ))}
         </div>
@@ -1112,7 +1123,7 @@ const GeneralmedForm = (props) => {
                 />
               )}
             </div>
-            {filteredData.length > 0 && (
+            {enteredIdNumDoc && filteredData.length > 0 && (
               <FarmaDataDisplay data={filteredData} />
             )}
           </div>
@@ -1133,6 +1144,28 @@ const GeneralmedForm = (props) => {
                 </label>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="new-medic-item-container-wrapper">
+          <div className="medic-item-container-wrapper">
+            <h2 htmlFor="remision">Remite a: </h2>
+            <select
+              id="remision"
+              value={enteredRemision}
+              onChange={handleChangeRemision}
+              className="dropdown-select" // Apply a CSS class for styling
+            >
+              <option value="">Seleccionar especialidad</option>
+              <option defaultValue="General">General</option>
+              <option defaultValue="Citologia">Citologia</option>
+              <option defaultValue="Dermatologia">Dermatologia</option>
+              <option defaultValue="Fisioterapia">Fisioterapia</option>
+              <option defaultValue="Ginecologia">Ginecologia</option>
+              <option defaultValue="Odontología">Odontología</option>
+              <option defaultValue="Optometría">Optometría</option>
+              <option defaultValue="Otorrino">Otorrino</option>
+              <option defaultValue="Pediatria">Pediatria</option>
+            </select>
           </div>
         </div>
       </div>

@@ -84,13 +84,15 @@ const OdontologyForm = (props) => {
 
   const sortedBrigadaNames = brigadaNames.slice().sort();
 
-  const { data: medicineOptionsOD } = useFetchData("med_brigada_json");
+  const { data: medicineOptionsOD, refreshData: refreshMedicine } =
+    useFetchData("med_brigada_json");
 
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
   // Fetch the data:
-  const { data: farmaDataIn } = useFetchData("farma_json");
+  const { data: farmaDataIn, refreshData: refreshFarma } =
+    useFetchData("farma_json");
 
   // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
@@ -198,6 +200,8 @@ const OdontologyForm = (props) => {
 
         // Assume prescription update was successful
         setPrescriptionSuccess(true);
+        refreshFarma();
+        refreshMedicine();
 
         // Reset success messages after a certain duration (optional)
         setTimeout(() => {
@@ -598,10 +602,15 @@ const OdontologyForm = (props) => {
       setEnteredDiagnostico("");
       setEnteredPlanTratamiento("");
       refreshAsignados();
+      refreshFarma();
+      refreshMedicine();
     }
-  }, [formSuccess, refreshAsignados]);
+  }, [formSuccess, refreshAsignados, refreshFarma, refreshMedicine]);
 
   const handleCancel = () => {
+    refreshAsignados();
+    refreshFarma();
+    refreshMedicine();
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
     setEnteredFechaUltimaVisita("");
@@ -864,7 +873,7 @@ const OdontologyForm = (props) => {
   return (
     <form onSubmit={submitOdontologyHandler}>
       <div className="new-medic__controls">
-        <div className="new-medic__controls">
+        <div className="medic-item-container .new-medic__controls">
           <h1>Datos de Odontología del Paciente</h1>
           <div id="medic-item-container" className="medic-item-container">
             <label htmlFor="brigada_od"></label>
@@ -889,15 +898,15 @@ const OdontologyForm = (props) => {
               type="text"
               value={enteredIdNumDoc}
               onChange={findIDHandler}
-              list="farmaOptions"
+              list="patientOptions"
               placeholder="Seleccionar ID Paciente"
             />
-            <datalist id="farmaOptions">
+            <datalist id="patientOptions">
               {sortedPatientIDs.map((patientID) => (
                 <option key={patientID} value={patientID} />
               ))}
             </datalist>
-            {filteredPatientData.length > 0 && (
+            {enteredIdNumDoc && filteredPatientData.length > 0 && (
               <PatientsDataDisplay data={filteredPatientData} />
             )}
           </div>
@@ -1128,7 +1137,7 @@ const OdontologyForm = (props) => {
                 />
               )}
             </div>
-            {filteredData.length > 0 && (
+            {enteredIdNumDoc && filteredData.length > 0 && (
               <FarmaDataDisplay data={filteredData} />
             )}
           </div>

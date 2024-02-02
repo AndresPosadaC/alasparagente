@@ -18,7 +18,7 @@ const useApiData = (endpoint, dataField) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.json(); 
       })
       .then((responseData) => {
         // Extract the relevant data field from the response and set it in the state

@@ -48,7 +48,7 @@ const PatientsPage = () => {
     <div>
       <Patients items={patients} />
       <NewPatient onAddPatient={addPatientHandler} />
-    </div>
+    </div> 
   );
 }; 
 

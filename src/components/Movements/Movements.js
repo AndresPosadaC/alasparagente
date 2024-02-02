@@ -6,7 +6,7 @@ import useApiData from "../../hooks/useApiData";
 import "./Movements.css";
 
 const Movements = (props) => {
-  console.log('Movements:', props);
+  // console.log('Movements:', props);
   const [filteredStore, setFilteredStore] = useState("Todos");
   const [filteredMedicine, setFilteredMedicine] = useState("Todos");
   const { data: storeOptions } = useApiData("med_store_json", "store");
