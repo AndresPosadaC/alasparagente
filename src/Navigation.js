@@ -25,7 +25,7 @@ const Navigation = ({ role, onLogout }) => {
       case 3:
         return [
           renderLink("/generalmed", "Medicina General"),
-          renderLink("/odontology", "Odontology"),
+          renderLink("/odontology", "Odontologia"),
           renderLink("/optometry", "Optometria"),
         ];
       case 4:

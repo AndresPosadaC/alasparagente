@@ -25,11 +25,11 @@ const GeneralmedForm = (props) => {
   const [enteredParaclinicos, setEnteredParaclinicos] = useState("");
   const [enteredEnfermedadActual, setEnteredEnfermedadActual] = useState("");
   const [enteredGineco, setEnteredGineco] = useState(false);
-  const [enteredGinecoGestaciones, setEnteredGinecoGestaciones] = useState("");
-  const [enteredGinecoPartos, setEnteredGinecoPartos] = useState("");
-  const [enteredGinecoCesarias, setEnteredGinecoCesarias] = useState("");
-  const [enteredGinecoAbortos, setEnteredGinecoAbortos] = useState("");
-  const [enteredGinecoVivos, setEnteredGinecoVivos] = useState("");
+  const [enteredGinecoGestaciones, setEnteredGinecoGestaciones] = useState(0);
+  const [enteredGinecoPartos, setEnteredGinecoPartos] = useState(0);
+  const [enteredGinecoCesarias, setEnteredGinecoCesarias] = useState(0);
+  const [enteredGinecoAbortos, setEnteredGinecoAbortos] = useState(0);
+  const [enteredGinecoVivos, setEnteredGinecoVivos] = useState(0);
   const [enteredAlergias, setEnteredAlergias] = useState("");
   const [enteredMedAlergias, setEnteredMedAlergias] = useState("");
   const [enteredMedAntecedentes, setEnteredMedAntecedentes] = useState("");
@@ -68,7 +68,6 @@ const GeneralmedForm = (props) => {
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [checkErrorMessage, setCheckErrorMessage] = useState(null);
 
   const [filteredPatientData, setFilteredPatientData] = useState([]); // State for filtered data
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
@@ -91,7 +90,7 @@ const GeneralmedForm = (props) => {
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
-  // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const { data: pasignadosData, refreshData: refreshAsignados } =
     useFetchData("pasignados_json");
@@ -401,14 +400,14 @@ const GeneralmedForm = (props) => {
   const submitGeneralmedHandler = async (event) => {
     event.preventDefault();
 
-    // Check if the entered ID number exists in pasignadosData
-    const isValidIdNum = pasignadosData.includes(enteredIdNumDoc);
+    // Check if the entered ID number exists in patientOptions
+    const isValidIdNum = patientOptions.includes(String(enteredIdNumDoc).trim());
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
       return;
     }
-
+ 
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
@@ -420,7 +419,7 @@ const GeneralmedForm = (props) => {
       !enteredDiagnostico ||
       !enteredMedicamentos
     ) {
-      setCheckErrorMessage(
+      setErrorMessage(
         "Por favor, completa todos los campos requeridos con *   "
       );
       return;
@@ -439,7 +438,7 @@ const GeneralmedForm = (props) => {
       !/^\d+(\.\d+)?$/.test(enteredTalla) ||
       !/^\d+(\.\d+)?$/.test(enteredTemperatura)
     ) {
-      setCheckErrorMessage(
+      setErrorMessage(
         "Campo mal ingresado: Se espera que el campo sea numérico."
       );
       return;
@@ -530,11 +529,11 @@ const GeneralmedForm = (props) => {
       setEnteredParaclinicos("");
       setEnteredEnfermedadActual("");
       setEnteredGineco(false);
-      setEnteredGinecoGestaciones("");
-      setEnteredGinecoPartos("");
-      setEnteredGinecoCesarias("");
-      setEnteredGinecoAbortos("");
-      setEnteredGinecoVivos("");
+      setEnteredGinecoGestaciones(0);
+      setEnteredGinecoPartos(0);
+      setEnteredGinecoCesarias(0);
+      setEnteredGinecoAbortos(0);
+      setEnteredGinecoVivos(0);
       setEnteredAlergias("");
       setEnteredMedAlergias("");
       setEnteredMedAntecedentes("");
@@ -583,11 +582,11 @@ const GeneralmedForm = (props) => {
     setEnteredParaclinicos("");
     setEnteredEnfermedadActual("");
     setEnteredGineco(false);
-    setEnteredGinecoGestaciones("");
-    setEnteredGinecoPartos("");
-    setEnteredGinecoCesarias("");
-    setEnteredGinecoAbortos("");
-    setEnteredGinecoVivos("");
+    setEnteredGinecoGestaciones(0);
+    setEnteredGinecoPartos(0);
+    setEnteredGinecoCesarias(0);
+    setEnteredGinecoAbortos(0);
+    setEnteredGinecoVivos(0);
     setEnteredAlergias("");
     setEnteredMedAlergias("");
     setEnteredMedAntecedentes("");
@@ -902,8 +901,8 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {checkErrorMessage && (
-                <p style={{ color: "red" }}>{checkErrorMessage}</p>
+              {errorMessage && (
+                <p style={{ color: "red" }}>{errorMessage}</p>
               )}
             </div>
           ))}
@@ -963,8 +962,8 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {checkErrorMessage && (
-                <p style={{ color: "red" }}>{checkErrorMessage}</p>
+              {errorMessage && (
+                <p style={{ color: "red" }}>{errorMessage}</p>
               )}
             </div>
           ))}

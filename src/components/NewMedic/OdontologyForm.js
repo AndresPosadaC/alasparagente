@@ -71,7 +71,6 @@ const OdontologyForm = (props) => {
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  // const [checkErrorMessage, setCheckErrorMessage] = useState(null);
 
   const [filteredPatientData, setFilteredPatientData] = useState([]); // State for filtered data
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
@@ -94,7 +93,7 @@ const OdontologyForm = (props) => {
   const { data: farmaDataIn, refreshData: refreshFarma } =
     useFetchData("farma_json");
 
-  // const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
 
   const { data: pasignadosData, refreshData: refreshAsignados } =
     useFetchData("pasignados_json");
@@ -455,7 +454,7 @@ const OdontologyForm = (props) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = pasignadosData.includes(enteredIdNumDoc);
+    const isValidIdNum = patientOptions.includes(String(enteredIdNumDoc).trim());
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
