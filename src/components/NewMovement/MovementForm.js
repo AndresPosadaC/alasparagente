@@ -5,7 +5,6 @@ import useFetchData from "../../hooks/useFetchData";
 import FarmaDataDisplay from "../FarmaDataDisplay";
 import PopupMessage from "../PopupMessage";
 
-
 import "./MovementForm.css";
 //import FetchedDataDisplay from "../FetchedDataDisplay";
 //{props.length > 0 && <FetchedDataDisplay data={props} />}
@@ -22,6 +21,7 @@ const MovementForm = (props) => {
   const [selectedBrigada, setSelectedBrigada] = useState("");
   const [newBrigada, setNewBrigada] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showFarmaDataDisplay, setShowFarmaDataDisplay] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   // Existing state variables and hooks...
@@ -61,14 +61,53 @@ const MovementForm = (props) => {
     "med_movimientos_json"
   );
 
-  const getDestinationOptions = (destinationOptions) => {
+  const getMedicineOptions = () => {
+    if (selectedPatientID) {
+      // Filter medicine options based on patient prescriptions
+      const prescriptions = farmaOptions
+        .filter((option) => option.id_num_doc === selectedPatientID)
+        .map((option) => option.medicine);
+      return [...new Set(prescriptions)];
+    } else {
+      // Show all medicine options
+      return medicineOptions;
+    }
+  };
+
+  const getOrigenOptions = (destinationOptions, enteredTitle) => {
+    const filteredOptions = destinationOptions.filter((option) => {
+      // Exclude elements that start with a number or are named "Pacientes"
+      const shouldExclude =
+        /^\d/.test(option.destination) || option.destination === "Pacientes" || option.destination === "Bajas";
+
+      // Include elements if not excluded and match enteredTitle (if provided)
+      return (
+        !shouldExclude &&
+        (!enteredTitle || option.medicine.includes(enteredTitle))
+      );
+    });
+
     const uniqueDestinations = new Set(
-      destinationOptions.map((option) => option.destination)
+      filteredOptions.map((option) => option.destination)
     );
+
     uniqueDestinations.add("Compras");
-    uniqueDestinations.delete("Pacientes");
     return [...uniqueDestinations].sort();
   };
+
+  const getDestinationOptions = (storeOptions, selectedPatientID) => {
+    if (selectedPatientID) {
+      // If a patient ID is selected, show only that ID and "Pacientes"
+      return [selectedPatientID, "Pacientes"];
+    } else {
+      // If no patient ID is selected, show all store options excluding "Compras"
+      const allOptionsExceptCompras = storeOptions
+        .filter((option) => option !== "Compras")
+        .map((option) => option);
+      return [...new Set(allOptionsExceptCompras)];
+    }
+  };
+   
 
   const submitBrigadaHandler = async (event) => {
     event.preventDefault();
@@ -107,6 +146,9 @@ const MovementForm = (props) => {
       );
       // Set the filtered data in state
       setFilteredData(filteredData);
+      setShowFarmaDataDisplay(true);
+    } else {
+      setShowFarmaDataDisplay(false);
     }
   }, [selectedBrigada, selectedPatientID, farmaData]);
 
@@ -137,7 +179,10 @@ const MovementForm = (props) => {
         "No se encontraron coincidencias o se encontraron varias coincidencias para ID:",
         selectedID
       );
-      setErrorMessage("No se encontraron coincidencias o se encontraron varias coincidencias para ID: ", selectedID); 
+      setErrorMessage(
+        "No se encontraron coincidencias o se encontraron varias coincidencias para ID: ",
+        selectedID
+      );
     }
   };
 
@@ -168,6 +213,7 @@ const MovementForm = (props) => {
     setEnteredQuantity("");
     setEnteredOrigen("");
     setEnteredDestination("");
+    refreshFarma();
   };
 
   const handleFormSubmit = async (event) => {
@@ -334,7 +380,7 @@ const MovementForm = (props) => {
               <option key={patientID} value={patientID} />
             ))}
           </datalist>
-          {filteredData.length > 0 && <FarmaDataDisplay data={filteredData} />} 
+          {showFarmaDataDisplay && filteredData.length > 0 && <FarmaDataDisplay data={filteredData} />}
         </div>
       </div>
 
@@ -350,11 +396,12 @@ const MovementForm = (props) => {
             placeholder="Seleccionar"
           />
           <datalist id="medicineOptions">
-            {medicineOptions.map((option) => (
+            {getMedicineOptions().map((option) => (
               <option key={option} value={option} />
             ))}
           </datalist>
         </div>
+
         <div className="new-movement__control">
           <label htmlFor="quantity">Cantidad</label>
           <input
@@ -377,9 +424,11 @@ const MovementForm = (props) => {
             placeholder="Seleccionar"
           />
           <datalist id="destinationOptions">
-            {getDestinationOptions(destinationOptions).map((option) => (
-              <option key={option} value={option} />
-            ))}
+            {getOrigenOptions(destinationOptions, enteredTitle).map(
+              (option) => (
+                <option key={option} value={option} />
+              )
+            )}
           </datalist>
         </div>
         <div className="new-movement__control">
@@ -393,11 +442,11 @@ const MovementForm = (props) => {
             placeholder="Seleccionar"
           />
           <datalist id="storeOptions">
-            {storeOptions
-              .filter((option) => option !== "Compras") // Exclude 'Compras'
-              .map((option) => (
+          {getDestinationOptions(storeOptions, selectedPatientID).map(
+              (option) => (
                 <option key={option} value={option} />
-              ))}
+              )
+            )}
           </datalist>
         </div>
       </div>

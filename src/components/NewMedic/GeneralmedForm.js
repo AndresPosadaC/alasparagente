@@ -499,7 +499,8 @@ const GeneralmedForm = (props) => {
     if (success) {
       // Assume form update was successful
       setFormSuccess(true);
-
+      refreshFarma();
+      refreshMedicine();
       // Reset success messages after a certain duration (optional)
       setTimeout(() => {
         setFormSuccess(false);

@@ -1,5 +1,5 @@
 import React from "react";
-import "./FarmaDataDisplay.css"; 
+import "./FarmaDataDisplay.css";
 
 const FarmaDataDisplay = ({ data }) => {
   if (data.length === 0) {
@@ -7,13 +7,18 @@ const FarmaDataDisplay = ({ data }) => {
   }
 
   // Assuming each item in the data is an object with properties you want to display
-  const tableRows = data.map((item, index) => (
-    <tr key={index}>
-      <td>{item.date_farma}</td>
-      <td>{item.quantity}</td>
-      <td>{item.medicine}</td>
-    </tr>
-  ));
+  const tableRows = data.map((item, index) => {
+    // Formatear la fecha como "YYYY-mm-dd"
+    const formattedDate = new Date(item.date_farma).toISOString().split("T")[0];
+
+    return (
+      <tr key={index}>
+        <td>{formattedDate}</td>
+        <td>{item.medicine}</td>
+        <td>{item.quantity}</td>
+      </tr>
+    );
+  });
 
   return (
     <div>
@@ -22,8 +27,8 @@ const FarmaDataDisplay = ({ data }) => {
         <thead>
           <tr>
             <th>Fecha</th>
-            <th>Cantidad</th>
             <th>Producto Activo</th>
+            <th>Cantidad</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
