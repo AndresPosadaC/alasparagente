@@ -6,7 +6,7 @@ import PopupMessage from "../PopupMessage";
 import "./PatientForm.css";
 
 const PatientRemite = (props) => {
-  // console.log("pacientes: ", props)
+  //console.log("pacientes: ", props)
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
 
@@ -18,7 +18,7 @@ const PatientRemite = (props) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const { data: idNumOptions, refreshData: refreshPatients } = useApiData(
-    "pacientes_json",
+    "pavanzada_json",
     "id_num_doc"
   );
 
@@ -118,8 +118,8 @@ const PatientRemite = (props) => {
   return (
     <form onSubmit={submitPatientHandler}>
       <div className="new-patient__controls">
-        <div className="new-patient__controls">
-          <h1>Reasignación por remisión médica</h1>
+        <div className="patient-item-container .new-patient__controls"> 
+          <h1>Asignación médica</h1>
           <div className="new-patient__controls">
             <div className="new-patient__controls">
               <label htmlFor="id-num-doc-rm"></label>
@@ -130,6 +130,7 @@ const PatientRemite = (props) => {
                 value={enteredIdNumDoc}
                 onChange={idNumDocChangeHandler}
                 className="dropdown-select"
+                placeholder="Seleccionar ID Paciente"
               />
               <datalist id="patientOptions">
                 {sortedIdOptions.map((name) => (
@@ -170,7 +171,6 @@ const PatientRemite = (props) => {
                 <option defaultValue="Pediatria">Pediatria</option>
               </select>
             </div>
-            <h2> Motivo Remite</h2>
             <div id="motivo-consulta-container" className="new-medic__control">
               <label htmlFor="motivo-remite">
                 <textarea
@@ -178,6 +178,7 @@ const PatientRemite = (props) => {
                   className="larger-input"
                   value={enteredMotivoConsulta}
                   onChange={motivoConsultaChangeHandler}
+                  placeholder="Motivo de remisión o asignación"
                 />
               </label>
             </div>

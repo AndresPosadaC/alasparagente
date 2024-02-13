@@ -9,7 +9,7 @@ const PatientsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
  
   // Use the useFetchData hook to fetch data for patients
-  const { data: patientsData, loading, refreshData } = useFetchData("pacientes_json");
+  const { data: patientsData, loading, refreshData } = useFetchData("patients_json");
 
   // Define callback functions to set data
   const setPatientsData = useCallback(() => {

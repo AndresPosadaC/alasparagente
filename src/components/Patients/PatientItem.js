@@ -4,26 +4,33 @@ import "./PatientItem.css";
 
 const PatientItem = (props) => {
   // console.log('PatientsItem:', props);
-  const formattedDate = new Date(props.nacimiento)
-      .toISOString()
-      .split("T")[0];
   // Create an array of JSX elements
   const personalItems = [
-    { label: "Nacimiento", value: formattedDate },
+    { label: "Edad", value: props.edad },
     { label: "Ocupacion", value: props.ocupacion },
     { label: "Direccion", value: props.direccion_domicilio },
     { label: "Localidad", value: props.localidad },
     { label: "Celular", value: props.celular },
   ];
 
-  const secunderyItems = [
-    { label: "Acompañante", value: props.acompanante },
-    { label: "Celular", value: props.celular_acompanante },
-    { label: "Responsable", value: props.responsable },
-    { label: "Celular", value: props.celular_responsable },
-    { label: "Parentesco", value: props.parentesco_responsable },
-    { label: "Aseguradora", value: props.aseguradora },
-    { label: "Vinculación", value: props.tipo_vinculacion },
+  // const secunderyItems = [
+  //   { label: "Acompañante", value: props.acompanante },
+  //   { label: "Celular", value: props.celular_acompanante },
+  //   { label: "Responsable", value: props.responsable },
+  //   { label: "Celular", value: props.celular_responsable },
+  //   { label: "Parentesco", value: props.parentesco_responsable },
+  //   { label: "Aseguradora", value: props.aseguradora },
+  //   { label: "Vinculación", value: props.tipo_vinculacion },
+  //  ];
+
+  const vitalSignsItems = [
+    { label: "Frec cardiaca", value: props.frec_cardiaca },
+    { label: "Tension arterial", value: props.tension_arterial },
+    { label: "Frec respiratoria", value: props.frec_respiratoria },
+    { label: "Sat o2", value: props.sat_o2 },
+    { label: "Temp", value: props.temperatura },
+    { label: "Peso", value: props.peso },
+    { label: "Talla", value: props.talla },
   ];
 
   return (
@@ -42,7 +49,7 @@ const PatientItem = (props) => {
         <div className="patient-item">
           <div className="patient-item__details">
             <div className="patient-item-container">
-              <h2>Principales</h2>
+            <label>Principales</label>
               {personalItems.map((item, index) => (
                 <div
                   key={`personal-${props.id_cnt}-${index}`}
@@ -54,10 +61,10 @@ const PatientItem = (props) => {
               ))}
             </div>
             <div className="patient-item-container">
-              <h2>Secundarios</h2>
-              {secunderyItems.map((item, index) => (
+              <label>Signos Vitales</label>
+              {vitalSignsItems.map((item, index) => (
                 <div
-                  key={`secundary-${props.id_cnt}-${index}`}
+                  key={`vitsig-${props.id_cnt}-${index}`}
                   className="patient-item"
                 >
                   <p className="patient-item-label">{item.label}:</p>

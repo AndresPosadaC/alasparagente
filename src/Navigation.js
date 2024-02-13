@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom"; // Import useLocation hook
 
 const Navigation = ({ role, onLogout }) => {
-  console.log("navigation:", role)
+  // console.log("navigation:", role)
   const location = useLocation(); // Get the current path
 
   const renderLink = (to, label) => (
@@ -21,7 +21,10 @@ const Navigation = ({ role, onLogout }) => {
           renderLink("/movements", "Movimientos"),
         ];
       case 2:
-        return [renderLink("/patients", "Pacientes")];
+        return [
+          renderLink("/patients", "RegistroPacientes"),
+          renderLink("/triage", "Triage"),
+        ];
       case 3:
         return [
           renderLink("/generalmed", "Medicina General"),
@@ -32,7 +35,8 @@ const Navigation = ({ role, onLogout }) => {
         return [
           renderLink("/expenses", "Medicamentos"),
           renderLink("/movements", "Movimientos"),
-          renderLink("/patients", "Pacientes"),
+          renderLink("/patients", "Registro Pacientes"),
+          renderLink("/triage", "Triage"),
           renderLink("/generalmed", "Medicina General"),
           renderLink("/odontology", "Odontologia"),
           renderLink("/optometry", "Optometria"),

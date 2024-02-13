@@ -15,22 +15,6 @@ const PatientForm = (props) => {
   const [enteredNacimiento, setEnteredNacimiento] = useState("");
   const [enteredEstadoCivil, setEnteredEstadoCivil] = useState("");
   const [enteredSexo, setEnteredSexo] = useState("");
-  const [enteredOcupacion, setEnteredOcupacion] = useState("");
-  const [enteredDireccionDomicilio, setEnteredDireccionDomicilio] =
-    useState("");
-  const [enteredLocalidad, setEnteredLocalidad] = useState("");
-  const [enteredTelefonoFijo, setEnteredTelefonoFijo] = useState("");
-  const [enteredCelular, setEnteredCelular] = useState("");
-  const [enteredAcompanante, setEnteredAcompanante] = useState("");
-  const [enteredResponsable, setEnteredResponsable] = useState("");
-  const [enteredCelularAcompanante, setEnteredCelularAcompanante] =
-    useState(""); 
-  const [enteredCelularResponsable, setEnteredCelularResponsable] =
-    useState("");
-  const [enteredParentescoResponsable, setEnteredParentescoResponsable] =
-    useState("");
-  const [enteredAseguradora, setEnteredAseguradora] = useState("");
-  const [enteredTipoVinculacion, setEnteredTipoVinculacion] = useState("");
   const [selectedBrigada, setSelectedBrigada] = useState("");
   const [selectedEspecialidad, setSelectedEspacialidad] = useState("");
   const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
@@ -79,54 +63,6 @@ const PatientForm = (props) => {
     setEnteredSexo(event.target.value);
   };
 
-  const ocupacionChangeHandler = (event) => {
-    setEnteredOcupacion(event.target.value);
-  };
-
-  const direccionDomicilioChangeHandler = (event) => {
-    setEnteredDireccionDomicilio(event.target.value);
-  };
-
-  const localidadChangeHandler = (event) => {
-    setEnteredLocalidad(event.target.value);
-  };
-
-  const telefonoFijoChangeHandler = (event) => {
-    setEnteredTelefonoFijo(event.target.value);
-  };
-
-  const celularChangeHandler = (event) => {
-    setEnteredCelular(event.target.value);
-  };
-
-  const acompananteChangeHandler = (event) => {
-    setEnteredAcompanante(event.target.value);
-  };
-
-  const responsableChangeHandler = (event) => {
-    setEnteredResponsable(event.target.value);
-  };
-
-  const celularAcompananteChangeHandler = (event) => {
-    setEnteredCelularAcompanante(event.target.value);
-  };
-
-  const celularResponsableChangeHandler = (event) => {
-    setEnteredCelularResponsable(event.target.value);
-  };
-
-  const parentescoResponsableChangeHandler = (event) => {
-    setEnteredParentescoResponsable(event.target.value);
-  };
-
-  const aseguradoraChangeHandler = (event) => {
-    setEnteredAseguradora(event.target.value);
-  };
-
-  const tipoVinculacionChangeHandler = (event) => {
-    setEnteredTipoVinculacion(event.target.value);
-  };
-
   const brigadaChangeHandler = (event) => {
     setSelectedBrigada(event.target.value);
   };
@@ -148,18 +84,6 @@ const PatientForm = (props) => {
     setEnteredNacimiento("");
     setEnteredEstadoCivil("");
     setEnteredSexo("");
-    setEnteredOcupacion("");
-    setEnteredDireccionDomicilio("");
-    setEnteredLocalidad("");
-    setEnteredTelefonoFijo("");
-    setEnteredCelular("");
-    setEnteredAcompanante("");
-    setEnteredResponsable("");
-    setEnteredCelularAcompanante("");
-    setEnteredCelularResponsable("");
-    setEnteredParentescoResponsable("");
-    setEnteredAseguradora("");
-    setEnteredTipoVinculacion("");
     setSelectedBrigada("");
     setSelectedEspacialidad("");
     setEnteredMotivoConsulta("");
@@ -205,18 +129,6 @@ const PatientForm = (props) => {
         nacimiento: formattedDate,
         estado_civil: enteredEstadoCivil,
         sexo: enteredSexo,
-        ocupacion: enteredOcupacion,
-        direccion_domicilio: enteredDireccionDomicilio,
-        localidad: enteredLocalidad,
-        telefono_fijo: enteredTelefonoFijo,
-        celular: enteredCelular,
-        acompanante: enteredAcompanante,
-        responsable: enteredResponsable,
-        celular_acompanante: enteredCelularAcompanante,
-        celular_responsable: enteredCelularResponsable,
-        parentesco_responsable: enteredParentescoResponsable,
-        aseguradora: enteredAseguradora,
-        tipo_vinculacion: enteredTipoVinculacion,
       };
 
       const asignData = {
@@ -263,18 +175,6 @@ const PatientForm = (props) => {
       setEnteredNacimiento("");
       setEnteredEstadoCivil("");
       setEnteredSexo("");
-      setEnteredOcupacion("");
-      setEnteredDireccionDomicilio("");
-      setEnteredLocalidad("");
-      setEnteredTelefonoFijo("");
-      setEnteredCelular("");
-      setEnteredAcompanante("");
-      setEnteredResponsable("");
-      setEnteredCelularAcompanante("");
-      setEnteredCelularResponsable("");
-      setEnteredParentescoResponsable("");
-      setEnteredAseguradora("");
-      setEnteredTipoVinculacion("");
       setSelectedBrigada("");
       setSelectedEspacialidad("");
       setEnteredMotivoConsulta("");
@@ -373,139 +273,10 @@ const PatientForm = (props) => {
               <option value="Otro">Otro</option>
             </select>
           </div>
-          <div className="new-patient__control">
-            <label htmlFor="ocupacion">Ocupación</label>
-            <input
-              id="ocupacion"
-              type="text"
-              value={enteredOcupacion}
-              onChange={ocupacionChangeHandler}
-            />
-          </div>
         </div>
         <div className="new-patient__controls">
-          <h1>Datos adicionales del paciente</h1>
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="direccion_domicilio">Dirección Domicilio</label>
-          <input
-            id="direccion_domicilio"
-            type="text"
-            value={enteredDireccionDomicilio}
-            onChange={direccionDomicilioChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="localidad">Localidad</label>
-          <input
-            id="localidad"
-            type="text"
-            value={enteredLocalidad}
-            onChange={localidadChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="telefono_fijo">Telefono Fijo</label>
-          <input
-            id="telefono_fijo"
-            type="text"
-            value={enteredTelefonoFijo}
-            onChange={telefonoFijoChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="celular">Celular</label>
-          <input
-            id="celular"
-            type="text"
-            value={enteredCelular}
-            onChange={celularChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="acompanante">Nombres y Apellidos Acompañante</label>
-          <input
-            id="acompanante"
-            type="text"
-            value={enteredAcompanante}
-            onChange={acompananteChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="celular_acompanante">Celular Acompañante</label>
-          <input
-            id="celular_acompanante"
-            type="text"
-            value={enteredCelularAcompanante}
-            onChange={celularAcompananteChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="responsable">Nombres y Apellidos Responsable</label>
-          <input
-            id="responsable"
-            type="text"
-            value={enteredResponsable}
-            onChange={responsableChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="celular_responsable">Celular Responsable</label>
-          <input
-            id="celular_responsable"
-            type="text"
-            value={enteredCelularResponsable}
-            onChange={celularResponsableChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="parentesco_responsable">Parentesco Responsable</label>
-          <input
-            id="parentesco_responsable"
-            type="text"
-            value={enteredParentescoResponsable}
-            onChange={parentescoResponsableChangeHandler}
-          />
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="aseguradora">Aseguradora</label>
-          <select
-            id="aseguradora"
-            value={enteredAseguradora}
-            onChange={aseguradoraChangeHandler}
-            className="dropdown-select"
-          >
-            <option value="">Seleccionar</option>
-            <option value="Axa Colpatria">Axa Colpatria</option>
-            <option value="Colsanitas">Colsanitas</option>
-            <option value="Compensar">Compensar</option>
-            <option value="Coomeva">Coomeva</option>
-            <option value="MedPlus">MedPlus</option>
-            <option value="Seguros Bolivar">Seguros Bolivar</option>
-            <option value="Sura">Sura</option>
-            <option value="Sisben">Sisben</option>
-            <option value="No Tiene">No Tiene</option>
-          </select>
-        </div>
-        <div className="new-patient__control">
-          <label htmlFor="tipo_vinculacion">Tipo de Vinculacion</label>
-          <select
-            id="tipo_vinculacion"
-            value={enteredTipoVinculacion}
-            onChange={tipoVinculacionChangeHandler}
-            className="dropdown-select"
-          >
-            <option value="">Seleccionar</option>
-            <option value="Contributivo">Contributivo</option>
-            <option value="Subsidiado">Subsidiado</option>
-            <option value="Especial">Especial</option>
-            <option value="Excepcion">Excepcion</option>
-            <option value="No Cotiza">No Cotiza</option>
-          </select>
-        </div>
-        <div className="new-patient__controls">
-          <h1>Asignación</h1>
-          <div className="new-patient__controls">
+          <div className="patient-item-container .new-patient__controls">
+            <h1>Asignación</h1>
             <div className="new-patient__controls">
               <label htmlFor="brigada"></label>
               <select
@@ -541,16 +312,22 @@ const PatientForm = (props) => {
                 <option defaultValue="Pediatria">Pediatria</option>
               </select>
             </div>
-            <h2> Motivo Consulta</h2>
-            <div id="motivo-consulta-container" className="new-medic__control">
-              <label htmlFor="motivo-consulta">
-                <textarea
-                  id="motivo-consulta"
-                  className="larger-input"
-                  value={enteredMotivoConsulta}
-                  onChange={motivoConsultaChangeHandler}
-                />
-              </label>
+
+            <div className="new-patient__controls">
+              <div
+                id="motivo-consulta-container"
+                className="patient-item-container-wrapper"
+              >
+                <label htmlFor="motivo-consulta">
+                  <textarea
+                    id="motivo-consulta"
+                    className="larger-input"
+                    value={enteredMotivoConsulta}
+                    onChange={motivoConsultaChangeHandler}
+                    placeholder="Motivo de consulta"
+                  />
+                </label>
+              </div>
             </div>
           </div>
         </div>

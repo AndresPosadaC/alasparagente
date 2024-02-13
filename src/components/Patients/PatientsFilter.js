@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./PatientsFilter.css";
 
 const PatientsFilter = (props) => {
-  // console.log('PatientsFilter props.items:', props.items);
+   console.log('PatientsFilter props.items:', props.items);
   const [searchFilter, setSearchFilter] = useState("");
 
   const filterChangeHandler = (event) => {

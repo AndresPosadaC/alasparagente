@@ -15,10 +15,10 @@ const PatientsList = (props) => {
         <PatientItem
         key={patient.id_cnt}
         id_num_doc={patient.id_num_doc}
-        tipo_doc={patient.tipo_doc}
         nombres={patient.nombres}
         apellidos={patient.apellidos}
         nacimiento={patient.nacimiento}
+        edad={patient.edad}
         estado_civil={patient.estado_civil}
         sexo={patient.sexo}
         ocupacion={patient.ocupacion || ''}
@@ -33,6 +33,13 @@ const PatientsList = (props) => {
         parentesco_responsable={patient.parentesco_responsable || ''}
         aseguradora={patient.aseguradora || ''}
         tipo_vinculacion={patient.tipo_vinculacion || ''}
+        frec_cardiaca={patient.frec_cardiaca}
+        tension_arterial={patient.tension_arterial}
+        frec_respiratoria={patient.frec_respiratoria}
+        sat_o2={patient.sat_o2}
+        temperatura={patient.temperatura}
+        peso={patient.peso}
+        talla={patient.talla}
         />
       ))}
     </ul>

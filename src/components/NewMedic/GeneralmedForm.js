@@ -15,13 +15,6 @@ const GeneralmedForm = (props) => {
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [selectedEspecialidad, setSelectedEspacialidad] = useState("General");
-  const [enteredFrecCardiaca, setEnteredFrecCardiaca] = useState("");
-  const [enteredTensionArterial, setEnteredTensionArterial] = useState("");
-  const [enteredFrecRespiratoria, setEnteredFrecRespiratoria] = useState("");
-  const [enteredSatO2, setEnteredSatO2] = useState("");
-  const [enteredTemperatura, setEnteredTemperatura] = useState("");
-  const [enteredPeso, setEnteredPeso] = useState("");
-  const [enteredTalla, setEnteredTalla] = useState("");
   const [enteredParaclinicos, setEnteredParaclinicos] = useState("");
   const [enteredEnfermedadActual, setEnteredEnfermedadActual] = useState("");
   const [enteredGineco, setEnteredGineco] = useState(false);
@@ -90,7 +83,7 @@ const GeneralmedForm = (props) => {
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
-  const { data: patientOptions } = useApiData("pacientes_json", "id_num_doc");
+  const { data: patientOptions } = useApiData("pavanzada_json", "id_num_doc");
 
   const { data: pasignadosData, refreshData: refreshAsignados } =
     useFetchData("pasignados_json");
@@ -245,25 +238,6 @@ const GeneralmedForm = (props) => {
     setSelectedEspacialidad(event.target.value);
   };
 
-  const handleChangeFrecCardiaca = handleTextChange(
-    "enteredFrecCardiaca",
-    setEnteredFrecCardiaca
-  );
-  const handleChangeTensionArterial = handleTextChange(
-    "enteredTensionArterial",
-    setEnteredTensionArterial
-  );
-  const handleChangeFrecRespiratoria = handleTextChange(
-    "enteredFrecRespiratoria",
-    setEnteredFrecRespiratoria
-  );
-  const handleChangeSatO2 = handleTextChange("enteredSatO2", setEnteredSatO2);
-  const handleChangeTemperatura = handleTextChange(
-    "enteredTemperatura",
-    setEnteredTemperatura
-  );
-  const handleChangePeso = handleTextChange("enteredPeso", setEnteredPeso);
-  const handleChangeTalla = handleTextChange("enteredTalla", setEnteredTalla);
   const handleChangeParaclinicos = handleTextChange(
     "enteredParaclinicos",
     setEnteredParaclinicos
@@ -401,24 +375,17 @@ const GeneralmedForm = (props) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = patientOptions.includes(String(enteredIdNumDoc).trim());
+    const isValidIdNum = patientOptions.includes(
+      String(enteredIdNumDoc).trim()
+    );
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
       return;
     }
- 
+
     // Check if the required fields are filled
-    if (
-      !enteredIdNumDoc ||
-      !enteredFrecCardiaca ||
-      !enteredTensionArterial ||
-      !enteredFrecRespiratoria ||
-      !enteredSatO2 ||
-      !enteredTemperatura ||
-      !enteredDiagnostico ||
-      !enteredMedicamentos
-    ) {
+    if (!enteredIdNumDoc || !enteredDiagnostico || !enteredMedicamentos) {
       setErrorMessage(
         "Por favor, completa todos los campos requeridos con *   "
       );
@@ -426,17 +393,11 @@ const GeneralmedForm = (props) => {
     }
 
     if (
-      !/^\d+(\.\d+)?$/.test(enteredFrecCardiaca) ||
-      !/^\d+(\.\d+)?$/.test(enteredFrecRespiratoria) ||
       !/^\d+(\.\d+)?$/.test(enteredGinecoAbortos) ||
       !/^\d+(\.\d+)?$/.test(enteredGinecoCesarias) ||
       !/^\d+(\.\d+)?$/.test(enteredGinecoGestaciones) ||
       !/^\d+(\.\d+)?$/.test(enteredGinecoPartos) ||
-      !/^\d+(\.\d+)?$/.test(enteredGinecoVivos) ||
-      !/^\d+(\.\d+)?$/.test(enteredPeso) ||
-      !/^\d+(\.\d+)?$/.test(enteredSatO2) ||
-      !/^\d+(\.\d+)?$/.test(enteredTalla) ||
-      !/^\d+(\.\d+)?$/.test(enteredTemperatura)
+      !/^\d+(\.\d+)?$/.test(enteredGinecoVivos)
     ) {
       setErrorMessage(
         "Campo mal ingresado: Se espera que el campo sea numérico."
@@ -449,13 +410,6 @@ const GeneralmedForm = (props) => {
       voided: selectedVoided,
       especialidad: selectedEspecialidad,
       id_num_doc: enteredIdNumDoc,
-      frec_cardiaca: parseFloat(enteredFrecCardiaca),
-      tension_arterial: enteredTensionArterial,
-      frec_respiratoria: parseFloat(enteredFrecRespiratoria),
-      sat_o2: parseFloat(enteredSatO2),
-      temperatura: parseFloat(enteredTemperatura),
-      peso: parseFloat(enteredPeso),
-      talla: parseFloat(enteredTalla),
       paraclinicos: enteredParaclinicos,
       enfermedad_actual: enteredEnfermedadActual,
       gineco: enteredGineco,
@@ -520,13 +474,6 @@ const GeneralmedForm = (props) => {
       // Reset the form or perform any other necessary actions
       setSelectedVoided("0");
       setEnteredIdNumDoc("");
-      setEnteredFrecCardiaca("");
-      setEnteredTensionArterial("");
-      setEnteredFrecRespiratoria("");
-      setEnteredSatO2("");
-      setEnteredTemperatura("");
-      setEnteredPeso("");
-      setEnteredTalla("");
       setEnteredParaclinicos("");
       setEnteredEnfermedadActual("");
       setEnteredGineco(false);
@@ -573,13 +520,6 @@ const GeneralmedForm = (props) => {
     refreshAsignados();
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
-    setEnteredFrecCardiaca("");
-    setEnteredTensionArterial("");
-    setEnteredFrecRespiratoria("");
-    setEnteredSatO2("");
-    setEnteredTemperatura("");
-    setEnteredPeso("");
-    setEnteredTalla("");
     setEnteredParaclinicos("");
     setEnteredEnfermedadActual("");
     setEnteredGineco(false);
@@ -633,44 +573,6 @@ const GeneralmedForm = (props) => {
   // const refreshPage = () => {
   //  window.location.reload(); // Reload the page
   // };
-
-  const signosVitales = [
-    {
-      label: "Frecuencia Cardiaca (por minuto) *",
-      value: enteredFrecCardiaca,
-      onChange: handleChangeFrecCardiaca,
-    },
-    {
-      label: "Tensión Arterial (mm Hg) *",
-      value: enteredTensionArterial,
-      onChange: handleChangeTensionArterial,
-    },
-    {
-      label: "Frecuencia Respiratoria (por minuto) *",
-      value: enteredFrecRespiratoria,
-      onChange: handleChangeFrecRespiratoria,
-    },
-    {
-      label: "Saturación Oxígeno (%) *",
-      value: enteredSatO2,
-      onChange: handleChangeSatO2,
-    },
-    {
-      label: "Temperatura (ºC) *",
-      value: enteredTemperatura,
-      onChange: handleChangeTemperatura,
-    },
-    {
-      label: "Peso (Kg) *",
-      value: enteredPeso,
-      onChange: handleChangePeso,
-    },
-    {
-      label: "Talla (cm) *",
-      value: enteredTalla,
-      onChange: handleChangeTalla,
-    },
-  ];
 
   const antecedentesItems = [
     {
@@ -881,35 +783,6 @@ const GeneralmedForm = (props) => {
         </div>
       </div>
 
-      <div id="signos-vitales-container" className="new-medic__controls">
-        <h1> Signos Vitales </h1>
-        <div
-          id="signos-vitales-container-wrapper"
-          className="medic-item-container-wrapper"
-        >
-          {signosVitales.map((item, index) => (
-            <div
-              id="signos-vitales-items"
-              key={`signosMG-${index}`}
-              className="medic-item-container .new-medic__controls"
-            >
-              <CheckboxOrTextInput
-                id={`inputMG1-${index}`}
-                label={item.label}
-                isCheckbox={item.checked !== undefined}
-                checked={item.checked}
-                value={item.value}
-                inputSize="small"
-                onChange={item.onChange}
-              />
-              {errorMessage && (
-                <p style={{ color: "red" }}>{errorMessage}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div id="antecedentes-container" className="new-medic__controls">
         <h1> Antecedentes Personales y/o Familiares </h1>
         <p> ✅ para si</p>
@@ -963,9 +836,7 @@ const GeneralmedForm = (props) => {
                 inputSize="small"
                 onChange={item.onChange}
               />
-              {errorMessage && (
-                <p style={{ color: "red" }}>{errorMessage}</p>
-              )}
+              {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </div>
           ))}
         </div>
@@ -998,81 +869,74 @@ const GeneralmedForm = (props) => {
             ))}
           </div>
         </div>
+        <div className="new-medic__control">
+          <div className="medic-item-container-wrapper">
+            <div className="medic-item-container .new-medic__controls">
+              <h2> Examen Físico * </h2>
+              <label htmlFor="paraclinicos">
+                <textarea
+                  id="paraclinicos"
+                  className="larger-input"
+                  value={enteredParaclinicos}
+                  onChange={handleChangeParaclinicos}
+                  placeholder="Paraclínicos *"
+                />
+              </label>
 
-        <div className="medic-item-container-wrapper">
-          <div className="new-medic__control">
-            <div>
-              <h1> Examen Físico * </h1>
-              <div className="new-medic__control">
-                <label htmlFor="paraclinicos">
-                  Paraclínicos *
-                  <textarea
-                    id="paraclinicos"
-                    className="larger-input"
-                    value={enteredParaclinicos}
-                    onChange={handleChangeParaclinicos}
-                  />
-                </label>
-              </div>
-              <div className="new-medic__control">
-                <label htmlFor="diagnostico">
-                  Diagnósitco *
-                  <textarea
-                    id="diagnostico"
-                    className="larger-input"
-                    value={enteredDiagnostico}
-                    onChange={handleChangeDiagnostico}
-                  />
-                </label>
-              </div>
+              <label htmlFor="diagnostico">
+                <textarea
+                  id="diagnostico"
+                  className="larger-input"
+                  value={enteredDiagnostico}
+                  onChange={handleChangeDiagnostico}
+                  placeholder="Diagnósitco *"
+                />
+              </label>
             </div>
           </div>
         </div>
-
         <div className="medic-item-container-wrapper">
           <div className="new-medic__control">
-            <div>
-              <h1> Plan Diagnóstico </h1>
-              <div className="new-medic__control">
-                <label htmlFor="plan-estudio">
-                  Plan de estudio
-                  <textarea
-                    id="plan-estudio"
-                    className="larger-input"
-                    value={enteredPlan}
-                    onChange={handleChangePlan}
+            <h1> Plan Diagnóstico </h1>
+            <div className="new-medic__control">
+              <label htmlFor="plan-estudio">
+                <textarea
+                  id="plan-estudio"
+                  className="larger-input"
+                  value={enteredPlan}
+                  onChange={handleChangePlan}
+                  placeholder="Plan de estudio"
+                />
+              </label>
+            </div>
+            <div className="new-medic__control">
+              <label htmlFor="tratamiento">
+                <textarea
+                  id="tratamiento"
+                  className="larger-input"
+                  value={enteredTratamiento}
+                  onChange={handleChangeTratamiento}
+                  placeholder="Tratamiento"
+                />
+              </label>
+            </div>
+            <div className="medic-item-container-wrapper">
+              {diagnosticoItems.map((item, index) => (
+                <div
+                  key={`diagnostico-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputMG5-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    inputSize="small"
+                    onChange={item.onChange}
                   />
-                </label>
-              </div>
-              <div className="new-medic__control">
-                <label htmlFor="tratamiento">
-                  Tratamiento
-                  <textarea
-                    id="tratamiento"
-                    className="larger-input"
-                    value={enteredTratamiento}
-                    onChange={handleChangeTratamiento}
-                  />
-                </label>
-              </div>
-              <div className="medic-item-container-wrapper">
-                {diagnosticoItems.map((item, index) => (
-                  <div
-                    key={`diagnostico-${index}`}
-                    className="medic-item-container .new-medic__controls"
-                  >
-                    <CheckboxOrTextInput
-                      id={`inputMG5-${index}`}
-                      label={item.label}
-                      isCheckbox={item.checked !== undefined}
-                      checked={item.checked}
-                      value={item.value}
-                      inputSize="small"
-                      onChange={item.onChange}
-                    />
-                  </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -1113,63 +977,68 @@ const GeneralmedForm = (props) => {
                 value={enteredQuantity}
                 onChange={quantityChangeHandler}
               />
-              <button type="button" onClick={handleFarmaSubmit}>
-                +Medicina
-              </button>
-              {prescriptionSuccess && (
-                <PopupMessage
-                  message="¡La receta se actualizó correctamente!"
-                  onClose={() => setPrescriptionSuccess(false)}
-                />
-              )}
+              <div>
+                <h2> Formular Medicamento </h2>
+                <button type="button" onClick={handleFarmaSubmit}>
+                  +Medicina
+                </button>
+                {prescriptionSuccess && (
+                  <PopupMessage
+                    message="¡La receta se actualizó correctamente!"
+                    onClose={() => setPrescriptionSuccess(false)}
+                  />
+                )}
+              </div>
             </div>
             {enteredIdNumDoc && filteredData.length > 0 && (
               <FarmaDataDisplay data={filteredData} />
             )}
           </div>
         </div>
-        <div className="medic-item-container-wrapper">
+        <div className="medic-item-container .new-medic__controls">
           <div className="new-medic__control">
-            <div>
-              <h1> Medicamentos * </h1>
-              <div className="new-medic__control">
+            <div className="medic-item-container-wrapper">
+              <div className="medic-item-container .new-medic__controls">
+                <h2> Medicamentos * </h2>
                 <label htmlFor="medicamentos">
-                  <input
+                  <textarea
                     id="medicamentos"
-                    type="text"
                     className="larger-input"
-                    checked={enteredMedicamentos}
+                    value={enteredMedicamentos}
                     onChange={handleChangeMedicamentos}
+                    placeholder="Indicaciones Fórmula Médica"
                   />
                 </label>
               </div>
             </div>
           </div>
-        </div>
-        <div className="new-medic-item-container-wrapper">
-          <div className="medic-item-container-wrapper">
-            <h2 htmlFor="remision">Remite a: </h2>
-            <select
-              id="remision"
-              value={enteredRemision}
-              onChange={handleChangeRemision}
-              className="dropdown-select" // Apply a CSS class for styling
-            >
-              <option value="">Seleccionar especialidad</option>
-              <option defaultValue="General">General</option>
-              <option defaultValue="Citologia">Citologia</option>
-              <option defaultValue="Dermatologia">Dermatologia</option>
-              <option defaultValue="Fisioterapia">Fisioterapia</option>
-              <option defaultValue="Ginecologia">Ginecologia</option>
-              <option defaultValue="Odontología">Odontología</option>
-              <option defaultValue="Optometría">Optometría</option>
-              <option defaultValue="Otorrino">Otorrino</option>
-              <option defaultValue="Pediatria">Pediatria</option>
-            </select>
+
+          <div className="new-medic-item-container-wrapper">
+            <div className="medic-item-container-wrapper">
+              
+              <select
+                id="remision"
+                value={enteredRemision}
+                onChange={handleChangeRemision}
+                className="dropdown-select" // Apply a CSS class for styling
+              >
+                <option value="">Remite a</option>
+                <option defaultValue="General">General</option>
+                <option defaultValue="Citologia">Citologia</option>
+                <option defaultValue="Dermatologia">Dermatologia</option>
+                <option defaultValue="Fisioterapia">Fisioterapia</option>
+                <option defaultValue="Ginecologia">Ginecologia</option>
+                <option defaultValue="Odontología">Odontología</option>
+                <option defaultValue="Optometría">Optometría</option>
+                <option defaultValue="Otorrino">Otorrino</option>
+                <option defaultValue="Pediatria">Pediatria</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
       <div className="new-medic__actions">
+        <h2>Generar Historia</h2>
         <button type="button" onClick={handleCancel}>
           Cancelar
         </button>

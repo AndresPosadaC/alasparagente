@@ -9,7 +9,9 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://192.168.10.15:3000",
+    // origin: "http://192.168.10.15:3000",
+    // origin: "http://192.168.0.12:3000",
+    origin: "http://192.168.20.59:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
@@ -53,7 +55,8 @@ const useApiGet = (app, url, tableName, hasVoidedColumn = true) => {
           .json({ error: "Error fetching data from database", details: error });
         return;
       }
-      res.header("Access-Control-Allow-Origin", "http://192.168.10.15:3000");
+      //res.header("Access-Control-Allow-Origin", "http://192.168.10.15:3000");
+      res.header("Access-Control-Allow-Origin", "http://192.168.20.59:3000");
       res.header(
         "Access-Control-Allow-Methods",
         "GET,HEAD,PUT,PATCH,POST,DELETE"
@@ -71,7 +74,9 @@ useApiGet(app, "/api/medlist_json", "medlist", false);
 useApiGet(app, "/api/brigadas_json", "brigadas");
 useApiGet(app, "/api/med_movimientos_json", "med_movimientos");
 useApiGet(app, "/api/med_brigada_json", "med_brigada", false);
-useApiGet(app, "/api/pacientes_json", "pacientes");
+useApiGet(app, "/api/patients_json", "patients", false);
+useApiGet(app, "/api/pavanzada_json", "pavanzada"); // nueva estructura
+useApiGet(app, "/api/ptriage_json", "ptriage"); // nueva estructura
 useApiGet(app, "/api/optometry_json", "optometry");
 useApiGet(app, "/api/farma_json", "farma");
 useApiGet(app, "/api/generalmed_json", "generalmed");
@@ -293,9 +298,9 @@ app.post(
   }
 );
 
-// Create a new pacient
+// Create a new pavanzada
 app.post(
-  "/api/pacientes_json",
+  "/api/pavanzada_json",
   [
     check("id_num_doc")
       .notEmpty()
@@ -310,9 +315,6 @@ app.post(
     check("nacimiento")
       .notEmpty()
       .withMessage("Fecha de nacimiento del paciente es requerido"),
-    check("celular")
-      .notEmpty()
-      .withMessage("Celular del paciente es requerido"),
   ],
   validatePostData,
   (req, res) => {
@@ -331,29 +333,18 @@ app.post(
       nacimiento,
       estado_civil,
       sexo,
-      ocupacion,
-      direccion_domicilio,
-      localidad,
-      telefono_fijo,
-      celular,
-      acompanante,
-      responsable,
-      celular_acompanante,
-      celular_responsable,
-      parentesco_responsable,
-      aseguradora,
-      tipo_vinculacion,
     } = req.body;
 
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.pacientes (voided, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.pavanzada (voided, fecha_registro, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
       [
         voided,
+        fecha_registro,
         id_num_doc.trim(),
         tipo_doc.trim(),
         nombres.trim(),
@@ -361,19 +352,6 @@ app.post(
         nacimiento,
         estado_civil.trim(),
         sexo.trim(),
-        ocupacion ? ocupacion.trim() : null,
-        direccion_domicilio ? direccion_domicilio.trim() : null,
-        localidad ? localidad.trim() : null,
-        telefono_fijo ? telefono_fijo.trim() : null,
-        celular.trim(),
-        acompanante ? acompanante.trim() : null,
-        responsable ? responsable.trim() : null,
-        celular_acompanante ? celular_acompanante.trim() : null,
-        celular_responsable ? celular_responsable.trim() : null,
-        parentesco_responsable ? parentesco_responsable.trim() : null,
-        aseguradora.trim(),
-        tipo_vinculacion.trim(),
-        fecha_registro,
       ],
       (error, results) => {
         if (error) {
@@ -387,6 +365,7 @@ app.post(
         res.status(201).json({
           id_cnt: results.insertId,
           voided,
+          fecha_registro,
           id_num_doc,
           tipo_doc,
           nombres,
@@ -394,7 +373,116 @@ app.post(
           nacimiento,
           estado_civil,
           sexo,
-          ocupacion,
+        });
+      }
+    );
+  }
+);
+
+// Create a new ptriage
+app.post(
+  "/api/ptriage_json",
+  [
+    check("id_num_doc")
+      .notEmpty()
+      .withMessage("El número de documento de identiidad es requerido"),
+    check("celular")
+      .notEmpty()
+      .withMessage("Celular del paciente es requerido"),
+      check("frec_cardiaca")
+      .isInt({ min: 20 })
+      .withMessage("La frecuencia cardiaca es requerida"),
+    check("tension_arterial")
+      .notEmpty()
+      .withMessage("La tensión arterial es requerida"),
+    check("frec_respiratoria")
+      .isInt({ min: 1 })
+      .withMessage("La frecuencia respiratoria es requerida"),
+    check("sat_o2")
+      .isInt({ min: 10 })
+      .withMessage("La saturación de oxígeno es requerida"),
+    check("temperatura")
+      .isInt({ min: 20 })
+      .withMessage("La temperatura es requerida"),
+    check("diagnostico").notEmpty().withMessage("El diagnóstico es requerido"),
+  ],
+  validatePostData,
+  (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      voided,
+      id_num_doc,
+      ocupacion,
+      direccion_domicilio,
+      localidad,
+      telefono_fijo,
+      celular,
+      acompanante,
+      responsable,
+      celular_acompanante,
+      celular_responsable,
+      parentesco_responsable,
+      aseguradora,
+      tipo_vinculacion,
+      frec_cardiaca,
+      tension_arterial,
+      frec_respiratoria,
+      sat_o2,
+      temperatura,
+      peso,
+      talla,
+    } = req.body;
+
+    const fecha_registro = new Date(); // Get the current date and time
+
+    const query =
+      "INSERT INTO alasparagente.ptriage (voided, fecha_registro, id_num_doc, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [
+        voided,
+        fecha_registro,
+        id_num_doc.trim(),
+        ocupacion ? ocupacion.trim() : null,
+        direccion_domicilio ? direccion_domicilio.trim() : null,
+        localidad ? localidad.trim() : null,
+        telefono_fijo ? telefono_fijo.trim() : null,
+        celular.trim(),
+        acompanante ? acompanante.trim() : null,
+        responsable ? responsable.trim() : null,
+        celular_acompanante ? celular_acompanante.trim() : null,
+        celular_responsable ? celular_responsable.trim() : null,
+        parentesco_responsable ? parentesco_responsable.trim() : null,
+        aseguradora.trim(),
+        tipo_vinculacion.trim(),
+        frec_cardiaca,
+        tension_arterial,
+        frec_respiratoria,
+        sat_o2,
+        temperatura,
+        peso,
+        talla,
+      ],
+      (error, results) => {
+        if (error) {
+          console.error("Error ejecutando la query: ", error);
+          return res
+            .status(500)
+            .json({ error: "Error cargando nuevo paciente." });
+        }
+
+        // Respond with the newly created Pacientes data
+        res.status(201).json({
+          id_cnt: results.insertId,
+          voided,
+          fecha_registro,
+          id_num_doc,
           direccion_domicilio,
           localidad,
           telefono_fijo,
@@ -406,7 +494,13 @@ app.post(
           parentesco_responsable,
           aseguradora,
           tipo_vinculacion,
-          fecha_registro,
+          frec_cardiaca,
+          tension_arterial,
+          frec_respiratoria,
+          sat_o2,
+          temperatura,
+          peso,
+          talla,
         });
       }
     );
@@ -423,7 +517,9 @@ app.post(
     check("location_b")
       .notEmpty()
       .withMessage("La brigada donde será atendido es requerida"),
-    check("especialidad").notEmpty().withMessage("La especialidad para atender es requerida"),
+    check("especialidad")
+      .notEmpty()
+      .withMessage("La especialidad para atender es requerida"),
     check("motivo_consulta")
       .notEmpty()
       .withMessage("El motivo de consulta del paciente es requerido"),
@@ -436,13 +532,8 @@ app.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      voided,
-      id_num_doc,
-      location_b,
-      especialidad,
-      motivo_consulta,
-    } = req.body;
+    const { voided, id_num_doc, location_b, especialidad, motivo_consulta } =
+      req.body;
 
     const fecha_asigna = new Date(); // Get the current date and time
 
@@ -845,22 +936,6 @@ app.post(
     check("id_num_doc")
       .notEmpty()
       .withMessage("El ID del Paciente es requerido"),
-    check("frec_cardiaca")
-      .isInt({ min: 20 })
-      .withMessage("La frecuencia cardiaca es requerida"),
-    check("tension_arterial")
-      .notEmpty()
-      .withMessage("La tensión arterial es requerida"),
-    check("frec_respiratoria")
-      .isInt({ min: 1 })
-      .withMessage("La frecuencia respiratoria es requerida"),
-    check("sat_o2")
-      .isInt({ min: 10 })
-      .withMessage("La saturación de oxígeno es requerida"),
-    check("temperatura")
-      .isInt({ min: 30 })
-      .withMessage("La temperatura es requerida"),
-    check("diagnostico").notEmpty().withMessage("El diagnóstico es requerido"),
   ],
   validatePostData,
   (req, res) => {
@@ -874,13 +949,6 @@ app.post(
       voided,
       especialidad,
       id_num_doc,
-      frec_cardiaca,
-      tension_arterial,
-      frec_respiratoria,
-      sat_o2,
-      temperatura,
-      peso,
-      talla,
       paraclinicos,
       enfermedad_actual,
       gineco,
@@ -920,7 +988,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.generalmed (voided, especialidad, id_num_doc, fecha_registro, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.generalmed (voided, especialidad, id_num_doc, fecha_registro, paraclinicos, enfermedad_actual, gineco, gineco_gestaciones, gineco_partos, gineco_cesarias, gineco_abortos, gineco_vivos, alergias, med_alergias, med_antecedentes, transfusion_ant, quirurgicos_ant, alcohol_ant, fuma_ant, psicoactivas_ant, familia_ant, diagnostico, impresion_diagnostico, confirmado_diagnostico, cod_cie10, consulta_1vez, consulta_control, enfermedad_general, paciente_sano, maternidad, accidente_trabajo, enfermedad_profesional, plan, tratamiento, seguimiento, cual, remision, medicamentos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -929,13 +997,6 @@ app.post(
         especialidad,
         id_num_doc,
         fecha_registro,
-        frec_cardiaca,
-        tension_arterial,
-        frec_respiratoria,
-        sat_o2,
-        temperatura,
-        peso,
-        talla,
         paraclinicos,
         enfermedad_actual,
         gineco,
@@ -986,13 +1047,6 @@ app.post(
           especialidad,
           id_num_doc,
           fecha_registro,
-          frec_cardiaca,
-          tension_arterial,
-          frec_respiratoria,
-          sat_o2,
-          temperatura,
-          peso,
-          talla,
           paraclinicos,
           enfermedad_actual,
           gineco,

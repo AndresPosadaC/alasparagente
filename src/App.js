@@ -7,6 +7,7 @@ import Login from "./components/Users/Login";
 import ExpensesPage from "./components/Expenses/ExpensesPage";
 import MovementsPage from "./components/Movements/MovementsPage";
 import PatientsPage from "./components/Patients/PatientsPage";
+import TriagePage from "./components/Medic/TriagePage";
 import OptometryPage from "./components/Medic/OptometryPage";
 import OdontologyPage from "./components/Medic/OdontologyPage";
 import GeneralmedPage from "./components/Medic/GeneralmedPage";
@@ -19,7 +20,7 @@ const App = () => {
     setIsAuthenticated(true);
     setRole(role);
   }; 
-
+ 
   return (
     <Router>
       <Navigation isAuthenticated={isAuthenticated} role={role} onLogout={() => setIsAuthenticated(false)} />
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/expenses" element={<ExpensesPage />} />
             <Route path="/movements" element={<MovementsPage />} />
             <Route path="/patients" element={<PatientsPage />} />
+            <Route path="/triage" element={<TriagePage />} />
             <Route path="/generalmed" element={<GeneralmedPage />} />
             <Route path="/odontology" element={<OdontologyPage />} />
             <Route path="/optometry" element={<OptometryPage />} />
