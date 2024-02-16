@@ -22,7 +22,7 @@ const PatientForm = (props) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { data: idNumOptions } = useFetchData("pacientes_json");
+  const { data: idNumOptions } = useFetchData("pavanzada_json");
 
   const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
@@ -30,10 +30,14 @@ const PatientForm = (props) => {
 
   // Make the POST request using the useApiPost hook
   const { postData: postPatientData, error: patientError } =
-    useApiPost("pacientes_json");
+    useApiPost("pavanzada_json");
 
   const { postData: postPatientAsignData, error: patientAsignError } =
     useApiPost("asigna_json");
+
+  // const idNumDocChangeHandler = (event) => {
+  //   setEnteredIdNumDoc(event.target.value);
+  // };
 
   const idNumDocChangeHandler = (event) => {
     setEnteredIdNumDoc(event.target.value);
@@ -89,6 +93,33 @@ const PatientForm = (props) => {
     setEnteredMotivoConsulta("");
   };
 
+  const checkExistingID = () => {
+    const isIDinPatients = idNumOptions.some(
+      (item) => item.id_num_doc === enteredIdNumDoc
+    );
+
+    if (isIDinPatients) {
+      setErrorMessage("ID " + enteredIdNumDoc + " ya registrada ");
+    } else {
+      setErrorMessage(null);
+    }
+  };
+
+  // Attach the event listener to trigger the check
+  useEffect(() => {
+    const idNumDocInput = document.getElementById("id-num-doc");
+
+    const handleInput = () => {
+      setEnteredIdNumDoc(idNumDocInput.value);
+    };
+
+    idNumDocInput.addEventListener("input", handleInput);
+
+    return () => {
+      idNumDocInput.removeEventListener("input", handleInput);
+    };
+  }, []);
+
   const submitPatientHandler = async (event) => {
     event.preventDefault();
 
@@ -98,7 +129,9 @@ const PatientForm = (props) => {
       !enteredNombres ||
       !enteredApellidos ||
       !enteredNacimiento ||
-      !enteredSexo
+      !enteredSexo ||
+      !selectedBrigada ||
+      !selectedEspecialidad
     ) {
       setErrorMessage("Por favor, completa todos los campos requeridos con * ");
       return; // Exit the function early, no need to continue checking other conditions
@@ -212,8 +245,10 @@ const PatientForm = (props) => {
               type="text"
               value={enteredIdNumDoc}
               onChange={idNumDocChangeHandler}
+              onBlur={checkExistingID}  // Check when the input loses focus
             />
           </div>
+
           <div className="new-patient__control">
             <label htmlFor="nombres">Nombres del Paciente *</label>
             <input
@@ -339,6 +374,7 @@ const PatientForm = (props) => {
         <button type="button" onClick={submitPatientHandler}>
           Agregar Paciente
         </button>
+       
         {showSuccessMessage && (
           <PopupMessage
             message="¡Datos agregados exitosamente!"

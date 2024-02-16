@@ -8,12 +8,12 @@ const PatientsList = (props) => {
   if (props.items.length === 0) {
     return <h2 className='patients-list__fallback'>No encontró resultados.</h2>;
   }
-
+ 
   return (
     <ul className='patients-list'>
       {props.items.map((patient) => (
         <PatientItem
-        key={patient.id_cnt}
+        key={patient.id_num_doc}
         id_num_doc={patient.id_num_doc}
         nombres={patient.nombres}
         apellidos={patient.apellidos}

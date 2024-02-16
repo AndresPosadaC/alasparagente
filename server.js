@@ -404,7 +404,6 @@ app.post(
     check("temperatura")
       .isInt({ min: 20 })
       .withMessage("La temperatura es requerida"),
-    check("diagnostico").notEmpty().withMessage("El diagnóstico es requerido"),
   ],
   validatePostData,
   (req, res) => {

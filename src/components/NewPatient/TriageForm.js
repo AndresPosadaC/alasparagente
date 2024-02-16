@@ -8,7 +8,7 @@ import CheckboxOrTextInput from "../NewMedic/CheckboxOrTextInput";
 
 import "./PatientForm.css";
 
-const TriegeForm = (props) => {
+const TriageForm = (props) => {
   const [selectedVoided, setSelectedVoided] = useState("0");
   const [enteredIdNumDoc, setEnteredIdNumDoc] = useState("");
   const [enteredOcupacion, setEnteredOcupacion] = useState("");
@@ -37,7 +37,6 @@ const TriegeForm = (props) => {
 
   const [selectedBrigada, setSelectedBrigada] = useState("");
   const [selectedEspecialidad, setSelectedEspacialidad] = useState("");
-  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -50,15 +49,12 @@ const TriegeForm = (props) => {
 
   const { data: patientOptions } = useApiData("pavanzada_json", "id_num_doc");
 
-  // Make the POST request using the useApiPost hook
-  const { postData: postTriegeData, error: triegeError } =
-    useApiPost("pavanzada_json");
-
-  const { postData: postPatientAsignData, error: patientAsignError } =
-    useApiPost("asigna_json");
-
   const { data: pasignadosData, refreshData: refreshAsignados } =
-    useFetchData("pasignados_json");
+  useFetchData("pasignados_json");
+
+  // Make the POST request using the useApiPost hook
+  const { postData: postTriageData, error: triageError } =
+    useApiPost("ptriage_json");
 
   useEffect(() => {
     if (selectedBrigada && enteredIdNumDoc && selectedEspecialidad) {
@@ -206,7 +202,6 @@ const TriegeForm = (props) => {
     setEnteredTipoVinculacion("");
     setSelectedBrigada("");
     setSelectedEspacialidad("");
-    setEnteredMotivoConsulta("");
     setEnteredFrecCardiaca("");
     setEnteredTensionArterial("");
     setEnteredFrecRespiratoria("");
@@ -217,7 +212,7 @@ const TriegeForm = (props) => {
   };
 
   // Define a submit handler for the generalmed form
-  const submitTriegeHandler = async (event) => {
+  const submitTriageHandler = async (event) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
@@ -233,6 +228,7 @@ const TriegeForm = (props) => {
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
+      !enteredCelular ||
       !enteredFrecCardiaca ||
       !enteredTensionArterial ||
       !enteredFrecRespiratoria ||
@@ -259,8 +255,8 @@ const TriegeForm = (props) => {
       return;
     }
 
-    // Create an object for the triege data
-    const triegeData = {
+    // Create an object for the triage data
+    const triageData = {
       voided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
       ocupacion: enteredOcupacion,
@@ -285,29 +281,14 @@ const TriegeForm = (props) => {
       // Add the rest of the fields here...
     };
 
-    const asignData = {
-      voided: selectedVoided,
-      id_num_doc: enteredIdNumDoc,
-      location_b: selectedBrigada,
-      especialidad: selectedEspecialidad,
-      motivo_consulta: enteredMotivoConsulta,
-    };
-
-    const successTriegeData = await postTriegeData(triegeData).catch(
+    const successTriageData = await postTriageData(triageData).catch(
       (error) => {
         setErrorMessage("Error añadiendo el paciente ");
-        console.error("Error adding data to ptriege:", triegeError);
+        console.error("Error adding data to ptriage:", triageError);
       }
     );
 
-    const successPatientAsignData = await postPatientAsignData(asignData).catch(
-      (error) => {
-        setErrorMessage("Error asignando el paciente ");
-        console.error("Error asignando data del paciente:", patientAsignError);
-      }
-    );
-
-    if (successTriegeData && successPatientAsignData) {
+    if (successTriageData) {
       setShowSuccessMessage(true);
       setTimeout(() => {
         setShowSuccessMessage(false);
@@ -344,7 +325,6 @@ const TriegeForm = (props) => {
       setEnteredTalla("");
       setSelectedBrigada("");
       setSelectedEspacialidad("");
-      setEnteredMotivoConsulta("");
       refreshAsignados();
     }
   }, [showSuccessMessage, refreshAsignados]);
@@ -392,7 +372,7 @@ const TriegeForm = (props) => {
   ];
 
   return (
-    <form onSubmit={submitTriegeHandler}>
+    <form onSubmit={submitTriageHandler}>
       <div className="new-patient__controls">
         <h1>Datos de identificación del paciente</h1>
         <div id="new-patient-container" className="new-patient__controls">
@@ -422,7 +402,7 @@ const TriegeForm = (props) => {
             <div id="patient-item-container" className="patient-item-container">
               <label htmlFor="brigada_triage"></label>
               <select
-                id="brigada_triege"
+                id="brigada_triage"
                 value={selectedBrigada}
                 onChange={brigadaChangeHandler}
                 className="dropdown-select"
@@ -438,7 +418,7 @@ const TriegeForm = (props) => {
               <label htmlFor="id_num_triage"></label>
               <input
                 className="dropdown-select"
-                id="id_num_triege"
+                id="id_num_triage"
                 type="text"
                 value={enteredIdNumDoc}
                 onChange={findIDHandler}
@@ -491,7 +471,7 @@ const TriegeForm = (props) => {
             />
           </div>
           <div className="new-patient__control">
-            <label htmlFor="celular">Celular</label>
+            <label htmlFor="celular">Celular *</label>
             <input
               id="celular"
               type="text"
@@ -617,7 +597,7 @@ const TriegeForm = (props) => {
         <button type="button" onClick={handleCancel}>
           Cancelar
         </button>
-        <button type="button" onClick={submitTriegeHandler}>
+        <button type="button" onClick={submitTriageHandler}>
           Agregar Paciente
         </button>
         {showSuccessMessage && (
@@ -640,4 +620,4 @@ const TriegeForm = (props) => {
   );
 };
 
-export default TriegeForm;
+export default TriageForm;
