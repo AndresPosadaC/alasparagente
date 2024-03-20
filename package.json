@@ -17,7 +17,7 @@
     "web-vitals": "^3.4.0"
   },
   "scripts": {
-    "start": "HOST=192.168.20.59 react-scripts start",
+    "start": "HOST=172.20.10.4 react-scripts start",
     "server": "node server.js",
     "start-all": "npm-run-all -p start server",
     "build": "react-scripts build",

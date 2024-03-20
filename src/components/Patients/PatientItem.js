@@ -7,6 +7,7 @@ const PatientItem = (props) => {
   // Create an array of JSX elements
   const personalItems = [
     { label: "Género", value: props.sexo },
+    { label: "Estado Civil", value: props.estado_civil },
     { label: "Ocupacion", value: props.ocupacion },
     { label: "Direccion", value: props.direccion_domicilio },
     { label: "Localidad", value: props.localidad },
@@ -44,7 +45,7 @@ const PatientItem = (props) => {
             {props.tipo_doc}: {props.id_num_doc}
           </h2>
           <h2 className="patient-item__quantity">Edad: {props.edad}</h2>
-          <h2>Estado Civil: {props.estado_civil}</h2>
+          <h2 className="patient-item__quantity">ESPECIALIDAD: {props.especialidad}</h2>
         </div>
         <div className="patient-item">
           <div className="patient-item__details">

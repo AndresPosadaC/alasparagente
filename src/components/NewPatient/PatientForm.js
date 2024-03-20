@@ -15,6 +15,13 @@ const PatientForm = (props) => {
   const [enteredNacimiento, setEnteredNacimiento] = useState("");
   const [enteredEstadoCivil, setEnteredEstadoCivil] = useState("");
   const [enteredSexo, setEnteredSexo] = useState("");
+  const [enteredCelular, setEnteredCelular] = useState("");
+  const [enteredResponsable, setEnteredResponsable] = useState("");
+  const [enteredEtnia, setEnteredEtnia] = useState("");
+  const [enteredParentescoResponsable, setEnteredParentescoResponsable] =
+    useState("");
+  const [enteredAseguradora, setEnteredAseguradora] = useState("");
+  const [enteredTipoVinculacion, setEnteredTipoVinculacion] = useState("");
   const [selectedBrigada, setSelectedBrigada] = useState("");
   const [selectedEspecialidad, setSelectedEspacialidad] = useState("");
   const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
@@ -67,6 +74,30 @@ const PatientForm = (props) => {
     setEnteredSexo(event.target.value);
   };
 
+  const celularChangeHandler = (event) => {
+    setEnteredCelular(event.target.value);
+  };
+
+  const responsableChangeHandler = (event) => {
+    setEnteredResponsable(event.target.value);
+  };
+
+  const parentescoResponsableChangeHandler = (event) => {
+    setEnteredParentescoResponsable(event.target.value);
+  };
+
+  const aseguradoraChangeHandler = (event) => {
+    setEnteredAseguradora(event.target.value);
+  };
+
+  const tipoVinculacionChangeHandler = (event) => {
+    setEnteredTipoVinculacion(event.target.value);
+  };
+
+  const etniaChangeHandler = (event) => {
+    setEnteredEtnia(event.target.value);
+  };
+
   const brigadaChangeHandler = (event) => {
     setSelectedBrigada(event.target.value);
   };
@@ -75,9 +106,11 @@ const PatientForm = (props) => {
     setSelectedEspacialidad(event.target.value);
   };
 
-  const motivoConsultaChangeHandler = (event) => {
+  {
+    /*const motivoConsultaChangeHandler = (event) => {
     setEnteredMotivoConsulta(event.target.value);
-  };
+  };*/
+  }
 
   const handleCancel = () => {
     setSelectedVoided("0");
@@ -88,6 +121,12 @@ const PatientForm = (props) => {
     setEnteredNacimiento("");
     setEnteredEstadoCivil("");
     setEnteredSexo("");
+    setEnteredCelular("");
+    setEnteredResponsable("");
+    setEnteredParentescoResponsable("");
+    setEnteredAseguradora("");
+    setEnteredTipoVinculacion("");
+    setEnteredEtnia("");
     setSelectedBrigada("");
     setSelectedEspacialidad("");
     setEnteredMotivoConsulta("");
@@ -162,6 +201,12 @@ const PatientForm = (props) => {
         nacimiento: formattedDate,
         estado_civil: enteredEstadoCivil,
         sexo: enteredSexo,
+        celular: enteredCelular,
+        responsable: enteredResponsable,
+        parentesco_responsable: enteredParentescoResponsable,
+        aseguradora: enteredAseguradora,
+        tipo_vinculacion: enteredTipoVinculacion,
+        etnia: enteredEtnia,
       };
 
       const asignData = {
@@ -208,6 +253,12 @@ const PatientForm = (props) => {
       setEnteredNacimiento("");
       setEnteredEstadoCivil("");
       setEnteredSexo("");
+      setEnteredCelular("");
+      setEnteredResponsable("");
+      setEnteredParentescoResponsable("");
+      setEnteredAseguradora("");
+      setEnteredTipoVinculacion("");
+      setEnteredEtnia("");
       setSelectedBrigada("");
       setSelectedEspacialidad("");
       setEnteredMotivoConsulta("");
@@ -245,7 +296,7 @@ const PatientForm = (props) => {
               type="text"
               value={enteredIdNumDoc}
               onChange={idNumDocChangeHandler}
-              onBlur={checkExistingID}  // Check when the input loses focus
+              onBlur={checkExistingID} // Check when the input loses focus
             />
           </div>
 
@@ -310,6 +361,103 @@ const PatientForm = (props) => {
           </div>
         </div>
         <div className="new-patient__controls">
+          <h1>Datos adicionales del paciente</h1>
+        </div>
+        <div
+          id="triageform"
+          className="patient-item-container .new-patient__controls"
+        >
+          <div className="new-patient__control">
+            <label htmlFor="celular">Celular *</label>
+            <input
+              id="celular"
+              type="text"
+              value={enteredCelular}
+              onChange={celularChangeHandler}
+            />
+          </div>
+        </div>
+
+        <div className="patient-item-container">
+          <select
+            id="etnia"
+            value={enteredEtnia}
+            onChange={etniaChangeHandler}
+            className="dropdown-select"
+          >
+            <option value="">Seleccionar Etnia</option>
+            <option value="Mestizo">Mestizo</option>
+            <option value="Raizales">Raizales</option>
+            <option value="Indigenas">Indigenas</option>
+            <option value="Afrodecendientes">Afrodecendientes</option>
+            <option value="Rom o Gitano">Rom o Gitano</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+
+        <div
+          id="triageform"
+          className="patient-item-container .new-patient__controls"
+        >
+          <div className="new-patient__control">
+            <label htmlFor="responsable">Nombres y Apellidos Responsable</label>
+            <input
+              id="responsable"
+              type="text"
+              value={enteredResponsable}
+              onChange={responsableChangeHandler}
+            />
+          </div>
+          <div className="new-patient__control">
+            <label htmlFor="parentesco_responsable">
+              Parentesco Responsable
+            </label>
+            <input
+              id="parentesco_responsable"
+              type="text"
+              value={enteredParentescoResponsable}
+              onChange={parentescoResponsableChangeHandler}
+            />
+          </div>
+        </div>
+
+        <div className="patient-item-container">
+          <select
+            id="aseguradora"
+            value={enteredAseguradora}
+            onChange={aseguradoraChangeHandler}
+            className="dropdown-select"
+          >
+            <option value="">Seleccionar Aseguradora</option>
+            <option value="Axa Colpatria">Axa Colpatria</option>
+            <option value="Colsanitas">Colsanitas</option>
+            <option value="Compensar">Compensar</option>
+            <option value="Coomeva">Coomeva</option>
+            <option value="MedPlus">MedPlus</option>
+            <option value="Seguros Bolivar">Seguros Bolivar</option>
+            <option value="Sura">Sura</option>
+            <option value="Sisben">Sisben</option>
+            <option value="No Tiene">No Tiene</option>
+          </select>
+        </div>
+
+        <div className="patient-item-container">
+          <select
+            id="tipo_vinculacion"
+            value={enteredTipoVinculacion}
+            onChange={tipoVinculacionChangeHandler}
+            className="dropdown-select"
+          >
+            <option value="">Seleccionar Vinculación</option>
+            <option value="Contributivo">Contributivo</option>
+            <option value="Subsidiado">Subsidiado</option>
+            <option value="Especial">Especial</option>
+            <option value="Excepcion">Excepcion</option>
+            <option value="No Cotiza">No Cotiza</option>
+          </select>
+        </div>
+
+        <div className="new-patient__controls">
           <div className="patient-item-container .new-patient__controls">
             <h1>Asignación</h1>
             <div className="new-patient__controls">
@@ -348,7 +496,7 @@ const PatientForm = (props) => {
               </select>
             </div>
 
-            <div className="new-patient__controls">
+            {/*<div className="new-patient__controls">
               <div
                 id="motivo-consulta-container"
                 className="patient-item-container-wrapper"
@@ -363,7 +511,7 @@ const PatientForm = (props) => {
                   />
                 </label>
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
@@ -374,7 +522,7 @@ const PatientForm = (props) => {
         <button type="button" onClick={submitPatientHandler}>
           Agregar Paciente
         </button>
-       
+
         {showSuccessMessage && (
           <PopupMessage
             message="¡Datos agregados exitosamente!"

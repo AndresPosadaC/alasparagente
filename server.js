@@ -9,9 +9,10 @@ const app = express();
 
 app.use(
   cors({
-    // origin: "http://192.168.10.15:3000",
+    origin: "http://172.20.10.4:3000",
+    // origin: "http://192.168.10.14:3000",
     // origin: "http://192.168.0.12:3000",
-    origin: "http://192.168.20.59:3000",
+    // origin: "http://192.168.0.7:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
@@ -55,8 +56,8 @@ const useApiGet = (app, url, tableName, hasVoidedColumn = true) => {
           .json({ error: "Error fetching data from database", details: error });
         return;
       }
-      //res.header("Access-Control-Allow-Origin", "http://192.168.10.15:3000");
-      res.header("Access-Control-Allow-Origin", "http://192.168.20.59:3000");
+      res.header("Access-Control-Allow-Origin", "http://172.20.10.4:3000");
+      // res.header("Access-Control-Allow-Origin", "http://192.168.0.7:3000");
       res.header(
         "Access-Control-Allow-Methods",
         "GET,HEAD,PUT,PATCH,POST,DELETE"
@@ -315,6 +316,9 @@ app.post(
     check("nacimiento")
       .notEmpty()
       .withMessage("Fecha de nacimiento del paciente es requerido"),
+    check("celular")
+      .notEmpty()
+      .withMessage("Celular del paciente es requerido"),
   ],
   validatePostData,
   (req, res) => {
@@ -331,14 +335,21 @@ app.post(
       nombres,
       apellidos,
       nacimiento,
+      edad,
       estado_civil,
       sexo,
+      celular,
+      responsable,
+      parentesco_responsable,
+      etnia,
+      aseguradora,
+      tipo_vinculacion,
     } = req.body;
 
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.pavanzada (voided, fecha_registro, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.pavanzada (voided, fecha_registro, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, edad, estado_civil, sexo, celular, responsable, parentesco_responsable, etnia, aseguradora, tipo_vinculacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -350,8 +361,15 @@ app.post(
         nombres.trim(),
         apellidos.trim(),
         nacimiento,
+        edad,
         estado_civil.trim(),
         sexo.trim(),
+        celular.trim(),
+        responsable ? responsable.trim() : null,
+        parentesco_responsable ? parentesco_responsable.trim() : null,
+        etnia ? etnia.trim() : null,
+        aseguradora.trim(),
+        tipo_vinculacion.trim(),
       ],
       (error, results) => {
         if (error) {
@@ -371,8 +389,15 @@ app.post(
           nombres,
           apellidos,
           nacimiento,
+          edad,
           estado_civil,
           sexo,
+          celular,
+          responsable,
+          parentesco_responsable,
+          etnia,
+          aseguradora,
+          tipo_vinculacion,
         });
       }
     );
@@ -386,10 +411,7 @@ app.post(
     check("id_num_doc")
       .notEmpty()
       .withMessage("El número de documento de identiidad es requerido"),
-    check("celular")
-      .notEmpty()
-      .withMessage("Celular del paciente es requerido"),
-      check("frec_cardiaca")
+    check("frec_cardiaca")
       .isInt({ min: 20 })
       .withMessage("La frecuencia cardiaca es requerida"),
     check("tension_arterial")
@@ -416,18 +438,6 @@ app.post(
     const {
       voided,
       id_num_doc,
-      ocupacion,
-      direccion_domicilio,
-      localidad,
-      telefono_fijo,
-      celular,
-      acompanante,
-      responsable,
-      celular_acompanante,
-      celular_responsable,
-      parentesco_responsable,
-      aseguradora,
-      tipo_vinculacion,
       frec_cardiaca,
       tension_arterial,
       frec_respiratoria,
@@ -435,12 +445,14 @@ app.post(
       temperatura,
       peso,
       talla,
+      dolor,
+      valoracion,
     } = req.body;
 
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.ptriage (voided, fecha_registro, id_num_doc, ocupacion, direccion_domicilio, localidad, telefono_fijo, celular, acompanante, responsable, celular_acompanante, celular_responsable, parentesco_responsable, aseguradora, tipo_vinculacion, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.ptriage (voided, fecha_registro, id_num_doc, frec_cardiaca, tension_arterial, frec_respiratoria, sat_o2, temperatura, peso, talla, dolor, valoracion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -448,18 +460,6 @@ app.post(
         voided,
         fecha_registro,
         id_num_doc.trim(),
-        ocupacion ? ocupacion.trim() : null,
-        direccion_domicilio ? direccion_domicilio.trim() : null,
-        localidad ? localidad.trim() : null,
-        telefono_fijo ? telefono_fijo.trim() : null,
-        celular.trim(),
-        acompanante ? acompanante.trim() : null,
-        responsable ? responsable.trim() : null,
-        celular_acompanante ? celular_acompanante.trim() : null,
-        celular_responsable ? celular_responsable.trim() : null,
-        parentesco_responsable ? parentesco_responsable.trim() : null,
-        aseguradora.trim(),
-        tipo_vinculacion.trim(),
         frec_cardiaca,
         tension_arterial,
         frec_respiratoria,
@@ -467,6 +467,8 @@ app.post(
         temperatura,
         peso,
         talla,
+        dolor,
+        valoracion,
       ],
       (error, results) => {
         if (error) {
@@ -482,17 +484,6 @@ app.post(
           voided,
           fecha_registro,
           id_num_doc,
-          direccion_domicilio,
-          localidad,
-          telefono_fijo,
-          celular,
-          acompanante,
-          responsable,
-          celular_acompanante,
-          celular_responsable,
-          parentesco_responsable,
-          aseguradora,
-          tipo_vinculacion,
           frec_cardiaca,
           tension_arterial,
           frec_respiratoria,
@@ -500,6 +491,8 @@ app.post(
           temperatura,
           peso,
           talla,
+          dolor,
+          valoracion,
         });
       }
     );
@@ -519,9 +512,6 @@ app.post(
     check("especialidad")
       .notEmpty()
       .withMessage("La especialidad para atender es requerida"),
-    check("motivo_consulta")
-      .notEmpty()
-      .withMessage("El motivo de consulta del paciente es requerido"),
   ],
   validatePostData,
   (req, res) => {

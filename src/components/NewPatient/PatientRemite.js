@@ -43,9 +43,9 @@ const PatientRemite = (props) => {
     setSelectedEspacialidad(event.target.value);
   };
 
-  const motivoConsultaChangeHandler = (event) => {
+  {/*const motivoConsultaChangeHandler = (event) => {
     setEnteredMotivoConsulta(event.target.value);
-  };
+  };*/}
 
   const handleCancel = () => {
     setSelectedVoided("0");
@@ -119,7 +119,7 @@ const PatientRemite = (props) => {
     <form onSubmit={submitPatientHandler}>
       <div className="new-patient__controls">
         <div className="patient-item-container .new-patient__controls"> 
-          <h1>Asignación médica</h1>
+          <h1>Reasignacion Médica</h1>
           <div className="new-patient__controls">
             <div className="new-patient__controls">
               <label htmlFor="id-num-doc-rm"></label>
@@ -171,7 +171,7 @@ const PatientRemite = (props) => {
                 <option defaultValue="Pediatria">Pediatria</option>
               </select>
             </div>
-            <div id="motivo-consulta-container" className="new-medic__control">
+            {/*<div id="motivo-consulta-container" className="new-medic__control">
               <label htmlFor="motivo-remite">
                 <textarea
                   id="motivo-remite"
@@ -181,7 +181,7 @@ const PatientRemite = (props) => {
                   placeholder="Motivo de remisión o asignación"
                 />
               </label>
-            </div>
+                </div>*/}
           </div>
         </div>
       </div>
