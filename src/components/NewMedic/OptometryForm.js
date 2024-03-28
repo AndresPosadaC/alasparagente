@@ -1284,7 +1284,7 @@ const OptometryForm = (props) => {
 
       <div className="new-medic__controls">
         <h1> Signos y Síntomas </h1>
-        <p> ✅ para si</p>
+        
         <div className="medic-item-container-wrapper">
           {signosYSintomasItems.map((item, index) => (
             <div
@@ -1322,7 +1322,7 @@ const OptometryForm = (props) => {
       </div>
       <div className="new-medic__controls">
         <h1> Antecedentes Personales y/o Familiares </h1>
-        <p> ✅ para si</p>
+       
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
@@ -1620,7 +1620,7 @@ const OptometryForm = (props) => {
         </div>
         <div className="new-medic__controls">
           <h1> Prescripción </h1>
-          <p> ✅ para si</p>
+          
           <div className="medic-item-container-wrapper">
             {prescripcionOp.map((item, index) => (
               <div

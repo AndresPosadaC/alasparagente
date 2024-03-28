@@ -914,7 +914,7 @@ const OdontologyForm = (props) => {
 
       <div className="new-medic__controls">
         <h1> ANAMNESIS </h1>
-        <p> ✅ para si</p>
+        
         <div className="medic-item-container-wrapper">
           {anamnesis.map((item, index) => (
             <div
@@ -935,7 +935,7 @@ const OdontologyForm = (props) => {
       </div>
       <div className="new-medic__controls">
         <h1> ANTECEDENTES MÉDICOS GENERALES </h1>
-        <p> ✅ para si</p>
+        
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
@@ -974,7 +974,7 @@ const OdontologyForm = (props) => {
 
         <div className="new-medic__controls">
           <h1> ALERGIAS</h1>
-          <p> ✅ para si</p>
+         
           <div className="medic-item-container-wrapper">
             {alergias.map((item, index) => (
               <div
@@ -996,7 +996,7 @@ const OdontologyForm = (props) => {
 
         <div className="new-medic__controls">
           <h1> EXÁMEN CLINICO</h1>
-          <p> ✅ para si</p>
+         
           <div className="medic-item-container-wrapper">
             {examenClinico.map((item, index) => (
               <div
@@ -1020,7 +1020,7 @@ const OdontologyForm = (props) => {
       <div className="medic-item-container-wrapper">
         <div className="new-medic__controls">
           <h1> EXÁMEN DENTAL </h1>
-          <p> ✅ para si</p>
+          
           <div className="medic-item-container-wrapper">
             {examenDental.map((item, index) => (
               <div

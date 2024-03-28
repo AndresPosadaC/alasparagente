@@ -12,7 +12,6 @@ const CheckboxOrTextInput = (props) => {
               checked={props.checked}
               onChange={props.onChange}
               inputProps={{ "aria-label": "controlled" }}
-              
             />
           ) : (
             <input
@@ -23,7 +22,7 @@ const CheckboxOrTextInput = (props) => {
             />
           )
         }
-        label={props.checked ? 'Si' : ''}
+        label={props.isCheckbox ? (props.checked ? "Si" : "No") : ""}
         htmlFor={props.id}
       />
     </label>
