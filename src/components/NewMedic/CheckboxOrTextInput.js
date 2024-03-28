@@ -1,25 +1,31 @@
-import React from 'react';
- 
+import React from "react";
+import { FormControlLabel, Switch } from "@mui/material";
+
 const CheckboxOrTextInput = (props) => {
   return (
     <label htmlFor={props.id}>
       {props.label}
-      {props.isCheckbox ? (
-        <input
-          id={props.id}
-          type="checkbox"
-          checked={props.checked}
-          onChange={props.onChange}
-        />
-      ) : (
-        <input
-          id={props.id}
-          type="text"
-          className={`input ${props.inputSize}`}
-          value={props.value}
-          onChange={props.onChange}
-        />
-      )}
+      <FormControlLabel
+        control={
+          props.isCheckbox ? (
+            <Switch
+              checked={props.checked}
+              onChange={props.onChange}
+              inputProps={{ "aria-label": "controlled" }}
+              
+            />
+          ) : (
+            <input
+              type="text"
+              className={`input ${props.inputSize}`}
+              value={props.value}
+              onChange={props.onChange}
+            />
+          )
+        }
+        label={props.checked ? 'Si' : ''}
+        htmlFor={props.id}
+      />
     </label>
   );
 };

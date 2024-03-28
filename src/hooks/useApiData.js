@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const baseUrl = 'http://172.20.10.4:3001/api/';
-// const baseUrl = 'http://192.168.0.7:3001/api/';
+// const baseUrl = 'http://172.20.10.4:3001/api/';
+ const baseUrl = 'http://192.168.10.14:3001/api/';
 
 const useApiData = (endpoint, dataField) => {
   const [data, setData] = useState([]);

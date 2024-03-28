@@ -9,8 +9,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://172.20.10.4:3000",
-    // origin: "http://192.168.10.14:3000",
+    // origin: "http://172.20.10.4:3000",
+    origin: "http://192.168.10.14:3000",
     // origin: "http://192.168.0.12:3000",
     // origin: "http://192.168.0.7:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -56,8 +56,8 @@ const useApiGet = (app, url, tableName, hasVoidedColumn = true) => {
           .json({ error: "Error fetching data from database", details: error });
         return;
       }
-      res.header("Access-Control-Allow-Origin", "http://172.20.10.4:3000");
-      // res.header("Access-Control-Allow-Origin", "http://192.168.0.7:3000");
+      // res.header("Access-Control-Allow-Origin", "http://172.20.10.4:3000");
+      res.header("Access-Control-Allow-Origin", "http://192.168.10.14:3000");
       res.header(
         "Access-Control-Allow-Methods",
         "GET,HEAD,PUT,PATCH,POST,DELETE"
