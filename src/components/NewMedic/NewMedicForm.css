@@ -82,6 +82,15 @@
     width: 20rem;
     max-width: 100%;
   }
+
+  .dropdown-select2 {
+    font: inherit;
+    padding: 0.3rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 7rem;
+    max-width: 90%;
+  }
   
   /* Style for dropdown options */
   .dropdown-select option {

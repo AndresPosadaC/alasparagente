@@ -84,6 +84,8 @@ useApiGet(app, "/api/generalmed_json", "generalmed");
 useApiGet(app, "/api/odontology_json", "odontology");
 useApiGet(app, "/api/asigna_json", "asigna");
 useApiGet(app, "/api/pasignados_json", "pasignados", false);
+useApiGet(app, "/api/odontograma_json", "odontograma");
+useApiGet(app, "/api/tratamientodonto_json", "tratamientodonto");
 //useApiGet(app, "/api/pruebas_json", "pruebas");
 
 app.use(express.static(path.join(__dirname, "build"))); // Serve static files from the build directory
@@ -1249,6 +1251,146 @@ app.post(
           observaciones2,
           diagnostico,
           plan_tratamiento,
+        });
+      }
+    );
+  }
+);
+
+// Create a new Odontograma
+app.post(
+  "/api/odontograma_json",
+  [
+    check("id_num_doc")
+      .notEmpty()
+      .withMessage("El ID del Paciente es requerido"),
+    check("location_b")
+      .notEmpty()
+      .withMessage("El nombre de la Brigada es requerido"),  
+  ],
+  validatePostData,
+  (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      voided,
+      id_num_doc,
+      location_b,
+      diente,
+      cara_diente,
+      hallazgo,
+    } = req.body;
+
+    const fecha_reg = new Date(); // Get the current date and time
+
+    const query =
+      "INSERT INTO alasparagente.odontograma (voided, fecha_reg, id_num_doc, location_b, diente, cara_diente, hallazgo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [
+        voided,
+        fecha_reg,
+        id_num_doc,
+        location_b,
+        diente,
+        cara_diente,
+        hallazgo,
+      ],
+      (error, results) => {
+        if (error) {
+          console.error("Error executing query: ", error);
+          return res.status(500).json({
+            error: "Error cargando odontograma.",
+          });
+        }
+
+        // Respond with the newly created medicine data
+        res.status(201).json({
+          id_cnt: results.insertId,
+          voided,
+          fecha_reg,
+          id_num_doc,
+          location_b,
+          diente,
+          cara_diente,
+          hallazgo,
+        });
+      }
+    );
+  }
+);
+
+// Create a new OdontoTratamiento
+app.post(
+  "/api/tratamientodonto_json",
+  [
+    check("id_num_doc")
+      .notEmpty()
+      .withMessage("El ID del Paciente es requerido"),
+    check("location_b")
+      .notEmpty()
+      .withMessage("El nombre de la Brigada es requerido"), 
+    check("cantidad")
+      .isInt({ min: 1 })
+      .isInt({ max: 100 })
+      .withMessage("Ingrese una cantidad válida para registrar"),   
+  ],
+  validatePostData,
+  (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      voided,
+      id_num_doc,
+      location_b,
+      tratamiento,
+      cantidad,
+      comentario,
+    } = req.body;
+
+    const fecha_reg = new Date(); // Get the current date and time
+
+    const query =
+      "INSERT INTO alasparagente.odontograma (voided, fecha_reg, id_num_doc, location_b, tratamiento, cantidad, comentario) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    connection.query(
+      query,
+      [
+        voided,
+        fecha_reg,
+        id_num_doc,
+        location_b,
+        tratamiento,
+        cantidad,
+        comentario,
+      ],
+      (error, results) => {
+        if (error) {
+          console.error("Error executing query: ", error);
+          return res.status(500).json({
+            error: "Error cargando tratamiento odontologia.",
+          });
+        }
+
+        // Respond with the newly created medicine data
+        res.status(201).json({
+          id_cnt: results.insertId,
+          voided,
+          id_num_doc,
+          fecha_reg,
+          location_b,
+          tratamiento,
+          cantidad,
+          comentario,
         });
       }
     );

@@ -7,6 +7,7 @@ import PatientsDataDisplay from "../PatientsDataDisplay";
 // import PatientSelection from "./PatientSelection";
 import PopupMessage from "../PopupMessage";
 import FarmaDataDisplay from "../FarmaDataDisplay";
+import OgDataDisplay from "../OgDataDisplay";
 
 import "./NewMedicForm.css";
 
@@ -68,12 +69,25 @@ const OdontologyForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredQuantity, setEnteredQuantity] = useState("");
 
+  const [enteredDiente, setEnteredDiente] = useState({});
+  const [selectedCara, setSelectedCara] = useState({});
+  const [selectedHallazgo, setSelectedHallazgo] = useState({});
+
+  const [selectedTratamiento, setSelectedTratamiento] = useState({});
+  const [enteredCantidad, setEnteredCantidad] = useState("");
+  const [enteredComentario, setEnteredComentario] = useState("");
+
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
+  const [odontogramaSuccess, setOdontogramaSuccess] = useState(false);
+  const [tratamientoSuccess, setTratamientoSuccess] = useState(false);
+
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const [filteredPatientData, setFilteredPatientData] = useState([]); // State for filtered data
-  const [filteredData, setFilteredData] = useState([]); // State for filtered data
+  const [filteredFarmaData, setFilteredFarmaData] = useState([]); // State for filtered data
+  const [filteredOgData, setFilteredOgData] = useState([]); // State for filtered data
+  const [filteredTratData, setFilteredTratData] = useState([]); // State for filtered data
 
   // Add a new instance of useApiPost for posting optometry data
   const { postData: postOdontologyData, error: odontologyError } =
@@ -89,6 +103,13 @@ const OdontologyForm = (props) => {
   const { postData: postFarmaData, error: farmaError } =
     useApiPost("farma_json");
 
+  const { postData: postOdontogramaData, error: odontogramaError } =
+    useApiPost("odontograma_json");
+
+  const { postData: postTratamientoData, error: tratamientoError } = useApiPost(
+    "tratamientodonto_json"
+  );
+
   // Fetch the data:
   const { data: farmaDataIn, refreshData: refreshFarma } =
     useFetchData("farma_json");
@@ -97,6 +118,12 @@ const OdontologyForm = (props) => {
 
   const { data: pasignadosData, refreshData: refreshAsignados } =
     useFetchData("pasignados_json");
+
+  const { data: odontogramaDataIn, refreshData: refreshOdontograma } =
+    useFetchData("odontograma_json");
+
+  const { data: tratamientoDataIn, refreshData: refreshTratamiento } =
+    useFetchData("tratamientodonto_json");
 
   useEffect(() => {
     if (selectedBrigada && enteredIdNumDoc) {
@@ -434,27 +461,155 @@ const OdontologyForm = (props) => {
     setEnteredHabitos
   );
 
-  const handleChangeObservaciones2 = handleTextChange(
-    "enteredObservaciones2",
-    setEnteredObservaciones2
-  );
-
   const handleChangeDiagnostico = handleTextChange(
     "enteredDiagnostico",
     setEnteredDiagnostico
   );
 
-  const handleChangePlanTratamiento = handleTextChange(
-    "enteredPlanTratamiento",
-    setEnteredPlanTratamiento
+  const dienteChangeHandler = handleTextChange(
+    "enteredDiente",
+    setEnteredDiente
   );
+
+  const caraChangeHandler = (event) => {
+    setSelectedCara(event.target.value);
+  };
+
+  const hallazgoChangeHandler = (event) => {
+    setSelectedHallazgo(event.target.value);
+  };
+
+  const handleOdontogramaSubmit = async (event) => {
+    event.preventDefault();
+
+    if (
+      !enteredIdNumDoc ||
+      !selectedBrigada ||
+      !enteredDiente ||
+      !selectedCara ||
+      !selectedHallazgo
+    ) {
+      setErrorMessage(
+        "Por favor, completa los campos de brigada, id paciente, numero diente, cara del diente y hallazgo"
+      );
+      return; // Exit the function early, no need to continue checking other conditions
+    }
+
+    // All conditions passed, proceed with the POST request
+    const odontogramaData = {
+      voided: selectedVoided,
+      id_num_doc: enteredIdNumDoc,
+      location_b: selectedBrigada,
+      diente: enteredDiente,
+      cara_diente: selectedCara,
+      hallazgo: selectedHallazgo,
+    };
+
+    // Use the postOdontogramaData function to make the POST request
+    const success = await postOdontogramaData(odontogramaData);
+
+    if (success) {
+      // The POST request was successful, handle accordingly
+      // For example, you can reset the form here
+      setSelectedVoided("0");
+      setEnteredDiente("");
+      setSelectedCara("");
+      setSelectedHallazgo("");
+
+      // Assume prescription update was successful
+      setOdontogramaSuccess(true);
+      refreshOdontograma();
+
+      // Reset success messages after a certain duration (optional)
+      setTimeout(() => {
+        setOdontogramaSuccess(false);
+      }, 3000); // Reset after 3 seconds (adjust as needed)
+    } else {
+      setErrorMessage("Error añadiendo informacion al odontograma");
+      console.error(
+        "Error añadiendo informacion al odontograma:",
+        odontogramaError
+      );
+    }
+  };
+
+  const tratamientoChangeHandler = handleTextChange(
+    "selectedTratamiento",
+    setSelectedTratamiento
+  );
+
+  const cantidadChangeHandler = (event) => {
+    setEnteredCantidad(event.target.value);
+  };
+
+  const comentarioChangeHandler = handleTextChange(
+    "enteredComentario",
+    setEnteredComentario
+  );
+
+  const handleTratamientoSubmit = async (event) => {
+    event.preventDefault();
+
+    if (
+      !enteredIdNumDoc ||
+      !selectedBrigada ||
+      !selectedTratamiento ||
+      !enteredCantidad
+    ) {
+      setErrorMessage(
+        "Por favor, completa los campos de id paciente, brigada, tratamiento y cantidad"
+      );
+      return; // Exit the function early, no need to continue checking other conditions
+    }
+
+    // All conditions passed, proceed with the POST request
+    const tratamientoData = {
+      voided: selectedVoided,
+      id_num_doc: enteredIdNumDoc,
+      location_b: selectedBrigada,
+      tratamiento: selectedTratamiento,
+      cantidad: enteredCantidad,
+      comentario: enteredComentario,
+    };
+
+    // Use the postOdontogramaData function to make the POST request
+    const success = await postTratamientoData(tratamientoData);
+
+    if (success) {
+      // The POST request was successful, handle accordingly
+      // For example, you can reset the form here
+      setSelectedVoided("0");
+      setSelectedTratamiento("");
+      setEnteredCantidad("");
+      setEnteredComentario("");
+
+      // Assume prescription update was successful
+      setTratamientoSuccess(true);
+      refreshTratamiento();
+
+      // Reset success messages after a certain duration (optional)
+      setTimeout(() => {
+        setTratamientoSuccess(false);
+      }, 3000); // Reset after 3 seconds (adjust as needed)
+    } else {
+      setErrorMessage(
+        "Error añadiendo informacion al tratamiento odontologico"
+      );
+      console.error(
+        "Error añadiendo informacion al tratamiento odontologico:",
+        tratamientoError
+      );
+    }
+  };
 
   // Define a submit handler for the optometry form
   const submitOdontologyHandler = async (event) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = patientOptions.includes(String(enteredIdNumDoc).trim());
+    const isValidIdNum = patientOptions.includes(
+      String(enteredIdNumDoc).trim()
+    );
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
@@ -603,8 +758,17 @@ const OdontologyForm = (props) => {
       refreshAsignados();
       refreshFarma();
       refreshMedicine();
+      refreshOdontograma();
+      refreshTratamiento();
     }
-  }, [formSuccess, refreshAsignados, refreshFarma, refreshMedicine]);
+  }, [
+    formSuccess,
+    refreshAsignados,
+    refreshFarma,
+    refreshMedicine,
+    refreshOdontograma,
+    refreshTratamiento,
+  ]);
 
   const handleCancel = () => {
     refreshAsignados();
@@ -654,20 +818,52 @@ const OdontologyForm = (props) => {
     setEnteredObservaciones2("");
     setEnteredDiagnostico("");
     setEnteredPlanTratamiento("");
+    setEnteredDiente("");
+    setSelectedCara("");
+    setSelectedHallazgo("");
+    setSelectedTratamiento("");
+    setEnteredCantidad("");
+    setEnteredComentario("");
   };
 
   useEffect(() => {
     if (selectedBrigada && enteredIdNumDoc) {
       // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
-      const filteredData = farmaDataIn.filter(
+      const filteredFarmaData = farmaDataIn.filter(
         (item) =>
           item.location_b === selectedBrigada &&
           item.id_num_doc === enteredIdNumDoc
       );
       // Set the filtered data in state
-      setFilteredData(filteredData);
+      setFilteredFarmaData(filteredFarmaData);
     }
   }, [selectedBrigada, enteredIdNumDoc, farmaDataIn]);
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredOgData = odontogramaDataIn.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc
+      );
+      // Set the filtered data in state
+      setFilteredOgData(filteredOgData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, odontogramaDataIn]);
+
+  useEffect(() => {
+    if (selectedBrigada && enteredIdNumDoc) {
+      // Filter the fetched data based on selectedBrigada and enteredIdNumDoc
+      const filteredTratData = tratamientoDataIn.filter(
+        (item) =>
+          item.location_b === selectedBrigada &&
+          item.id_num_doc === enteredIdNumDoc
+      );
+      // Set the filtered data in state
+      setFilteredTratData(filteredTratData);
+    }
+  }, [selectedBrigada, enteredIdNumDoc, tratamientoDataIn]);
 
   const anamnesis = [
     {
@@ -754,12 +950,15 @@ const OdontologyForm = (props) => {
       onChange: handleChangeFiebreReumatoidea,
     },
     {
-      label: "cirugias",
+      label: "Cirugias",
       checked: enteredCirugias,
       onChange: handleChangeCirugias,
     },
-
-    { label: "Cual?", checked: enteredCual, onChange: handleChangeCual },
+    {
+      label: "Cual? ",
+      checked: enteredCual,
+      onChange: handleChangeCual,
+    },
     {
       label: "Otra Enfermedad",
       value: enteredOtraEnfermedad,
@@ -769,7 +968,7 @@ const OdontologyForm = (props) => {
 
   const alergias = [
     {
-      label: "penicilina",
+      label: "Penicilina ",
       checked: enteredPenicilina,
       onChange: handleChangePenicilina,
     },
@@ -779,7 +978,7 @@ const OdontologyForm = (props) => {
       onChange: handleChangeOtrosMed,
     },
     {
-      label: "Cuales",
+      label: "Cuales? ",
       value: enteredCuales,
       onChange: handleChangeCuales,
     },
@@ -859,7 +1058,7 @@ const OdontologyForm = (props) => {
     },
     {
       label: "Usa seda dental? *",
-      value: enteredSedaDental,
+      checked: enteredSedaDental,
       onChange: handleChangeSedaDental,
     },
     {
@@ -914,7 +1113,7 @@ const OdontologyForm = (props) => {
 
       <div className="new-medic__controls">
         <h1> ANAMNESIS </h1>
-        
+
         <div className="medic-item-container-wrapper">
           {anamnesis.map((item, index) => (
             <div
@@ -935,7 +1134,7 @@ const OdontologyForm = (props) => {
       </div>
       <div className="new-medic__controls">
         <h1> ANTECEDENTES MÉDICOS GENERALES </h1>
-        
+
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
@@ -974,7 +1173,7 @@ const OdontologyForm = (props) => {
 
         <div className="new-medic__controls">
           <h1> ALERGIAS</h1>
-         
+
           <div className="medic-item-container-wrapper">
             {alergias.map((item, index) => (
               <div
@@ -996,7 +1195,7 @@ const OdontologyForm = (props) => {
 
         <div className="new-medic__controls">
           <h1> EXÁMEN CLINICO</h1>
-         
+
           <div className="medic-item-container-wrapper">
             {examenClinico.map((item, index) => (
               <div
@@ -1020,7 +1219,7 @@ const OdontologyForm = (props) => {
       <div className="medic-item-container-wrapper">
         <div className="new-medic__controls">
           <h1> EXÁMEN DENTAL </h1>
-          
+
           <div className="medic-item-container-wrapper">
             {examenDental.map((item, index) => (
               <div
@@ -1076,6 +1275,7 @@ const OdontologyForm = (props) => {
             ))}
           </div>
         </div>
+        {/*}
         <div className="new-medic__control">
           <div>
             <h1> Observaciones </h1>
@@ -1090,7 +1290,7 @@ const OdontologyForm = (props) => {
               </label>
             </div>
           </div>
-        </div>
+            </div>*/}
 
         <div className="new-optimetry__control">
           <h1> Receta Farmacia </h1>
@@ -1136,43 +1336,244 @@ const OdontologyForm = (props) => {
                 />
               )}
             </div>
-            {enteredIdNumDoc && filteredData.length > 0 && (
-              <FarmaDataDisplay data={filteredData} />
+            {enteredIdNumDoc && filteredFarmaData.length > 0 && (
+              <FarmaDataDisplay data={filteredFarmaData} />
+            )}
+          </div>
+        </div>
+        <div className="new-optimetry__control">
+          <h1> ODONTOGRAMA </h1>
+          <div className="medic-item-container">
+            <div className="medic-item-container-wrapper">
+              <div className="new-medic__control">
+                <label htmlFor="diente">Diente num</label>
+                <select
+                  id="diente"
+                  type="text"
+                  value={enteredDiente}
+                  onChange={dienteChangeHandler}
+                  className="dropdown-select2"
+                >
+                  <option value="">Seleccion</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="31">31</option>
+                  <option value="32">32</option>
+                  <option value="33">33</option>
+                  <option value="34">34</option>
+                  <option value="35">35</option>
+                  <option value="36">36</option>
+                  <option value="37">37</option>
+                  <option value="38">38</option>
+                  <option value="41">41</option>
+                  <option value="42">42</option>
+                  <option value="43">43</option>
+                  <option value="44">44</option>
+                  <option value="45">45</option>
+                  <option value="46">46</option>
+                  <option value="47">47</option>
+                  <option value="48">48</option>
+                  <option value="51">51</option>
+                  <option value="52">52</option>
+                  <option value="53">53</option>
+                  <option value="54">54</option>
+                  <option value="55">55</option>
+                  <option value="61">61</option>
+                  <option value="62">62</option>
+                  <option value="63">63</option>
+                  <option value="64">64</option>
+                  <option value="65">65</option>
+                  <option value="71">71</option>
+                  <option value="72">72</option>
+                  <option value="73">73</option>
+                  <option value="74">74</option>
+                  <option value="75">75</option>
+                  <option value="81">81</option>
+                  <option value="82">82</option>
+                  <option value="83">83</option>
+                  <option value="84">84</option>
+                  <option value="85">85</option>
+                </select>
+              </div>
+              <div className="new-medic__control">
+                <label htmlFor="caradiente">Cara</label>
+                <select
+                  id="caradiente"
+                  type="text"
+                  onChange={caraChangeHandler}
+                  className="dropdown-select2"
+                >
+                  <option value="">Seleccion</option>
+                  <option value="cara_o">cara o</option>
+                  <option value="cara_m">cara m</option>
+                  <option value="cara_d">cara d</option>
+                  <option value="cara_i">cara i</option>
+                  <option value="cara_pl">cara p-l</option>
+                </select>
+              </div>
+              <div className="new-medic__control">
+                <label htmlFor="hallazgo">Hallazgo</label>
+                <select
+                  id="hallazgo"
+                  type="text"
+                  onChange={hallazgoChangeHandler}
+                  className="dropdown-select"
+                >
+                  <option value="">Seleccion</option>
+                  <option value="Caries">Caries</option>
+                  <option value="Obtrusado Bueno">Obtrusado bueno</option>
+                  <option value="Obtrusado Desadaptado">
+                    Obtrusado desadaptado
+                  </option>
+                  <option value="Perdido">Perdido</option>
+                  <option value="Fracturado">Fracturado</option>
+                  <option value="Extraccion Indicada">
+                    Extraccion Indicada
+                  </option>
+                  <option value="En Erupcion">En Erupcion</option>
+                  <option value="Corona Buena">Corona Buena</option>
+                  <option value="Corona Desadaptada">Corona Desadaptada</option>
+                </select>
+              </div>
+              <button type="button" onClick={handleOdontogramaSubmit}>
+                +Diente
+              </button>
+              {odontogramaSuccess && (
+                <PopupMessage
+                  message="¡El hallazgo en diente se actualizó correctamente!"
+                  onClose={() => setOdontogramaSuccess(false)}
+                />
+              )}
+            </div>
+            {enteredIdNumDoc && filteredOgData.length > 0 && (
+              <OgDataDisplay data={filteredOgData} />
             )}
           </div>
         </div>
       </div>
       <div className="medic-item-container-wrapper">
         <div className="new-medic__control">
-          <div>
-            <h1> DIAGNOSTICO * </h1>
-            <div className="new-medic__control">
-              <label htmlFor="diagnostico">
-                <textarea
-                  id="diagnostico"
-                  className="larger-input"
-                  value={enteredDiagnostico}
-                  onChange={handleChangeDiagnostico}
-                />
-              </label>
+          <div className="medic-item-container">
+            <div className="medic-item-container-wrapper">
+              <h1> DIAGNOSTICO * </h1>
+              <select
+                id="diagnostico"
+                type="text"
+                value={enteredDiagnostico}
+                onChange={handleChangeDiagnostico}
+                className="dropdown-select"
+              >
+                <option value="">Seleccionar</option>
+                <option value="Favorable">Favorable</option>
+                <option value="Desfavorable">Desfavorable</option>
+              </select>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="medic-item-container-wrapper">
-        <div className="new-medic__control">
-          <div>
-            <h1> PLAN TRATAMIENTO * </h1>
-            <div className="new-medic__control">
-              <label htmlFor="planTratamiento">
-                <textarea
-                  id="planTratamiento"
-                  className="larger-input"
-                  value={enteredPlanTratamiento}
-                  onChange={handleChangePlanTratamiento}
-                />
-              </label>
+            <div className="new-optimetry__control">
+              <h1> TRATAMIENTO </h1>
+              <div className="medic-item-container">
+                <div className="medic-item-container-wrapper">
+                  <div className="new-medic__control">
+                    <select
+                      id="tratamiento"
+                      type="text"
+                      value={selectedTratamiento}
+                      onChange={tratamientoChangeHandler}
+                      className="dropdown-select"
+                    >
+                      <option value="">Seleccion Tratamiento</option>
+                      <option value="Profilaxis">Profilaxis</option>
+                      <option value="Control_Placa">Control de Placa</option>
+                      <option value="Sellantes">Sellantes</option>
+                      <option value="Detractaje_supragingival">
+                        Detractaje supragingival
+                      </option>
+                      <option value="Aplicacion_fluor">Aplicación flúor</option>
+                      <option value="Amalgama_superficie_principal">
+                        Amalgama Superficie Principal
+                      </option>
+                      <option value="Amalgama_adicional">
+                        Amalgama Adicional
+                      </option>
+                      <option value="Resina_superficie_principal">
+                        Resina Superficie Principal
+                      </option>
+                      <option value="Resina_adicional">Resina Adicional</option>
+                      <option value="Ionovidrio_superficie_principal">
+                        Ionovidrio Superficie Principal
+                      </option>
+                      <option value="Ionovidrio_adicional">
+                        Ionovidrio Adicional
+                      </option>
+                      <option value="Endodoncia_pulpotomia">
+                        Endodoncia Pulpotomia
+                      </option>
+                      <option value="Endodoncia_pulpectomia">
+                        Endodoncia Pulpectomia
+                      </option>
+                      <option value="Cirugia_Oral_Exod_Temp">
+                        Cirugia Oral Exod Temp
+                      </option>
+                      <option value="Cirugia_Oral_Exod_Simple_Permanente">
+                        Cirugia Oral Exod Simple Permanente
+                      </option>
+                      <option value="Cirugia_Oral_Exod_Mot_Abi_Permanente">
+                        Cirugia Oral Exod Mot Abi Permanente
+                      </option>
+                    </select>
+                  </div>
+                  <div className="medic-item-container .new-medic__controls">
+                    <label htmlFor="cantidad">Cantidad Tratamiento Realizado</label>
+                    <input
+                      id="cantidad"
+                      type="number"
+                      min="1"
+                      step="1"
+                      max="100"
+                      value={enteredCantidad}
+                      onChange={cantidadChangeHandler}
+                    />
+                  </div>
+                  <label htmlFor="comentarios">
+                    <textarea
+                      id="comentarios"
+                      className="larger-input"
+                      value={enteredComentario}
+                      onChange={comentarioChangeHandler}
+                      placeholder="Comentario"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <button type="button" onClick={handleTratamientoSubmit}>
+                  +Tratamiento
+                </button>
+                {tratamientoSuccess && (
+                  <PopupMessage
+                    message="¡Tratamiento ingresado correctamente!"
+                    onClose={() => setTratamientoSuccess(false)}
+                  />
+                )}
+              </div>
             </div>
+            {enteredIdNumDoc && filteredTratData.length > 0 && (
+              <tratamientoDataDisplay data={filteredTratData} />
+            )}
           </div>
         </div>
       </div>
