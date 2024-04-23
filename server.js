@@ -337,7 +337,6 @@ app.post(
       nombres,
       apellidos,
       nacimiento,
-      edad,
       estado_civil,
       sexo,
       celular,
@@ -351,7 +350,7 @@ app.post(
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.pavanzada (voided, fecha_registro, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, edad, estado_civil, sexo, celular, responsable, parentesco_responsable, etnia, aseguradora, tipo_vinculacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.pavanzada (voided, fecha_registro, id_num_doc, tipo_doc, nombres, apellidos, nacimiento, estado_civil, sexo, celular, responsable, parentesco_responsable, etnia, aseguradora, tipo_vinculacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -363,7 +362,6 @@ app.post(
         nombres.trim(),
         apellidos.trim(),
         nacimiento,
-        edad,
         estado_civil.trim(),
         sexo.trim(),
         celular.trim(),
@@ -391,7 +389,6 @@ app.post(
           nombres,
           apellidos,
           nacimiento,
-          edad,
           estado_civil,
           sexo,
           celular,

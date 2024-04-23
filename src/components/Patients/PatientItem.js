@@ -8,10 +8,9 @@ const PatientItem = (props) => {
   const personalItems = [
     { label: "Género", value: props.sexo },
     { label: "Estado Civil", value: props.estado_civil },
-    { label: "Ocupacion", value: props.ocupacion },
-    { label: "Direccion", value: props.direccion_domicilio },
-    { label: "Localidad", value: props.localidad },
     { label: "Celular", value: props.celular },
+    { label: "Responsable", value: props.responsable },
+    { label: "Parentesco", value: props.parentesco_responsable },
   ];
 
   // const secunderyItems = [
@@ -32,6 +31,8 @@ const PatientItem = (props) => {
     { label: "Temp", value: props.temperatura },
     { label: "Peso", value: props.peso },
     { label: "Talla", value: props.talla },
+    { label: "Intensidad Dolor", value: props.dolor }, 
+    { label: "Valoracion", value: props.valoracion },
   ];
 
   return (

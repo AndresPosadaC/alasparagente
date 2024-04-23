@@ -1,50 +1,36 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Patients from '../Patients/Patients';
 import NewTriage from "../NewPatient/NewTriage";
-import useFetchData from "../../hooks/useFetchData";
+import useFetchData from "../../hooks/useFetchData"; 
 
 const TriagePage = () => {
-  const [patients, setPatients] = useState([]);
+  const [triagePatients, setTriagePatients] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { data: patientsData, refreshData: patentsReforesh } = useFetchData("patients_json");
+  const { data: patientsTriageData, loading, refreshData: refreshTriagePatients } = useFetchData("patients_json");
   
+  // Define callback functions to set data
   const setPatientsData = useCallback(() => {
-    setPatients(patientsData);
-  }, [patientsData]);
-
+    setTriagePatients(patientsTriageData);
+  }, [patientsTriageData]);
+  
   useEffect(() => {
     // When patientData changes, update the patient state
     setPatientsData();
-    patentsReforesh();
-  }, [setPatientsData, patentsReforesh, patientsData]);
+  }, [setPatientsData, patientsTriageData]);
 
-  const {
-    data: triageData,
-    loading_t,
-    refreshData: refreshTriage,
-  } = useFetchData("ptriage_json");
-
-  // Define callback functions to set data
-  const setTriageData = useCallback(() => {
-    // Process or use triageData as needed
-  }, []);
-
-  useEffect(() => {
-    // When triageData changes, update the state
-    setTriageData();
-  }, [setTriageData, triageData]);
-
-  const addTriageHandler = (triage) => {
-    // Process or use triage as needed
-    refreshTriage();
+  const addTriageHandler = (triagePatient) => {
+    setTriagePatients((prevTriagePatients) => {
+      return [triagePatient, ...prevTriagePatients];
+    });
+    refreshTriagePatients();
   };
 
   useEffect(() => {
-    if (!loading_t) {
+    if (!loading) {
       setIsLoading(false);
     }
-  }, [loading_t]);
+  }, [loading]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -52,7 +38,7 @@ const TriagePage = () => {
 
   return (
     <div>
-      <Patients items={patients} />
+      <Patients items={triagePatients} />
       <NewTriage onAddPatient={addTriageHandler} /> 
     </div>
   );

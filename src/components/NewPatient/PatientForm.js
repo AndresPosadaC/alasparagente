@@ -29,7 +29,7 @@ const PatientForm = (props) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const { data: idNumOptions } = useFetchData("pavanzada_json");
+  const { data: idNumOptions, refreshData: refreshPatients } = useFetchData("pavanzada_json");
 
   const { data: brigadaNames } = useApiData("brigadas_json", "location_b");
 
@@ -106,11 +106,10 @@ const PatientForm = (props) => {
     setSelectedEspacialidad(event.target.value);
   };
 
-  {
-    /*const motivoConsultaChangeHandler = (event) => {
-    setEnteredMotivoConsulta(event.target.value);
-  };*/
-  }
+  
+  //const motivoConsultaChangeHandler = (event) => {
+  //  setEnteredMotivoConsulta(event.target.value);
+  //};
 
   const handleCancel = () => {
     setSelectedVoided("0");
@@ -234,6 +233,7 @@ const PatientForm = (props) => {
         setShowSuccessMessage(true);
         setTimeout(() => {
           setShowSuccessMessage(false);
+          refreshPatients();
         }, 3000);
       } else {
         setErrorMessage("Error en el proceso de paciente.");

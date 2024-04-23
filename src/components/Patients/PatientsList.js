@@ -22,25 +22,20 @@ const PatientsList = (props) => {
         estado_civil={patient.estado_civil}
         sexo={patient.sexo}
         especialidad={patient.especialidad}
-        ocupacion={patient.ocupacion || ''}
-        direccion_domicilio={patient.direccion_domicilio || ''}
-        localidad={patient.localidad || ''}
-        telefono_fijo={patient.telefono_fijo || ''}
         celular={patient.celular || ''}
-        acompanante={patient.acompanante || '' || null}
         responsable={patient.responsable || ''}
-        celular_acompanante={patient.celular_acompanante || ''}
-        celular_responsable={patient.celular_responsable || ''}
         parentesco_responsable={patient.parentesco_responsable || ''}
         aseguradora={patient.aseguradora || ''}
         tipo_vinculacion={patient.tipo_vinculacion || ''}
         frec_cardiaca={patient.frec_cardiaca || ''}
         tension_arterial={patient.tension_arterial || ''}
-        frec_respiratoria={patient.frec_respiratoria || ''}
+        frec_respiratoria={patient.frec_respiratoria || ''} 
         sat_o2={patient.sat_o2 || ''}
         temperatura={patient.temperatura || ''}
         peso={patient.peso || ''}
         talla={patient.talla || ''}
+        dolor={patient.dolor || ''}
+        valoracion={patient.valoracion || ''}
         />
       ))}
     </ul>
