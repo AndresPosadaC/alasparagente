@@ -2,18 +2,20 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
     margin-bottom: 1rem;
     text-align: left;
   }
    
   .new-medic__control {
+    display: grid;
+    flex-direction: column;
     flex: 1; /* Adjust the flex value as needed for equal or proportional widths */
   }
   
   .new-medic__control label {
     font-weight: bold;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.5rem;
     display: block;
     flex-direction: column-reverse;
     text-align: left;
@@ -32,6 +34,7 @@
     font: inherit;
     width: 100%; /* Takes up the full width of the container */
     max-width: 100%; /* Limits the width to the container's width */
+    margin-left: 10px;
     height: 120px;
   }
   
@@ -39,12 +42,16 @@
     font: inherit;
     width: 100%; /* Takes up the full width of the container */
     max-width: 100%; /* Limits the width to the container's width */
+    margin-left: 10px;
   }
   
   .small-input {
     font: inherit;
-    width: 20%; /* Takes up half of the container's width */
-    max-width: 100%; /* Limits the width to the container's width */
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 6rem;
+    max-width: 100%;
   }
   
   .medic-item-container-wrapper {
@@ -58,19 +65,22 @@
     flex: 1; /* To make each container take equal space horizontally */
     background-color: #f0f0f0;
     border-radius: 8px;
-    padding: 2rem;
+    padding: 1.2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
   
   /* CSS for styling the form controls within the container */
   .medic-item-container .new-medic__controls {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+    justify-content: space-evenly;
     text-align: left;
+    align-items: center;
+    line-height: 26px;
+    margin-bottom: 10px;
+    gap: 1.8rem;
   }
   
   /* CSS for styling the dropdown select */

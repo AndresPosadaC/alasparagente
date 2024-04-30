@@ -39,12 +39,19 @@ const OptometryForm = (props) => {
   const [enteredFarmacos, setEnteredFarmacos] = useState("");
   const [enteredOtros, setEnteredOtros] = useState(false);
   const [enteredCuales, setEnteredCuales] = useState("");
+  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredScvlod, setEnteredScvlod] = useState("");
   const [enteredScvloi, setEnteredScvloi] = useState("");
   const [enteredScvlao, setEnteredScvlao] = useState("");
+  const [enteredScvpod, setEnteredScvpod] = useState("");
+  const [enteredScvpoi, setEnteredScvpoi] = useState("");
+  const [enteredScvpao, setEnteredScvpao] = useState("");
   const [enteredCcvlod, setEnteredCcvlod] = useState("");
   const [enteredCcvloi, setEnteredCcvloi] = useState("");
   const [enteredCcvlao, setEnteredCcvlao] = useState("");
+  const [enteredCcvpod, setEnteredCcvpod] = useState("");
+  const [enteredCcvpoi, setEnteredCcvpoi] = useState("");
+  const [enteredCcvpao, setEnteredCcvpao] = useState("");
   const [enteredLensometriaOd, setEnteredLensometriaOd] = useState("");
   const [enteredLensometriaOi, setEnteredLensometriaOi] = useState("");
   const [enteredTonometriaOd, setEnteredTonometriaOd] = useState("");
@@ -52,12 +59,6 @@ const OptometryForm = (props) => {
   const [enteredCoverTest, setEnteredCoverTest] = useState("");
   const [enteredCoverTest6m, setEnteredCoverTest6m] = useState("");
   const [enteredCoverTest30cm, setEnteredCoverTest30cm] = useState("");
-  const [enteredOftalmoscopiaOd, setEnteredOftalmoscopiaOd] = useState("");
-  const [enteredOftalmoscopiaOi, setEnteredOftalmoscopiaOi] = useState("");
-  const [enteredQueratometriaOd, setEnteredQueratometriaOd] = useState("");
-  const [enteredQueratometriaOi, setEnteredQueratometriaOi] = useState("");
-  const [enteredTestColor, setEnteredTestColor] = useState("");
-  const [enteredEstereopsis, setEnteredEstereopsis] = useState("");
   const [enteredRetinoscopiaOd, setEnteredRetinoscopiaOd] = useState("");
   const [enteredRetinoscopiaOdAvvl, setEnteredRetinoscopiaOdAvvl] =
     useState("");
@@ -78,13 +79,33 @@ const OptometryForm = (props) => {
     useState("");
   const [enteredCie10, setEnteredCie10] = useState("");
   const [enteredConducta, setEnteredConducta] = useState("");
-  const [enteredFormulaFinalOD, setEnteredFormulaFinalOD] = useState("");
-  const [enteredFormulaFinalODAdd, setEnteredFormulaFinalODAdd] = useState("");
-  const [enteredFormulaFinalODDP, setEnteredFormulaFinalODDP] = useState("");
-  const [enteredFormulaFinalOI, setEnteredFormulaFinalOI] = useState("");
-  const [enteredFormulaFinalOIAdd, setEnteredFormulaFinalOIAdd] = useState("");
-  const [enteredFormulaFinalOIDP, setEnteredFormulaFinalOIDP] = useState("");
-  const [enteredTipo, setEnteredTipo] = useState("");
+
+  const [entered_fflesfod, setEntered_fflesfod] = useState("");
+  const [entered_fflcilod, setEntered_fflcilod] = useState("");
+  const [entered_fflejeod, setEntered_fflejeod] = useState("");
+  const [entered_fflavod, setEntered_fflavod] = useState("");
+  const [entered_fflesfoi, setEntered_fflesfoi] = useState("");
+  const [entered_fflciloi, setEntered_fflciloi] = useState("");
+  const [entered_fflejeoi, setEntered_fflejeoi] = useState("");
+  const [entered_fflavoi, setEntered_fflavoi] = useState("");
+  const [entered_ffcesfod, setEntered_ffcesfod] = useState("");
+  const [entered_ffccilod, setEntered_ffccilod] = useState("");
+  const [entered_ffcejeod, setEntered_ffcejeod] = useState("");
+  const [entered_ffcavod, setEntered_ffcavod] = useState("");
+  const [entered_ffcesfoi, setEntered_ffcesfoi] = useState("");
+  const [entered_ffcciloi, setEntered_ffcciloi] = useState("");
+  const [entered_ffcejeoi, setEntered_ffcejeoi] = useState("");
+  const [entered_ffcavoi, setEntered_ffcavoi] = useState("");
+
+  const [entered_addod, setEntered_addod] = useState("");
+  const [entered_addoi, setEntered_addoi] = useState("");
+
+  const [entered_altura, setEntered_altura] = useState("");
+  const [entered_tipolente, setEntered_tipolente] = useState("");
+  const [entered_dnp, setEntered_dnp] = useState("");
+  const [entered_reffmontura, setEntered_reffmontura] = useState("");
+  const [entered_observalentes, setEntered_observalentes] = useState("");
+
   const [enteredMedicamentos, setEnteredMedicamentos] = useState(""); // You might need a more complex state structure for multiple medications
   const [enteredRX, setEnteredRX] = useState(false);
   const [enteredUso, setEnteredUso] = useState("");
@@ -265,11 +286,10 @@ const OptometryForm = (props) => {
     };
   };
 
-  // Usage of the common handlers
-  // const handleChangeIdNumDoc = handleTextChange(
-  //  "enteredIdNumDoc",
-  //  setEnteredIdNumDoc
-  //);
+  const handleChangeMotivoConsulta = handleTextChange(
+    "enteredMotivoConsulta",
+    setEnteredMotivoConsulta
+  );
 
   const handleChangeMalaVisionLejos = handleBooleanChange(
     "enteredMalaVisionLejos",
@@ -374,6 +394,18 @@ const OptometryForm = (props) => {
     "enteredScvlao",
     setEnteredScvlao
   );
+  const handleChangeScvpod = handleTextChange(
+    "enteredScvpod",
+    setEnteredScvpod
+  );
+  const handleChangeScvpoi = handleTextChange(
+    "enteredScvpoi",
+    setEnteredScvpoi
+  );
+  const handleChangeScvpao = handleTextChange(
+    "enteredScvpao",
+    setEnteredScvpao
+  );
   const handleChangeCcvlod = handleTextChange(
     "enteredCcvlod",
     setEnteredCcvlod
@@ -385,6 +417,18 @@ const OptometryForm = (props) => {
   const handleChangeCcvlao = handleTextChange(
     "enteredCcvlao",
     setEnteredCcvlao
+  );
+  const handleChangeCcvpod = handleTextChange(
+    "enteredCcvpod",
+    setEnteredCcvlod
+  );
+  const handleChangeCcvpoi = handleTextChange(
+    "enteredCcvpoi",
+    setEnteredCcvpoi
+  );
+  const handleChangeCcvpao = handleTextChange(
+    "enteredCcvpao",
+    setEnteredCcvpao
   );
   const handleChangeLensometriaOd = handleTextChange(
     "enteredLensometriaOd",
@@ -414,30 +458,7 @@ const OptometryForm = (props) => {
     "enteredCoverTest30cm",
     setEnteredCoverTest30cm
   );
-  const handleChangeOftalmoscopiaOd = handleTextChange(
-    "enteredOftalmoscopiaOd",
-    setEnteredOftalmoscopiaOd
-  );
-  const handleChangeOftalmoscopiaOi = handleTextChange(
-    "enteredOftalmoscopiaOi",
-    setEnteredOftalmoscopiaOi
-  );
-  const handleChangeQueratometriaOd = handleTextChange(
-    "enteredQueratometriaOd",
-    setEnteredQueratometriaOd
-  );
-  const handleChangeQueratometriaOi = handleTextChange(
-    "enteredQueratometriaOi",
-    setEnteredQueratometriaOi
-  );
-  const handleChangeTestColor = handleTextChange(
-    "enteredTestColor",
-    setEnteredTestColor
-  );
-  const handleChangeEstereopsis = handleTextChange(
-    "enteredEstereopsis",
-    setEnteredEstereopsis
-  );
+
   const handleChangeRetinoscopiaOd = handleTextChange(
     "enteredRetinoscopiaOd",
     setEnteredRetinoscopiaOd
@@ -495,34 +516,119 @@ const OptometryForm = (props) => {
     "enteredConducta",
     setEnteredConducta
   );
-  const handleChangeFormulaFinalOD = handleTextChange(
-    "enteredFormulaFinalOD",
-    setEnteredFormulaFinalOD
+
+  const handleChange_fflesfod = handleTextChange(
+    "entered_fflesfod",
+    setEntered_fflesfod
   );
-  const handleChangeFormulaFinalODAdd = handleTextChange(
-    "enteredFormulaFinalODAdd",
-    setEnteredFormulaFinalODAdd
+
+  const handleChange_fflcilod = handleTextChange(
+    "entered_fflcilod",
+    setEntered_fflcilod
   );
-  const handleChangeFormulaFinalODDP = handleTextChange(
-    "enteredFormulaFinalODDP",
-    setEnteredFormulaFinalODDP
+
+  const handleChange_fflejeod = handleTextChange(
+    "entered_fflejeod",
+    setEntered_fflejeod
   );
-  const handleChangeFormulaFinalOI = handleTextChange(
-    "enteredFormulaFinalOI",
-    setEnteredFormulaFinalOI
+
+  const handleChange_fflavod = handleTextChange(
+    "entered_fflavod",
+    setEntered_fflavod
   );
-  const handleChangeFormulaFinalOIAdd = handleTextChange(
-    "enteredFormulaFinalOIAdd",
-    setEnteredFormulaFinalOIAdd
+
+  const handleChange_fflesfoi = handleTextChange(
+    "entered_fflesfoi",
+    setEntered_fflesfoi
   );
-  const handleChangeFormulaFinalOIDP = handleTextChange(
-    "enteredFormulaFinalOIDP",
-    setEnteredFormulaFinalOIDP
+
+  const handleChange_fflciloi = handleTextChange(
+    "entered_fflciloi",
+    setEntered_fflciloi
   );
-  const handleChangeEnteredTipo = handleTextChange(
-    "enteredTipo",
-    setEnteredTipo
+
+  const handleChange_fflejeoi = handleTextChange(
+    "entered_fflejeoi",
+    setEntered_fflejeoi
   );
+
+  const handleChange_fflavoi = handleTextChange(
+    "entered_fflavoi",
+    setEntered_fflavoi
+  );
+
+  const handleChange_ffcesfod = handleTextChange(
+    "entered_ffcesfod",
+    setEntered_ffcesfod
+  );
+
+  const handleChange_ffccilod = handleTextChange(
+    "entered_ffccilod",
+    setEntered_ffccilod
+  );
+
+  const handleChange_ffcejeod = handleTextChange(
+    "entered_ffcejeod",
+    setEntered_ffcejeod
+  );
+
+  const handleChange_ffcavod = handleTextChange(
+    "entered_ffcavod",
+    setEntered_ffcavod
+  );
+
+  const handleChange_ffcesfoi = handleTextChange(
+    "entered_ffcesfoi",
+    setEntered_ffcesfoi
+  );
+
+  const handleChange_ffcciloi = handleTextChange(
+    "entered_ffcciloi",
+    setEntered_ffcciloi
+  );
+
+  const handleChange_ffcejeoi = handleTextChange(
+    "entered_ffcejeoi",
+    setEntered_ffcejeoi
+  );
+
+  const handleChange_ffcavoi = handleTextChange(
+    "entered_ffcavoi",
+    setEntered_ffcavoi
+  );
+
+  const handleChange_addod = handleTextChange(
+    "entered_addod",
+    setEntered_addod
+  );
+
+  const handleChange_addoi = handleTextChange(
+    "entered_addoi",
+    setEntered_addoi
+  );
+
+  const handleChange_altura = handleTextChange(
+    "entered_altura",
+    setEntered_altura
+  );
+
+  const handleChange_tipolente = handleTextChange(
+    "entered_tipolente",
+    setEntered_tipolente
+  );
+
+  const handleChange_dnp = handleTextChange("entered_dnp", setEntered_dnp);
+
+  const handleChange_reffmontura = handleTextChange(
+    "entered_reffmontura",
+    setEntered_reffmontura
+  );
+
+  const handleChange_observalentes = handleTextChange(
+    "entered_observalentes",
+    setEntered_observalentes
+  );
+
   const handleChangeMedicamentos = handleTextChange(
     "enteredMedicamentos",
     setEnteredMedicamentos
@@ -539,7 +645,9 @@ const OptometryForm = (props) => {
     event.preventDefault();
 
     // Check if the entered ID number exists in patientOptions
-    const isValidIdNum = patientOptions.includes(String(enteredIdNumDoc).trim());
+    const isValidIdNum = patientOptions.includes(
+      String(enteredIdNumDoc).trim()
+    );
 
     if (!isValidIdNum) {
       setErrorMessage("Por favor, selecciona un número de ID válido");
@@ -549,6 +657,18 @@ const OptometryForm = (props) => {
     // Check if the required fields are filled
     if (
       !enteredIdNumDoc ||
+      !enteredScvlod ||
+      !enteredScvloi ||
+      !enteredScvlao ||
+      !enteredScvpod ||
+      !enteredScvpoi ||
+      !enteredScvpao ||
+      !enteredCcvlod ||
+      !enteredCcvloi ||
+      !enteredCcvlao ||
+      !enteredCcvpod ||
+      !enteredCcvpoi ||
+      !enteredCcvpao ||
       !enteredLensometriaOd ||
       !enteredLensometriaOi ||
       !enteredTonometriaOd ||
@@ -556,12 +676,6 @@ const OptometryForm = (props) => {
       !enteredCoverTest ||
       !enteredCoverTest6m ||
       !enteredCoverTest30cm ||
-      !enteredOftalmoscopiaOd ||
-      !enteredOftalmoscopiaOi ||
-      !enteredQueratometriaOd ||
-      !enteredQueratometriaOi ||
-      !enteredTestColor ||
-      !enteredEstereopsis ||
       !enteredRetinoscopiaOd ||
       !enteredRetinoscopiaOdAvvl ||
       !enteredRetinoscopiaOdAvvp ||
@@ -574,16 +688,9 @@ const OptometryForm = (props) => {
       !enteredSubjetivoOi ||
       !enteredSubjetivoOiAv ||
       !enteredSubjetivoOiAdd ||
-      !enteredImpresionDiagnostica ||
-      !enteredCie10 ||
-      !enteredConducta ||
-      !enteredFormulaFinalOD ||
-      !enteredFormulaFinalODAdd ||
-      !enteredFormulaFinalODDP ||
-      !enteredFormulaFinalOI ||
-      !enteredFormulaFinalOIAdd ||
-      !enteredFormulaFinalOIDP ||
-      !enteredTipo ||
+      !entered_addod ||
+      !entered_addoi ||
+      !entered_altura ||
       !enteredMedicamentos ||
       !enteredUso ||
       !enteredControl
@@ -598,6 +705,7 @@ const OptometryForm = (props) => {
     const optometryData = {
       voiided: selectedVoided,
       id_num_doc: enteredIdNumDoc,
+      motivo_consulta: enteredMotivoConsulta,
       mala_vision_lejos: enteredMalaVisionLejos,
       mala_vision_cerca: enteredMalaVisionCerca,
       ojo_rojo: enteredOjoRojo,
@@ -626,9 +734,15 @@ const OptometryForm = (props) => {
       scvlod: enteredScvlod,
       scvloi: enteredScvloi,
       scvlao: enteredScvlao,
+      scvpod: enteredScvpod,
+      scvpoi: enteredScvpoi,
+      scvpao: enteredScvpao,
       ccvlod: enteredCcvlod,
       ccvloi: enteredCcvloi,
       ccvlao: enteredCcvlao,
+      ccvpod: enteredCcvpod,
+      ccvpoi: enteredCcvpoi,
+      ccvpao: enteredCcvpao,
       lensometria_od: enteredLensometriaOd,
       lensometria_oi: enteredLensometriaOi,
       tonometria_od: enteredTonometriaOd,
@@ -636,12 +750,6 @@ const OptometryForm = (props) => {
       cover_test: enteredCoverTest,
       cover_test_6m: enteredCoverTest6m,
       cover_test_30cm: enteredCoverTest30cm,
-      oftalmoscopia_od: enteredOftalmoscopiaOd,
-      oftalmoscopia_oi: enteredOftalmoscopiaOi,
-      queratometria_od: enteredQueratometriaOd,
-      queratometria_oi: enteredQueratometriaOi,
-      test_color: enteredTestColor,
-      estereopsis: enteredEstereopsis,
       retinoscopia_od: enteredRetinoscopiaOd,
       retinoscopia_od_avvl: enteredRetinoscopiaOdAvvl,
       retinoscopia_od_avvp: enteredRetinoscopiaOdAvvp,
@@ -657,13 +765,29 @@ const OptometryForm = (props) => {
       impresion_diagnostica: enteredImpresionDiagnostica,
       cie10: enteredCie10,
       conducta: enteredConducta,
-      formula_final_od: enteredFormulaFinalOD,
-      formula_final_od_add: enteredFormulaFinalODAdd,
-      formula_final_od_dp: enteredFormulaFinalODDP,
-      formula_final_oi: enteredFormulaFinalOI,
-      formula_final_oi_add: enteredFormulaFinalOIAdd,
-      formula_final_oi_dp: enteredFormulaFinalOIDP,
-      tipo: enteredTipo,
+      fflesfod: entered_fflesfod,
+      fflcilod: entered_fflcilod,
+      fflejeod: entered_fflejeod,
+      fflavod: entered_fflavod,
+      fflesfoi: entered_fflesfoi,
+      fflciloi: entered_fflciloi,
+      fflejeoi: entered_fflejeoi,
+      fflavoi: entered_fflavoi,
+      ffcesfod: entered_ffcesfod,
+      ffccilod: entered_ffccilod,
+      ffcejeod: entered_ffcejeod,
+      ffcavod: entered_ffcavod,
+      ffcesfoi: entered_ffcesfoi,
+      ffcciloi: entered_ffcciloi,
+      ffcejeoi: entered_ffcejeoi,
+      ffcavoi: entered_ffcavoi,
+      addod: entered_addod,
+      addoi: entered_addoi,
+      altura: entered_altura,
+      tipolente: entered_tipolente,
+      dnp: entered_dnp,
+      reffmontura: entered_reffmontura,
+      observalentes: entered_observalentes,
       medicamentos: enteredMedicamentos,
       rx: enteredRX,
       uso: enteredUso,
@@ -697,6 +821,7 @@ const OptometryForm = (props) => {
       // Reset the form or perform any other necessary actions
       setSelectedVoided("0");
       setEnteredIdNumDoc("");
+      setEnteredMotivoConsulta("");
       setEnteredMalaVisionLejos(false);
       setEnteredMalaVisionCerca(false);
       setEnteredOjoRojo(false);
@@ -725,9 +850,15 @@ const OptometryForm = (props) => {
       setEnteredScvlod("");
       setEnteredScvloi("");
       setEnteredScvlao("");
+      setEnteredScvpod("");
+      setEnteredScvpoi("");
+      setEnteredScvpao("");
       setEnteredCcvlod("");
       setEnteredCcvloi("");
       setEnteredCcvlao("");
+      setEnteredCcvpod("");
+      setEnteredCcvpoi("");
+      setEnteredCcvpao("");
       setEnteredLensometriaOd("");
       setEnteredLensometriaOi("");
       setEnteredTonometriaOd("");
@@ -735,12 +866,6 @@ const OptometryForm = (props) => {
       setEnteredCoverTest("");
       setEnteredCoverTest6m("");
       setEnteredCoverTest30cm("");
-      setEnteredOftalmoscopiaOd("");
-      setEnteredOftalmoscopiaOi("");
-      setEnteredQueratometriaOd("");
-      setEnteredQueratometriaOi("");
-      setEnteredTestColor("");
-      setEnteredEstereopsis("");
       setEnteredRetinoscopiaOd("");
       setEnteredRetinoscopiaOdAvvl("");
       setEnteredRetinoscopiaOdAvvp("");
@@ -756,13 +881,29 @@ const OptometryForm = (props) => {
       setEnteredImpresionDiagnostica("");
       setEnteredCie10("");
       setEnteredConducta("");
-      setEnteredFormulaFinalOD("");
-      setEnteredFormulaFinalODAdd("");
-      setEnteredFormulaFinalODDP("");
-      setEnteredFormulaFinalOI("");
-      setEnteredFormulaFinalOIAdd("");
-      setEnteredFormulaFinalOIDP("");
-      setEnteredTipo("");
+      setEntered_fflesfod("");
+      setEntered_fflcilod("");
+      setEntered_fflejeod("");
+      setEntered_fflavod("");
+      setEntered_fflesfoi("");
+      setEntered_fflciloi("");
+      setEntered_fflejeoi("");
+      setEntered_fflavoi("");
+      setEntered_ffcesfod("");
+      setEntered_ffccilod("");
+      setEntered_ffcejeod("");
+      setEntered_ffcavod("");
+      setEntered_ffcesfoi("");
+      setEntered_ffcciloi("");
+      setEntered_ffcejeoi("");
+      setEntered_ffcavoi("");
+      setEntered_addod("");
+      setEntered_addoi("");
+      setEntered_altura("");
+      setEntered_tipolente("");
+      setEntered_dnp("");
+      setEntered_reffmontura("");
+      setEntered_observalentes("");
       setEnteredMedicamentos("");
       setEnteredRX(false);
       setEnteredUso("");
@@ -779,6 +920,7 @@ const OptometryForm = (props) => {
     refreshMedicine();
     setSelectedVoided("0");
     setEnteredIdNumDoc("");
+    setEnteredMotivoConsulta("");
     setEnteredMalaVisionLejos(false);
     setEnteredMalaVisionCerca(false);
     setEnteredOjoRojo(false);
@@ -807,9 +949,15 @@ const OptometryForm = (props) => {
     setEnteredScvlod("");
     setEnteredScvloi("");
     setEnteredScvlao("");
+    setEnteredScvpod("");
+    setEnteredScvpoi("");
+    setEnteredScvpao("");
     setEnteredCcvlod("");
     setEnteredCcvloi("");
     setEnteredCcvlao("");
+    setEnteredCcvpod("");
+    setEnteredCcvpoi("");
+    setEnteredCcvpao("");
     setEnteredLensometriaOd("");
     setEnteredLensometriaOi("");
     setEnteredTonometriaOd("");
@@ -817,12 +965,6 @@ const OptometryForm = (props) => {
     setEnteredCoverTest("");
     setEnteredCoverTest6m("");
     setEnteredCoverTest30cm("");
-    setEnteredOftalmoscopiaOd("");
-    setEnteredOftalmoscopiaOi("");
-    setEnteredQueratometriaOd("");
-    setEnteredQueratometriaOi("");
-    setEnteredTestColor("");
-    setEnteredEstereopsis("");
     setEnteredRetinoscopiaOd("");
     setEnteredRetinoscopiaOdAvvl("");
     setEnteredRetinoscopiaOdAvvp("");
@@ -838,13 +980,29 @@ const OptometryForm = (props) => {
     setEnteredImpresionDiagnostica("");
     setEnteredCie10("");
     setEnteredConducta("");
-    setEnteredFormulaFinalOD("");
-    setEnteredFormulaFinalODAdd("");
-    setEnteredFormulaFinalODDP("");
-    setEnteredFormulaFinalOI("");
-    setEnteredFormulaFinalOIAdd("");
-    setEnteredFormulaFinalOIDP("");
-    setEnteredTipo("");
+    setEntered_fflesfod("");
+    setEntered_fflcilod("");
+    setEntered_fflejeod("");
+    setEntered_fflavod("");
+    setEntered_fflesfoi("");
+    setEntered_fflciloi("");
+    setEntered_fflejeoi("");
+    setEntered_fflavoi("");
+    setEntered_ffcesfod("");
+    setEntered_ffccilod("");
+    setEntered_ffcejeod("");
+    setEntered_ffcavod("");
+    setEntered_ffcesfoi("");
+    setEntered_ffcciloi("");
+    setEntered_ffcejeoi("");
+    setEntered_ffcavoi("");
+    setEntered_addod("");
+    setEntered_addoi("");
+    setEntered_altura("");
+    setEntered_tipolente("");
+    setEntered_dnp("");
+    setEntered_reffmontura("");
+    setEntered_observalentes("");
     setEnteredMedicamentos("");
     setEnteredRX(false);
     setEnteredUso("");
@@ -924,7 +1082,7 @@ const OptometryForm = (props) => {
 
   const signosOtros = [
     { label: "Otro ", checked: enteredOtro, onChange: handleChangeOtro },
-    { label: "Cual?", value: enteredCual, onChange: handleChangeCual },
+    { label: "Cual?", value: enteredCual, inputSize: "large", onChange: handleChangeCual },
   ];
 
   const antecedentesItems = [
@@ -975,71 +1133,106 @@ const OptometryForm = (props) => {
     },
     { label: "Otros ", checked: enteredOtros, onChange: handleChangeOtros },
     {
-      label: "Farmacos",
+      label: "Farmacos ",
       value: enteredFarmacos,
+      inputSize: "large",
       onChange: handleChangeFarmacos,
     },
     {
-      label: "Otros - Cuales?",
+      label: "Otros - Cuales?  ",
       value: enteredCuales,
+      inputSize: "large",
       onChange: handleChangeCuales,
     },
   ];
 
   const avscItems = [
     {
-      label: "AV SC VL OD *",
+      label: "* VL OD ",
       value: enteredScvlod,
       onChange: handleChangeScvlod,
     },
     {
-      label: "AV SC VL OI *",
+      label: "* VL OI ",
       value: enteredScvloi,
       onChange: handleChangeScvloi,
     },
     {
-      label: "AV SC VL AO *",
+      label: "* VL AO ",
       value: enteredScvlao,
       onChange: handleChangeScvlao,
+    },
+    {
+      label: "* VP OD ",
+      value: enteredScvpod,
+      onChange: handleChangeScvpod,
+    },
+    {
+      label: "* VP OI ",
+      value: enteredScvpoi,
+      onChange: handleChangeScvpoi,
+    },
+    {
+      label: "* VP AO ",
+      value: enteredScvpao,
+      onChange: handleChangeScvpao,
     },
   ];
 
   const avccItems = [
     {
-      label: "AV CC VL OD *",
+      label: "* VL OD ",
       value: enteredCcvlod,
       onChange: handleChangeCcvlod,
     },
     {
-      label: "AV CC VL OI *",
+      label: "* VL OI ",
       value: enteredCcvloi,
       onChange: handleChangeCcvloi,
     },
     {
-      label: "AV CC VL AO *",
+      label: "* VL AO ",
       value: enteredCcvlao,
       onChange: handleChangeCcvlao,
     },
+    {
+      label: "* VP OD ",
+      value: enteredCcvpod,
+      onChange: handleChangeCcvpod,
+    },
+    {
+      label: "* VP OI ",
+      value: enteredCcvpoi,
+      onChange: handleChangeCcvpoi,
+    },
+    {
+      label: "* VP AO ",
+      value: enteredCcvpao,
+      onChange: handleChangeCcvpao,
+    },
   ];
 
-  const avotrosItems = [
+  const lensometriaItems = [
     {
-      label: "Lensometria OD *",
+      label: "* OD",
       value: enteredLensometriaOd,
       onChange: handleChangeLensometriaOd,
     },
     {
-      label: "Lensometria OI *",
+      label: "* OI",
       value: enteredLensometriaOi,
       onChange: handleChangeLensometriaOi,
     },
+  ];
+
+  const tonometriaItems = [
     {
-      label: "Tonometria OD *",
+      label: "* OD",
       value: enteredTonometriaOd,
       onChange: handleChangeTonometriaOd,
     },
     {
-      label: "Tonometria OI *",
+      label: "* OI",
       value: enteredTonometriaOi,
       onChange: handleChangeTonometriaOi,
     },
@@ -1047,86 +1240,50 @@ const OptometryForm = (props) => {
 
   const examenCoverT = [
     {
-      label: "Cover Test *",
+      label: "* Cover Test ",
       value: enteredCoverTest,
       onChange: handleChangeCoverTest,
     },
     {
-      label: "Cover Test 6m *",
+      label: "* Cover Test 6m ",
       value: enteredCoverTest6m,
       onChange: handleChangeCoverTest6m,
     },
     {
-      label: "Cover Test 30cm *",
+      label: "* Cover Test 30cm ",
       value: enteredCoverTest30cm,
       onChange: handleChangeCoverTest30cm,
     },
   ];
 
-  const examenOQt = [
-    {
-      label: "Oftalmoscopia OD *",
-      value: enteredOftalmoscopiaOd,
-      onChange: handleChangeOftalmoscopiaOd,
-    },
-    {
-      label: "Oftalmoscopia OI *",
-      value: enteredOftalmoscopiaOi,
-      onChange: handleChangeOftalmoscopiaOi,
-    },
-    {
-      label: "Queratometria OD *",
-      value: enteredQueratometriaOd,
-      onChange: handleChangeQueratometriaOd,
-    },
-    {
-      label: "Queratometria OI *",
-      value: enteredQueratometriaOi,
-      onChange: handleChangeQueratometriaOi,
-    },
-  ];
-
-  const examenEBt = [
-    {
-      label: "Test Color *",
-      value: enteredTestColor,
-      onChange: handleChangeTestColor,
-    },
-    {
-      label: "Estereopsis *",
-      value: enteredEstereopsis,
-      onChange: handleChangeEstereopsis,
-    },
-  ];
-
   const examenEBt2 = [
     {
-      label: "Retinoscopia OD *",
+      label: "* OD ",
       value: enteredRetinoscopiaOd,
       onChange: handleChangeRetinoscopiaOd,
     },
     {
-      label: "Retinoscopia OD AV VL *",
+      label: "* OD AV VL ",
       value: enteredRetinoscopiaOdAvvl,
       onChange: handleChangeRetinoscopiaOdAvvl,
     },
     {
-      label: "Retinoscopia OD AV VP *",
+      label: "* OD AV VP ",
       value: enteredRetinoscopiaOdAvvp,
       onChange: handleChangeRetinoscopiaOdAvvp,
     },
     {
-      label: "Retinoscopia OI *",
+      label: "* OI ",
       value: enteredRetinoscopiaOi,
       onChange: handleChangeRetinoscopiaOi,
     },
     {
-      label: "Retinoscopia OI AV VL *",
+      label: "* OI AV VL ",
       value: enteredRetinoscopiaOiAvvl,
       onChange: handleChangeRetinoscopiaOiAvvl,
     },
     {
-      label: "Retinoscopia OI AV VP *",
+      label: "* OI AV VP ",
       value: enteredRetinoscopiaOiAvvp,
       onChange: handleChangeRetinoscopiaOiAvvp,
     },
@@ -1134,32 +1291,32 @@ const OptometryForm = (props) => {
 
   const examenEBt3 = [
     {
-      label: "Subjetivo OD *",
+      label: "* OD ",
       value: enteredSubjetivoOd,
       onChange: handleChangeSubjetivoOd,
     },
     {
-      label: "Subjetivo OD AV *",
+      label: "* OD AV ",
       value: enteredSubjetivoOdAv,
       onChange: handleChangeSubjetivoOdAv,
     },
     {
-      label: "Subjetivo OD ADD *",
+      label: "* OD ADD",
       value: enteredSubjetivoOdAdd,
       onChange: handleChangeSubjetivoOdAdd,
     },
     {
-      label: "Subjetivo OI *",
+      label: "* OI ",
       value: enteredSubjetivoOi,
       onChange: handleChangeSubjetivoOi,
     },
     {
-      label: "Subjetivo OI AV *",
+      label: "* OI AV",
       value: enteredSubjetivoOiAv,
       onChange: handleChangeSubjetivoOiAv,
     },
     {
-      label: "Subjetivo OI ADD *",
+      label: "* OI ADD",
       value: enteredSubjetivoOiAdd,
       onChange: handleChangeSubjetivoOiAdd,
     },
@@ -1167,57 +1324,153 @@ const OptometryForm = (props) => {
 
   const examenEBt4 = [
     {
-      label: "Impresion Diagnostica *",
+      label: "* Impresion Diagnostica",
       value: enteredImpresionDiagnostica,
+      inputSize: "large",
       onChange: handleChangeImpresionDiagnostica,
     },
     {
-      label: "CIE 10 *",
+      label: "* CIE 10",
       value: enteredCie10,
+      inputSize: "",
       onChange: handleChangeCie10,
     },
     {
-      label: "Conducta *",
+      label: "* Conducta",
       value: enteredConducta,
+      inputSize: "",
       onChange: handleChangeConducta,
     },
   ];
 
-  const formulaFinalO = [
+  const formulaFinal_od_lejos = [
     {
-      label: "Formula Final OD *",
-      value: enteredFormulaFinalOD,
-      onChange: handleChangeFormulaFinalOD,
+      label: "OD Esfera",
+      value: entered_fflesfod,
+      onChange: handleChange_fflesfod,
     },
     {
-      label: "Formula Final OD ADD *",
-      value: enteredFormulaFinalODAdd,
-      onChange: handleChangeFormulaFinalODAdd,
+      label: "OD Cilindro",
+      value: entered_fflcilod,
+      onChange: handleChange_fflcilod,
     },
     {
-      label: "Formula Final OD DP *",
-      value: enteredFormulaFinalODDP,
-      onChange: handleChangeFormulaFinalODDP,
+      label: "OD Eje",
+      value: entered_fflejeod,
+      onChange: handleChange_fflejeod,
     },
     {
-      label: "Formula Final OI *",
-      value: enteredFormulaFinalOI,
-      onChange: handleChangeFormulaFinalOI,
+      label: "OD AV",
+      value: entered_fflavod,
+      onChange: handleChange_fflavod,
+    },
+  ];
+
+  const formulaFinal_oi_lejos = [
+    {
+      label: "OI Esfera",
+      value: entered_fflesfoi,
+      onChange: handleChange_fflesfoi,
     },
     {
-      label: "Formula Final OI ADD *",
-      value: enteredFormulaFinalOIAdd,
-      onChange: handleChangeFormulaFinalOIAdd,
+      label: "OI Cilindro",
+      value: entered_fflciloi,
+      onChange: handleChange_fflciloi,
     },
     {
-      label: "Formula Final OI DP *",
-      value: enteredFormulaFinalOIDP,
-      onChange: handleChangeFormulaFinalOIDP,
+      label: "OI Eje",
+      value: entered_fflejeoi,
+      onChange: handleChange_fflejeoi,
     },
     {
-      label: "TIPO *",
-      value: enteredTipo,
-      onChange: handleChangeEnteredTipo,
+      label: "OI AV",
+      value: entered_fflavoi,
+      onChange: handleChange_fflavoi,
+    },
+  ];
+
+  const formulaFinal_od_cerca = [
+    {
+      label: "OD Esfera",
+      value: entered_ffcesfod,
+      onChange: handleChange_ffcesfod,
+    },
+    {
+      label: "OD Cilindro",
+      value: entered_ffccilod,
+      onChange: handleChange_ffccilod,
+    },
+    {
+      label: "OD Eje ",
+      value: entered_ffcejeod,
+      onChange: handleChange_ffcejeod,
+    },
+    {
+      label: "OD AV",
+      value: entered_ffcavod,
+      onChange: handleChange_ffcavod,
+    },
+  ];
+
+  const formulaFinal_oi_cerca = [
+    {
+      label: "OI Esfera",
+      value: entered_ffcesfoi,
+      onChange: handleChange_ffcesfoi,
+    },
+    {
+      label: "OI Cilindro",
+      value: entered_ffcciloi,
+      onChange: handleChange_ffcciloi,
+    },
+    {
+      label: "OI Eje     ",
+      value: entered_ffcejeoi,
+      onChange: handleChange_ffcejeoi,
+    },
+    {
+      label: "OI AV     ",
+      value: entered_ffcavoi,
+      onChange: handleChange_ffcavoi,
+    },
+  ];
+
+  const adicionOpto = [
+    {
+      label: "OD *    ",
+      value: entered_addod,
+      onChange: handleChange_addod,
+    },
+    {
+      label: "OI *    ",
+      value: entered_addoi,
+      onChange: handleChange_addoi,
+    },
+  ];
+
+  const gafas1 = [
+    {
+      label: "Altura *",
+      value: entered_altura,
+      onChange: handleChange_altura,
+    },
+    {
+      label: "Tipo de Lente",
+      value: entered_tipolente,
+      onChange: handleChange_tipolente,
+    },
+  ];
+
+  const gafas2 = [
+    {
+      label: "D. N. P.",
+      value: entered_dnp,
+      onChange: handleChange_dnp,
+    },
+    {
+      label: "Referencia de Montura",
+      value: entered_reffmontura,
+      onChange: handleChange_reffmontura,
     },
   ];
 
@@ -1230,61 +1483,73 @@ const OptometryForm = (props) => {
     {
       label: "Uso *",
       value: enteredUso,
+      inputSize: "large",
       onChange: handleChangeUso,
     },
     {
       label: "Control *",
       value: enteredControl,
+      inputSize: "large",
       onChange: handleChangeControl,
     },
   ];
 
   return (
     <form onSubmit={submitOptometryHandler}>
-      <div className="new-medic__controls">
-        <div className="medic-item-container .new-medic__controls">
-          <h1>Datos de Optometría del Paciente</h1>
-          <div id="medic-item-container" className="medic-item-container">
-            <label htmlFor="brigada_op"></label>
-            <select
-              id="brigada_op"
-              value={selectedBrigada}
-              onChange={brigadaChangeHandler}
-              className="dropdown-select"
-            >
-              <option value="">Selecciona Brigada</option>
-              {sortedBrigadaNames.map((name) => (
-                <option key={name} value={name}>
-                  {name}
-                </option>
-              ))}
-            </select>
+      <div className="medic-item-container .new-medic__controls">
+        <h1>Datos de Optometría del Paciente</h1>
+        <div id="medic-item-container" className="medic-item-container">
+          <label htmlFor="brigada_op"></label>
+          <select
+            id="brigada_op"
+            value={selectedBrigada}
+            onChange={brigadaChangeHandler}
+            className="dropdown-select"
+          >
+            <option value="">Selecciona Brigada</option>
+            {sortedBrigadaNames.map((name) => (
+              <option key={name} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
 
-            <label htmlFor="id_num_op"></label>
-            <input
-              className="dropdown-select"
-              id="id_num_op"
-              type="text"
-              value={enteredIdNumDoc}
-              onChange={findIDHandler}
-              list="patientOptions"
-              placeholder="Seleccionar ID Paciente"
-            />
-            <datalist id="patientOptions">
-              {sortedPatientIDs.map((patientID) => (
-                <option key={patientID} value={patientID} />
-              ))}
-            </datalist>
-            {enteredIdNumDoc && filteredPatientData.length > 0 && (
-              <PatientsDataDisplay data={filteredPatientData} />
-            )}
-          </div>
+          <label htmlFor="id_num_op"></label>
+          <input
+            className="dropdown-select"
+            id="id_num_op"
+            type="text"
+            value={enteredIdNumDoc}
+            onChange={findIDHandler}
+            list="patientOptions"
+            placeholder="Seleccionar ID Paciente"
+          />
+          <datalist id="patientOptions">
+            {sortedPatientIDs.map((patientID) => (
+              <option key={patientID} value={patientID} />
+            ))}
+          </datalist>
+          {enteredIdNumDoc && filteredPatientData.length > 0 && (
+            <PatientsDataDisplay data={filteredPatientData} />
+          )}
         </div>
+      </div>
+
+      <div className="new-medic__control">
+        <label htmlFor="motivoconsulta">
+          <input
+            id="motivoconsulta"
+            type="text"
+            className="larger-input"
+            checked={enteredMotivoConsulta}
+            onChange={handleChangeMotivoConsulta}
+            placeholder="Motivo de Consulta"
+          />
+        </label>
       </div>
 
       <div className="new-medic__controls">
         <h1> Signos y Síntomas </h1>
-        
         <div className="medic-item-container-wrapper">
           {signosYSintomasItems.map((item, index) => (
             <div
@@ -1314,6 +1579,7 @@ const OptometryForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
             </div>
@@ -1322,7 +1588,7 @@ const OptometryForm = (props) => {
       </div>
       <div className="new-medic__controls">
         <h1> Antecedentes Personales y/o Familiares </h1>
-       
+
         <div className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
@@ -1335,6 +1601,7 @@ const OptometryForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
             </div>
@@ -1342,7 +1609,7 @@ const OptometryForm = (props) => {
         </div>
       </div>
 
-      <div className="medic-item-container-wrapper">
+      <div className="medic-item-container">
         <div className="new-medic__controls">
           <h1> Agudeza Visual Sin Corrección</h1>
           <div className="medic-item-container-wrapper">
@@ -1383,55 +1650,55 @@ const OptometryForm = (props) => {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="medic-item-container">
         <div className="new-medic__controls">
-          <h1> Agudeza Visual</h1>
-          <div className="medic-item-container-wrapper">
-            {avotrosItems.map((item, index) => (
-              <div
-                key={`agudeza_cn-${index}`}
-                className="medic-item-container .new-medic__controls"
-              >
-                <CheckboxOrTextInput
-                  id={`inputOP6-${index}`}
-                  label={item.label}
-                  isCheckbox={item.checked !== undefined}
-                  checked={item.checked}
-                  value={item.value}
-                  onChange={item.onChange}
-                />
-              </div>
-            ))}
-          </div>
+          <h1> Lensometría</h1>
+          {lensometriaItems.map((item, index) => (
+            <div
+              key={`agudeza_cn-${index}`}
+              className="medic-item-container .new-medic__controls"
+            >
+              <CheckboxOrTextInput
+                id={`inputOP6-${index}`}
+                label={item.label}
+                isCheckbox={item.checked !== undefined}
+                checked={item.checked}
+                value={item.value}
+                onChange={item.onChange}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="new-medic__controls">
+          <h1> Tonometría</h1>
+
+          {tonometriaItems.map((item, index) => (
+            <div
+              key={`agudeza_cn-${index}`}
+              className="medic-item-container .new-medic__controls"
+            >
+              <CheckboxOrTextInput
+                id={`inputOP7-${index}`}
+                label={item.label}
+                isCheckbox={item.checked !== undefined}
+                checked={item.checked}
+                value={item.value}
+                onChange={item.onChange}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
       <div className="medic-item-container-wrapper">
         <div className="new-medic__controls">
-          <h1> Examen Externo y Biomicroscopia Cover </h1>
+          <h1> Examen Externo y Biomicroscopia </h1>
           <div className="medic-item-container-wrapper">
             {examenCoverT.map((item, index) => (
               <div
                 key={`examenCover-${index}`}
-                className="medic-item-container .new-medic__controls"
-              >
-                <CheckboxOrTextInput
-                  id={`inputOP7-${index}`}
-                  label={item.label}
-                  isCheckbox={item.checked !== undefined}
-                  checked={item.checked}
-                  value={item.value}
-                  onChange={item.onChange}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="new-medic__controls">
-          <h1> Oftalmoscopia y Queratometria </h1>
-          <div className="medic-item-container-wrapper">
-            {examenOQt.map((item, index) => (
-              <div
-                key={`examenOQ-${index}`}
                 className="medic-item-container .new-medic__controls"
               >
                 <CheckboxOrTextInput
@@ -1446,13 +1713,14 @@ const OptometryForm = (props) => {
             ))}
           </div>
         </div>
+
         <div className="new-medic__controls">
-          <h1> Examen Externo y Biomicroscopia </h1>
+          <h1> Retinoscopia </h1>
           <div className="medic-item-container">
             <div className="medic-item-container-wrapper">
-              {examenEBt.map((item, index) => (
+              {examenEBt2.map((item, index) => (
                 <div
-                  key={`examenEB-${index}`}
+                  key={`examenEB2-${index}`}
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
@@ -1469,27 +1737,7 @@ const OptometryForm = (props) => {
           </div>
         </div>
         <div className="new-medic__controls">
-          <div className="medic-item-container">
-            <div className="medic-item-container-wrapper">
-              {examenEBt2.map((item, index) => (
-                <div
-                  key={`examenEB2-${index}`}
-                  className="medic-item-container .new-medic__controls"
-                >
-                  <CheckboxOrTextInput
-                    id={`inputOP10-${index}`}
-                    label={item.label}
-                    isCheckbox={item.checked !== undefined}
-                    checked={item.checked}
-                    value={item.value}
-                    onChange={item.onChange}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className="new-medic__controls">
+          <h1> Subjetivo </h1>
           <div className="medic-item-container">
             <div className="medic-item-container-wrapper">
               {examenEBt3.map((item, index) => (
@@ -1498,7 +1746,7 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
-                    id={`inputOP11-${index}`}
+                    id={`inputOP10-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
@@ -1519,6 +1767,29 @@ const OptometryForm = (props) => {
                   className="medic-item-container .new-medic__controls"
                 >
                   <CheckboxOrTextInput
+                    id={`inputOP11-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    inputSize={item.inputSize} // Pass inputSize property
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="new-medic__controls">
+          <div className="medic-item-container">
+            <h1> Fórmula Final Lejos Ojo Derecho</h1>
+            <div className="medic-item-container-wrapper">
+              {formulaFinal_od_lejos.map((item, index) => (
+                <div
+                  key={`formulaFinal_od_l-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
                     id={`inputOP12-${index}`}
                     label={item.label}
                     isCheckbox={item.checked !== undefined}
@@ -1529,26 +1800,132 @@ const OptometryForm = (props) => {
                 </div>
               ))}
             </div>
+            <h1> Fórmula Final Lejos Ojo Izquierdo</h1>
+            <div className="medic-item-container-wrapper">
+              {formulaFinal_oi_lejos.map((item, index) => (
+                <div
+                  key={`formulaFinal_oi_l-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP13-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="new-medic__controls">
-          <h1> Formula Final </h1>
-          <div className="medic-item-container-wrapper">
-            {formulaFinalO.map((item, index) => (
-              <div
-                key={`formulaFinal-${index}`}
-                className="medic-item-container .new-medic__controls"
-              >
-                <CheckboxOrTextInput
-                  id={`inputOP13-${index}`}
-                  label={item.label}
-                  isCheckbox={item.checked !== undefined}
-                  checked={item.checked}
-                  value={item.value}
-                  onChange={item.onChange}
-                />
+          <div className="medic-item-container">
+            <h1> Fórmula Final Cerca Ojo Derecho</h1>
+            <div className="medic-item-container-wrapper">
+              {formulaFinal_od_cerca.map((item, index) => (
+                <div
+                  key={`formulaFinal_od_c-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP14-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+            <h1> Fórmula Final Cerca Ojo Izquierdo</h1>
+            <div className="medic-item-container-wrapper">
+              {formulaFinal_oi_cerca.map((item, index) => (
+                <div
+                  key={`formulaFinal_oi_c-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP15-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="medic-item-container">
+            <h1> Adición </h1>
+            <div className="medic-item-container-wrapper">
+              {adicionOpto.map((item, index) => (
+                <div
+                  key={`adicionOpto-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP16-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="medic-item-container-wrapper">
+              {gafas1.map((item, index) => (
+                <div
+                  key={`gafas1-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP17-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="medic-item-container-wrapper">
+              {gafas2.map((item, index) => (
+                <div
+                  key={`gafas2-${index}`}
+                  className="medic-item-container .new-medic__controls"
+                >
+                  <CheckboxOrTextInput
+                    id={`inputOP18-${index}`}
+                    label={item.label}
+                    isCheckbox={item.checked !== undefined}
+                    checked={item.checked}
+                    value={item.value}
+                    onChange={item.onChange}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="new-medic__control">
+              <div>
+                <h1> Observaciones </h1>
+                <div className="new-medic__control">
+                  <label htmlFor="observalentes">
+                    <input
+                      id="observalentes"
+                      type="text"
+                      className="large-input"
+                      checked={entered_observalentes}
+                      onChange={handleChange_observalentes}
+                    />
+                  </label>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
         <div className="new-optimetry__control">
@@ -1620,7 +1997,7 @@ const OptometryForm = (props) => {
         </div>
         <div className="new-medic__controls">
           <h1> Prescripción </h1>
-          
+
           <div className="medic-item-container-wrapper">
             {prescripcionOp.map((item, index) => (
               <div
@@ -1633,6 +2010,7 @@ const OptometryForm = (props) => {
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
                   value={item.value}
+                  inputSize={item.inputSize}
                   onChange={item.onChange}
                 />
               </div>

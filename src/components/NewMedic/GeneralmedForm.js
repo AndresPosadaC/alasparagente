@@ -18,11 +18,11 @@ const GeneralmedForm = (props) => {
   const [enteredParaclinicos, setEnteredParaclinicos] = useState("");
   const [enteredEnfermedadActual, setEnteredEnfermedadActual] = useState("");
   const [enteredGineco, setEnteredGineco] = useState(false);
-  const [enteredGinecoGestaciones, setEnteredGinecoGestaciones] = useState(0);
-  const [enteredGinecoPartos, setEnteredGinecoPartos] = useState(0);
-  const [enteredGinecoCesarias, setEnteredGinecoCesarias] = useState(0);
-  const [enteredGinecoAbortos, setEnteredGinecoAbortos] = useState(0);
-  const [enteredGinecoVivos, setEnteredGinecoVivos] = useState(0);
+  const [enteredGinecoGestaciones, setEnteredGinecoGestaciones] = useState("");
+  const [enteredGinecoPartos, setEnteredGinecoPartos] = useState("");
+  const [enteredGinecoCesarias, setEnteredGinecoCesarias] = useState("");
+  const [enteredGinecoAbortos, setEnteredGinecoAbortos] = useState("");
+  const [enteredGinecoVivos, setEnteredGinecoVivos] = useState("");
   const [enteredAlergias, setEnteredAlergias] = useState("");
   const [enteredMedAlergias, setEnteredMedAlergias] = useState("");
   const [enteredMedAntecedentes, setEnteredMedAntecedentes] = useState("");
@@ -477,11 +477,11 @@ const GeneralmedForm = (props) => {
       setEnteredParaclinicos("");
       setEnteredEnfermedadActual("");
       setEnteredGineco(false);
-      setEnteredGinecoGestaciones(0);
-      setEnteredGinecoPartos(0);
-      setEnteredGinecoCesarias(0);
-      setEnteredGinecoAbortos(0);
-      setEnteredGinecoVivos(0);
+      setEnteredGinecoGestaciones("");
+      setEnteredGinecoPartos("");
+      setEnteredGinecoCesarias("");
+      setEnteredGinecoAbortos("");
+      setEnteredGinecoVivos("");
       setEnteredAlergias("");
       setEnteredMedAlergias("");
       setEnteredMedAntecedentes("");
@@ -523,11 +523,11 @@ const GeneralmedForm = (props) => {
     setEnteredParaclinicos("");
     setEnteredEnfermedadActual("");
     setEnteredGineco(false);
-    setEnteredGinecoGestaciones(0);
-    setEnteredGinecoPartos(0);
-    setEnteredGinecoCesarias(0);
-    setEnteredGinecoAbortos(0);
-    setEnteredGinecoVivos(0);
+    setEnteredGinecoGestaciones("");
+    setEnteredGinecoPartos("");
+    setEnteredGinecoCesarias("");
+    setEnteredGinecoAbortos("");
+    setEnteredGinecoVivos("");
     setEnteredAlergias("");
     setEnteredMedAlergias("");
     setEnteredMedAntecedentes("");
@@ -578,21 +578,25 @@ const GeneralmedForm = (props) => {
     {
       label: "Alergias",
       value: enteredAlergias,
+      inputSize: "small",
       onChange: handleChangeAlergias,
     },
     {
-      label: "Medicina para alergias",
+      label: "Med. Alergias",
       value: enteredMedAlergias,
+      inputSize: "small",
       onChange: handleChangeMedAlergias,
     },
     {
-      label: "Antecedentes Médicos",
+      label: "Ant. Médicos",
       value: enteredMedAntecedentes,
+      inputSize: "small",
       onChange: handleChangeMedAntecedentes,
     },
     {
-      label: "Antecedentes Quirúrgicos",
+      label: "Ant. Quirúrgicos",
       value: enteredQuirurgicosAnt,
+      inputSize: "small",
       onChange: handleChangeQuirurgicosAnt,
     },
     {
@@ -616,35 +620,36 @@ const GeneralmedForm = (props) => {
       onChange: handleChangePsicoactivasAnt,
     },
     {
-      label: "Antecedentes Familiares",
+      label: "Ant. Familiares",
       value: enteredFamiliaAnt,
+      inputSize: "small",
       onChange: handleChangeFamiliaAnt,
     },
   ];
 
   const ginecoItems = [
     {
-      label: "Gestaciones",
+      label: "# Gestaciones ej: 0",
       value: enteredGinecoGestaciones,
       onChange: handleChangeGinecoGestaciones,
     },
     {
-      label: "Partos",
+      label: "# Partos ej: 0",
       value: enteredGinecoPartos,
       onChange: handleChangeGinecoPartos,
     },
     {
-      label: "Cesáreas",
+      label: "# Cesáreas ej: 0",
       value: enteredGinecoCesarias,
       onChange: handleChangeGinecoCesarias,
     },
     {
-      label: "Abortos",
+      label: "# Abortos ej: 0",
       value: enteredGinecoAbortos,
       onChange: handleChangeGinecoAbortos,
     },
     {
-      label: "Vivos",
+      label: "# Vivos ej: 0",
       value: enteredGinecoVivos,
       onChange: handleChangeGinecoVivos,
     },
@@ -689,21 +694,25 @@ const GeneralmedForm = (props) => {
     {
       label: "Enfermedad actual",
       value: enteredEnfermedadActual,
+      inputSize: "",
       onChange: handleChangeEnfermedadActual,
     },
     {
       label: "Código CIE10",
       value: enteredCodCie10,
+      inputSize: "",
       onChange: handleChangeCodCie10,
     },
     {
       label: "Impresion Diagnóstica",
       value: enteredImpresionDiagnostico,
+      inputSize: "",
       onChange: handleChangeImpresionDiagnostico,
     },
     {
       label: "Confirmado Diagnóstico",
       value: enteredConfirmadoDiagnostico,
+      inputSize: "large",
       onChange: handleChangeConfirmadoDiagnostico,
     },
   ];
@@ -785,7 +794,6 @@ const GeneralmedForm = (props) => {
 
       <div id="antecedentes-container" className="new-medic__controls">
         <h1> Antecedentes Personales y/o Familiares </h1>
-        <p> ✅ para si</p>
         <div id="antecedentes-wrapper" className="medic-item-container-wrapper">
           {antecedentesItems.map((item, index) => (
             <div
@@ -799,7 +807,7 @@ const GeneralmedForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
-                inputSize="small"
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
             </div>
@@ -833,7 +841,7 @@ const GeneralmedForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
-                inputSize="small"
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
@@ -848,7 +856,6 @@ const GeneralmedForm = (props) => {
       >
         <div id="origen_enfermedad-control" className="new-medic__controls">
           <h1> Origen de la Enfermedad</h1>
-          <p> ✅ para si</p>
           <div className="medic-item-container-wrapper">
             {origenEnfermedadItems.map((item, index) => (
               <div
@@ -862,7 +869,7 @@ const GeneralmedForm = (props) => {
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
                   value={item.value}
-                  inputSize="small"
+                  inputSize={item.inputSize}
                   onChange={item.onChange}
                 />
               </div>
@@ -932,7 +939,7 @@ const GeneralmedForm = (props) => {
                     isCheckbox={item.checked !== undefined}
                     checked={item.checked}
                     value={item.value}
-                    inputSize="small"
+                    inputSize={item.inputSize}
                     onChange={item.onChange}
                   />
                 </div>
