@@ -254,36 +254,43 @@ const TriageForm = (props) => {
     {
       label: "Frecuencia Cardiaca (por minuto) *",
       value: enteredFrecCardiaca,
+      inputSize: "large",
       onChange: handleChangeFrecCardiaca,
     },
     {
       label: "Tensión Arterial (mm Hg) *",
       value: enteredTensionArterial,
+      inputSize: "large",
       onChange: handleChangeTensionArterial,
     },
     {
       label: "Frecuencia Respiratoria (por minuto) *",
       value: enteredFrecRespiratoria,
+      inputSize: "large",
       onChange: handleChangeFrecRespiratoria,
     },
     {
       label: "Saturación Oxígeno (%) *",
       value: enteredSatO2,
+      inputSize: "large",
       onChange: handleChangeSatO2,
     },
     {
       label: "Temperatura (ºC) *",
       value: enteredTemperatura,
+      inputSize: "large",
       onChange: handleChangeTemperatura,
     },
     {
       label: "Peso (Kg) *",
       value: enteredPeso,
+      inputSize: "large",
       onChange: handleChangePeso,
     },
     {
       label: "Talla (cm) *",
       value: enteredTalla,
+      inputSize: "large",
       onChange: handleChangeTalla,
     },
   ];
@@ -371,7 +378,7 @@ const TriageForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
-                inputSize="small"
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

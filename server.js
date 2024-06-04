@@ -11,8 +11,6 @@ app.use(
   cors({
     // origin: "http://172.20.10.4:3000",
     origin: "http://192.168.10.12:3000",
-    // origin: "http://192.168.0.12:3000",
-    // origin: "http://192.168.0.7:3000",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
@@ -1148,6 +1146,7 @@ app.post(
       fecha_ultima_visita,
       intolerancia_anestesia,
       medicacion_actual,
+      motivo_consulta,
       alergias,
       convulsiones,
       diabetes,
@@ -1187,12 +1186,13 @@ app.post(
       observaciones2,
       diagnostico,
       plan_tratamiento,
+      medicamentos_odonto,
     } = req.body;
 
     const fecha_registro = new Date(); // Get the current date and time
 
     const query =
-      "INSERT INTO alasparagente.odontology (voided, id_num_doc, fecha_registro, fecha_ultima_visita, intolerancia_anestesia, medicacion_actual, alergias, convulsiones, diabetes, sinusitis, hepatitis, hipertension_arterial, hipotension_arterial, hematopoyetico, enf_infectocontagiosas, enf_cardiovasculares, enf_respiratorias, enf_endocrinas, fiebre_reumatoidea, cirugias, cual, otra_enfermedad, antecedentes, penicilina, otros_med, cuales, atm, ganglios, labios, lengua, paladar, piso_boca, glandula_salival, carrillos, fasetas_desgaste, fracturas, patologia_pulpar, patologia_tejidos, observaciones, frecuencia_cepillado, seda_dental, habitos, observaciones2, diagnostico, plan_tratamiento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO alasparagente.odontology (voided, id_num_doc, fecha_registro, fecha_ultima_visita, intolerancia_anestesia, medicacion_actual, motivo_consulta, alergias, convulsiones, diabetes, sinusitis, hepatitis, hipertension_arterial, hipotension_arterial, hematopoyetico, enf_infectocontagiosas, enf_cardiovasculares, enf_respiratorias, enf_endocrinas, fiebre_reumatoidea, cirugias, cual, otra_enfermedad, antecedentes, penicilina, otros_med, cuales, atm, ganglios, labios, lengua, paladar, piso_boca, glandula_salival, carrillos, fasetas_desgaste, fracturas, patologia_pulpar, patologia_tejidos, observaciones, frecuencia_cepillado, seda_dental, habitos, observaciones2, diagnostico, plan_tratamiento,medicamentos_odonto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -1203,6 +1203,7 @@ app.post(
         fecha_ultima_visita,
         intolerancia_anestesia,
         medicacion_actual,
+        motivo_consulta,
         alergias,
         convulsiones,
         diabetes,
@@ -1242,6 +1243,7 @@ app.post(
         observaciones2,
         diagnostico,
         plan_tratamiento,
+        medicamentos_odonto,
       ],
       (error, results) => {
         if (error) {
@@ -1260,6 +1262,7 @@ app.post(
           fecha_ultima_visita,
           intolerancia_anestesia,
           medicacion_actual,
+          motivo_consulta,
           alergias,
           convulsiones,
           diabetes,
@@ -1299,6 +1302,7 @@ app.post(
           observaciones2,
           diagnostico,
           plan_tratamiento,
+          medicamentos_odonto,
         });
       }
     );

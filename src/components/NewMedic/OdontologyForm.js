@@ -19,6 +19,7 @@ const OdontologyForm = (props) => {
   const [enteredIntoleranciaAnestesia, setEnteredIntoleranciaAnestesia] =
     useState(false);
   const [enteredMedicacionActual, setEnteredMedicacionActual] = useState("");
+  const [enteredMotivoConsulta, setEnteredMotivoConsulta] = useState("");
   const [enteredAlergias, setEnteredAlergias] = useState(false);
   const [enteredConvulsiones, setEnteredConvulsiones] = useState(false);
   const [enteredDiabetes, setEnteredDiabetes] = useState(false);
@@ -80,6 +81,9 @@ const OdontologyForm = (props) => {
   const [prescriptionSuccess, setPrescriptionSuccess] = useState(false);
   const [odontogramaSuccess, setOdontogramaSuccess] = useState(false);
   const [tratamientoSuccess, setTratamientoSuccess] = useState(false);
+
+  const [enteredMedicamentosOdonto, setEnteredMedicamentosOdonto] =
+    useState("");
 
   const [formSuccess, setFormSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -285,6 +289,11 @@ const OdontologyForm = (props) => {
   const handleChangeMedicacionActual = handleTextChange(
     "enteredMedicacionActual",
     setEnteredMedicacionActual
+  );
+
+  const handleChangeMotivoConsulta = handleTextChange(
+    "enteredMotivoConsulta",
+    setEnteredMotivoConsulta
   );
 
   const handleChangeAlergias = handleBooleanChange(
@@ -641,6 +650,7 @@ const OdontologyForm = (props) => {
       fecha_ultima_visita: enteredFechaUltimaVisita,
       intolerancia_anestesia: enteredIntoleranciaAnestesia,
       medicacion_actual: enteredMedicacionActual,
+      motivo_consulta: enteredMotivoConsulta,
       alergias: enteredAlergias,
       convulsiones: enteredConvulsiones,
       diabetes: enteredDiabetes,
@@ -680,6 +690,7 @@ const OdontologyForm = (props) => {
       observaciones2: enteredObservaciones2,
       diagnostico: enteredDiagnostico,
       plan_tratamiento: enteredPlanTratamiento,
+      medicamentos_odonto: enteredMedicamentosOdonto,
       // Add the rest of the fields here...
     };
 
@@ -716,6 +727,7 @@ const OdontologyForm = (props) => {
       setEnteredFechaUltimaVisita("");
       setEnteredIntoleranciaAnestesia(false);
       setEnteredMedicacionActual("");
+      setEnteredMotivoConsulta("");
       setEnteredAlergias(false);
       setEnteredConvulsiones(false);
       setEnteredDiabetes(false);
@@ -755,6 +767,7 @@ const OdontologyForm = (props) => {
       setEnteredObservaciones2("");
       setEnteredDiagnostico("");
       setEnteredPlanTratamiento("");
+      setEnteredMedicamentosOdonto("");
       refreshAsignados();
       refreshFarma();
       refreshMedicine();
@@ -779,6 +792,7 @@ const OdontologyForm = (props) => {
     setEnteredFechaUltimaVisita("");
     setEnteredIntoleranciaAnestesia(false);
     setEnteredMedicacionActual("");
+    setEnteredMotivoConsulta("");
     setEnteredAlergias(false);
     setEnteredConvulsiones(false);
     setEnteredDiabetes(false);
@@ -818,6 +832,7 @@ const OdontologyForm = (props) => {
     setEnteredObservaciones2("");
     setEnteredDiagnostico("");
     setEnteredPlanTratamiento("");
+    setEnteredMedicamentosOdonto("");
     setEnteredDiente("");
     setSelectedCara("");
     setSelectedHallazgo("");
@@ -867,7 +882,7 @@ const OdontologyForm = (props) => {
 
   const anamnesis = [
     {
-      label: "Fecha de última visita al odontólogo? *",
+      label: "Fecha última visita? *",
       value: enteredFechaUltimaVisita,
       onChange: handleChangeFechaUltimaVisita,
     },
@@ -955,13 +970,15 @@ const OdontologyForm = (props) => {
       onChange: handleChangeCirugias,
     },
     {
-      label: "Cual? ",
-      checked: enteredCual,
+      label: "Cuáles Cirugías? ",
+      value: enteredCual,
+      inputSize: "larger",
       onChange: handleChangeCual,
     },
     {
-      label: "Otra Enfermedad",
+      label: "Otras Enfermedades",
       value: enteredOtraEnfermedad,
+      inputSize: "larger",
       onChange: handleChangeOtraEnfermedad,
     },
   ];
@@ -978,8 +995,9 @@ const OdontologyForm = (props) => {
       onChange: handleChangeOtrosMed,
     },
     {
-      label: "Cuales? ",
+      label: "Cuáles Medicamentos? ",
       value: enteredCuales,
+      inputSize: "large",
       onChange: handleChangeCuales,
     },
   ];
@@ -1052,7 +1070,7 @@ const OdontologyForm = (props) => {
 
   const higieneOral = [
     {
-      label: "Frecuencia del cepillado *",
+      label: "Frecuencia cepillado *",
       value: enteredFrecuenciaCepillado,
       onChange: handleChangeFrecuenciaCepillado,
     },
@@ -1067,6 +1085,11 @@ const OdontologyForm = (props) => {
       onChange: handleChangeHabitos,
     },
   ];
+
+  const handleChangeMedicamentosOdonto = handleTextChange(
+    "enteredMedicamentosOdonto",
+    setEnteredMedicamentosOdonto
+  );
 
   return (
     <form onSubmit={submitOdontologyHandler}>
@@ -1132,6 +1155,21 @@ const OdontologyForm = (props) => {
           ))}
         </div>
       </div>
+      <div className="new-medic__control">
+        <div>
+          <h1> Motivo Consulta </h1>
+          <div className="new-medic__control">
+            <label htmlFor="motivo_consulta">
+              <textarea
+                id="motivo_consulta"
+                className="larger-input"
+                value={enteredMotivoConsulta}
+                onChange={handleChangeMotivoConsulta}
+              />
+            </label>
+          </div>
+        </div>
+      </div>
       <div className="new-medic__controls">
         <h1> ANTECEDENTES MÉDICOS GENERALES </h1>
 
@@ -1147,6 +1185,7 @@ const OdontologyForm = (props) => {
                 isCheckbox={item.checked !== undefined}
                 checked={item.checked}
                 value={item.value}
+                inputSize={item.inputSize}
                 onChange={item.onChange}
               />
             </div>
@@ -1186,6 +1225,7 @@ const OdontologyForm = (props) => {
                   isCheckbox={item.checked !== undefined}
                   checked={item.checked}
                   value={item.value}
+                  inputSize={item.inputSize}
                   onChange={item.onChange}
                 />
               </div>
@@ -1273,72 +1313,6 @@ const OdontologyForm = (props) => {
                 />
               </div>
             ))}
-          </div>
-        </div>
-        {/*}
-        <div className="new-medic__control">
-          <div>
-            <h1> Observaciones </h1>
-            <div className="new-medic__control">
-              <label htmlFor="observacionesHO">
-                <textarea
-                  id="observacionesHO"
-                  className="larger-input"
-                  value={enteredObservaciones2}
-                  onChange={handleChangeObservaciones2}
-                />
-              </label>
-            </div>
-          </div>
-            </div>*/}
-
-        <div className="new-optimetry__control">
-          <h1> Receta Farmacia </h1>
-          <div className="medic-item-container">
-            <div className="medic-item-container-wrapper">
-              <div className="new-medic__control">
-                <label htmlFor="medicineOD">Principio Activo</label>
-                <input
-                  id="medicineOD"
-                  type="text"
-                  value={enteredTitle}
-                  onChange={titleChangeHandler}
-                  list="medicineOptionsOD"
-                  placeholder="Seleccionar"
-                />
-                <datalist id="medicineOptionsOD">
-                  {medicineOptionsOD.map((option, index) => (
-                    <option
-                      key={`${option.medicine}-${index}`}
-                      value={option.medicine}
-                    />
-                  ))}
-                </datalist>
-              </div>
-            </div>
-            <div className="new-medic__control">
-              <label htmlFor="quantity">Cantidad</label>
-              <input
-                id="quantity"
-                type="number"
-                min="1"
-                step="1"
-                value={enteredQuantity}
-                onChange={quantityChangeHandler}
-              />
-              <button type="button" onClick={handleFarmaSubmit}>
-                +Medicina
-              </button>
-              {prescriptionSuccess && (
-                <PopupMessage
-                  message="¡La receta se actualizó correctamente!"
-                  onClose={() => setPrescriptionSuccess(false)}
-                />
-              )}
-            </div>
-            {enteredIdNumDoc && filteredFarmaData.length > 0 && (
-              <FarmaDataDisplay data={filteredFarmaData} />
-            )}
           </div>
         </div>
         <div className="new-optimetry__control">
@@ -1536,7 +1510,9 @@ const OdontologyForm = (props) => {
                     </select>
                   </div>
                   <div className="medic-item-container .new-medic__controls">
-                    <label htmlFor="cantidad">Cantidad Tratamiento Realizado</label>
+                    <label htmlFor="cantidad">
+                      Cantidad Tratamiento Realizado
+                    </label>
                     <input
                       id="cantidad"
                       type="number"
@@ -1574,6 +1550,71 @@ const OdontologyForm = (props) => {
             {enteredIdNumDoc && filteredTratData.length > 0 && (
               <tratamientoDataDisplay data={filteredTratData} />
             )}
+          </div>
+        </div>
+      </div>
+      <div className="new-optimetry__control">
+        <h1> Receta Farmacia </h1>
+        <div className="medic-item-container">
+          <div className="medic-item-container-wrapper">
+            <div className="new-medic__control">
+              <label htmlFor="medicineOD">Principio Activo</label>
+              <input
+                id="medicineOD"
+                type="text"
+                value={enteredTitle}
+                onChange={titleChangeHandler}
+                list="medicineOptionsOD"
+                placeholder="Seleccionar"
+              />
+              <datalist id="medicineOptionsOD">
+                {medicineOptionsOD.map((option, index) => (
+                  <option
+                    key={`${option.medicine}-${index}`}
+                    value={option.medicine}
+                  />
+                ))}
+              </datalist>
+            </div>
+          </div>
+          <div className="new-medic__control">
+            <label htmlFor="quantity">Cantidad</label>
+            <input
+              id="quantity"
+              type="number"
+              min="1"
+              step="1"
+              value={enteredQuantity}
+              onChange={quantityChangeHandler}
+            />
+            <button type="button" onClick={handleFarmaSubmit}>
+              +Medicina
+            </button>
+            {prescriptionSuccess && (
+              <PopupMessage
+                message="¡La receta se actualizó correctamente!"
+                onClose={() => setPrescriptionSuccess(false)}
+              />
+            )}
+          </div>
+          {enteredIdNumDoc && filteredFarmaData.length > 0 && (
+            <FarmaDataDisplay data={filteredFarmaData} />
+          )}
+        </div>
+      </div>
+      <div className="new-medic__control">
+        <div className="medic-item-container-wrapper">
+          <div className="medic-item-container .new-medic__controls">
+            <h2> Instrucciones toma Medicamentos * </h2>
+            <label htmlFor="medicamentos_odonto">
+              <textarea
+                id="medicamentos_odonto"
+                className="larger-input"
+                value={enteredMedicamentosOdonto}
+                onChange={handleChangeMedicamentosOdonto}
+                placeholder="Cómo tomar los medicamentos?"
+              />
+            </label>
           </div>
         </div>
       </div>
